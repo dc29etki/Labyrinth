@@ -7,6 +7,9 @@ import com.mygdx.game.Labyrinth;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "SpriteTest";
+      	config.width = 800;
+      	config.height = 800;
 		new LwjglApplication(new Labyrinth(), config);
 	}
 }
