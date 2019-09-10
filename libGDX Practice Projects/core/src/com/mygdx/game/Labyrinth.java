@@ -17,6 +17,7 @@ public class Labyrinth extends ApplicationAdapter {
 	private Texture treasureTest;
 	private OrthographicCamera camera;
 	private Rectangle treasureRect;
+	private Tile testTile;
 	
 	@Override
 	public void create () {
@@ -33,6 +34,8 @@ public class Labyrinth extends ApplicationAdapter {
 		treasureRect.y = 25;
 		treasureRect.width = 47;
 		treasureRect.height = 47;
+
+		testTile = new Tile(0,20,1,1,0);
 
 	}
 
@@ -62,6 +65,10 @@ public class Labyrinth extends ApplicationAdapter {
 		}
 
 		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
+
+		batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
+		batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+
 		batch.end();
 
 	}
