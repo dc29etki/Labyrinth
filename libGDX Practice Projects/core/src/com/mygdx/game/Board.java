@@ -24,7 +24,7 @@ public class Board {
         }
         return grid;
     }
-    public Tile[][] getGrid() {
+    public Tile[][] getBoard() {
         return grid;
     }
 }
