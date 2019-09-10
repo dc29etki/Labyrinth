@@ -11,10 +11,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Labyrinth extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	Texture cntrImg;
-	Texture treasureTest;
+	private SpriteBatch batch;
+	private Texture img;
+	private Texture cntrImg;
+	private Texture treasureTest;
 	private OrthographicCamera camera;
 	private Rectangle treasureRect;
 	
