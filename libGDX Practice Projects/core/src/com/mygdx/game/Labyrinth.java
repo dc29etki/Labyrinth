@@ -38,7 +38,6 @@ public class Labyrinth extends ApplicationAdapter {
 		treasureTest = new Texture(Gdx.files.internal("Icon_Skull.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 800);
-		batch = new SpriteBatch();
 
 		gameStage = new Stage();
 		Gdx.input.setInputProcessor(gameStage);
@@ -83,14 +82,16 @@ public class Labyrinth extends ApplicationAdapter {
 
 		testTile = new Tile(0,20,1,1,0);
 
+		batch.begin();
+
 		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
 
 		batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
 		batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
 
-		batch.end();
-
 		gameStage.draw();
+
+        batch.end();
 
 	}
 
