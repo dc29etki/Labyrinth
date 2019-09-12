@@ -6,9 +6,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -18,7 +22,14 @@ public class Labyrinth extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Rectangle treasureRect;
 	private Tile testTile;
-	
+    private Skin skin;
+    private Stage gameStage;
+    private BitmapFont font;
+    private TextButton buttonText;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private ImageButton tileButton;
+    private ImageButton.ImageButtonStyle imageButtonStyle;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -28,6 +39,41 @@ public class Labyrinth extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 800);
 		batch = new SpriteBatch();
+
+		gameStage = new Stage();
+		Gdx.input.setInputProcessor(gameStage);
+        skin = new Skin();
+        skin.add("Icon", img);
+        skin.add("Tile", new Texture(Gdx.files.internal("Piece_Straight_Blank.png")));
+        font = new BitmapFont();
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("Icon");
+        textButtonStyle.down = skin.getDrawable("Icon");
+        textButtonStyle.checked = skin.getDrawable("Icon");
+        buttonText = new TextButton("Test Button", textButtonStyle);
+        buttonText.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("TEST BUTTON PRESSED. PERFORMING TEST.");
+                System.out.println("TEST SUCCESSFUL");
+            }
+        });
+        gameStage.addActor(buttonText);
+
+
+        imageButtonStyle = new ImageButton.ImageButtonStyle();
+        imageButtonStyle.up = skin.getDrawable("Tile");
+        imageButtonStyle.down = skin.getDrawable("Tile");
+        tileButton = new ImageButton(imageButtonStyle);
+        gameStage.addActor(tileButton);
+        tileButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                tileButton.moveBy(5,5);
+            }
+        });
+
 
 		treasureRect = new Rectangle();
 		treasureRect.x = 15;
@@ -70,6 +116,8 @@ public class Labyrinth extends ApplicationAdapter {
 		batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
 
 		batch.end();
+
+		gameStage.draw();
 
 	}
 	
