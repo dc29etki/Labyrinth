@@ -83,33 +83,6 @@ public class Labyrinth extends ApplicationAdapter {
 
 		testTile = new Tile(0,20,1,1,0);
 
-	}
-
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0, 1, 5, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.draw(cntrImg, 400, 400);
-
-		if(Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			treasureRect.x = touchPos.x;
-			treasureRect.y = 800- touchPos.y;
-		}else if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) {
-			treasureRect.x -= 200 * Gdx.graphics.getDeltaTime();
-		}else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))){
-			treasureRect.x += 200 * Gdx.graphics.getDeltaTime();
-		}else if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed((Input.Keys.W))){
-			treasureRect.y += 200 * Gdx.graphics.getDeltaTime();
-		}else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed((Input.Keys.S))){
-			treasureRect.y -= 200 * Gdx.graphics.getDeltaTime();
-		}
-
 		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
 
 		batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
@@ -120,10 +93,53 @@ public class Labyrinth extends ApplicationAdapter {
 		gameStage.draw();
 
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+
+    @Override
+    public void render () {
+        Gdx.gl.glClearColor(0, 1, 5, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        batch.draw(img, 0, 0);
+        batch.draw(cntrImg, 400, 400);
+
+        if(Gdx.input.isTouched()) {
+            Vector3 touchPos = new Vector3();
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            treasureRect.x = touchPos.x;
+            treasureRect.y = 800- touchPos.y;
+        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) {
+            treasureRect.x -= 200 * Gdx.graphics.getDeltaTime();
+        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))){
+            treasureRect.x += 200 * Gdx.graphics.getDeltaTime();
+        }else if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed((Input.Keys.W))){
+            treasureRect.y += 200 * Gdx.graphics.getDeltaTime();
+        }else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed((Input.Keys.S))){
+            treasureRect.y -= 200 * Gdx.graphics.getDeltaTime();
+        }
+
+        batch.draw(treasureTest, treasureRect.x, treasureRect.y);
+
+        batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
+        batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+
+        batch.end();
+
+    }
+
+    @Override
+    public void dispose () {
+        batch.dispose();
+        img.dispose();
+    }
+    public Object[] getAllArrays(){
+        Object[] array = new Object[5];
+        array[0]=img;
+        array[1]=cntrImg;
+        array[2]=treasureTest;
+        array[3]=treasureRect;
+        array[4]=testTile;
+        return array;
+    }
 }
