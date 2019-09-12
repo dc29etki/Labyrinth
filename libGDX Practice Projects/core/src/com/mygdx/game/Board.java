@@ -19,7 +19,7 @@ public class Board {
                 int tileDir = rand.nextInt(2);
                 int xPos = rand.nextInt(x);
                 int yPos = rand.nextInt(y);
-                grid[i][j] = new Tile(tileDir,0,xPos,yPos);
+                grid[i][j] = new Tile(tileDir,0,xPos,yPos,0);
             }
         }
         return grid;
