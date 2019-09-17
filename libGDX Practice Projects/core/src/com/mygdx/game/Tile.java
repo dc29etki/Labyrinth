@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Tile {
@@ -17,6 +18,8 @@ public class Tile {
     private int[] arrayPos;
     private int treasureId;
     private int facingDir;
+    private Sprite thisTile;
+    private Sprite thisTreasure;
 
     public Tile(int tileDir, int treasureNum, int xPos, int yPos, int dir){
     //tileDir: 0 = Corner, 1 = Straight, 2 = Intersection; treasureNum = treasure (0 = none); xPos = column number (in board); yPos = row number (in board); dir = direction tile default top is facing (0 = up, 1 = right, 2 = down, 3 = left)
@@ -26,19 +29,19 @@ public class Tile {
             connectRight = true;
             connectBottom = true;
             connectLeft = false;
-            tilePng = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
+            tilePng = new Texture(Gdx.files.internal("Tile_23.png"));
         }else if(tileDir == 1){
             connectTop = false;
             connectRight = true;
             connectBottom = false;
             connectLeft = true;
-            tilePng = new Texture(Gdx.files.internal("Piece_Straight_Blank.png"));
+            tilePng = new Texture(Gdx.files.internal("Tile_13.png"));
         }else{
             connectTop = true;
             connectRight = true;
             connectBottom = false;
             connectLeft = true;
-            tilePng = new Texture(Gdx.files.internal("Piece_Split_Blank.png"));
+            tilePng = new Texture(Gdx.files.internal("Tile_234.png"));
         }
 
 
@@ -56,6 +59,11 @@ public class Tile {
         }else{
             treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
         }
+
+        thisTile = new Sprite(tilePng);
+        thisTile.setSize(128,128);
+        thisTreasure = new Sprite(treasurePng);
+        thisTreasure.setSize(32,32);
 
     }
 
@@ -105,10 +113,10 @@ public class Tile {
     }
     private void findTreasureLocation(){
         treasureRect = new Rectangle();
-        treasureRect.x = locationRect.x + 19;
-        treasureRect.y = locationRect.y + 19;
-        treasureRect.width = 47;
-        treasureRect.height = 47;
+        treasureRect.x = locationRect.x + 48;
+        treasureRect.y = locationRect.y + 48;
+        treasureRect.width = 32;
+        treasureRect.height = 32;
     }
 
     public void rotate(int dir){
@@ -170,6 +178,18 @@ public class Tile {
 
     public Texture getTilePng(){
         return tilePng;
+    }
+
+    public Sprite getTileSprite(){
+        for(int i = 0; i < facingDir; i++){
+            thisTile.rotate90(true);
+        }
+
+        return thisTile;
+    }
+
+    public Sprite getTreasureSprite(){
+        return thisTreasure;
     }
 
     public Texture getTreasurePng(){

@@ -81,7 +81,7 @@ public class Labyrinth extends ApplicationAdapter {
 		treasureRect.width = 47;
 		treasureRect.height = 47;
 
-		testTile = new Tile(0,20,1,1,0);
+		testTile = new Tile(0,15,1,1,0);
 
 	}
 
@@ -112,8 +112,20 @@ public class Labyrinth extends ApplicationAdapter {
 
 		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
 
-		batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
-		batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+		//batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
+		//batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+
+		Sprite testTileSprite = testTile.getTileSprite();
+		testTileSprite.setX(0);
+		testTileSprite.setY(0);
+		testTileSprite.translate(testTile.getTilePosition().x, testTile.getTilePosition().y);
+		testTileSprite.draw(batch);
+
+		Sprite testTileTreasureSprite = testTile.getTreasureSprite();
+		testTileTreasureSprite.setX(0);
+		testTileTreasureSprite.setY(0);
+		testTileTreasureSprite.translate(testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+		testTileTreasureSprite.draw(batch);
 
 		batch.end();
 
