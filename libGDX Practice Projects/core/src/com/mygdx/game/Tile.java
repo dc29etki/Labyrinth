@@ -70,6 +70,7 @@ public class Tile {
     private String[] makeTreasureDict(){
 
         return new String[]{
+                "",
                 "Bat",
             "Beetle",
             "Candlestick",
@@ -170,6 +171,13 @@ public class Tile {
 
     public Rectangle getTilePosition(){
         return locationRect;
+    }
+
+    public void setNewPosition(int x, int y){
+        thisTile.setPosition(x,y);
+        locationRect.x = x;
+        locationRect.y = y;
+        findTreasureLocation();
     }
 
     public Rectangle getTreasurePosition(){
