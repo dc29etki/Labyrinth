@@ -40,7 +40,7 @@ public class Labyrinth extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
         batch = new SpriteBatch();
-        //GameBoard = new Board(15, 15);
+        GameBoard = new Board(15, 15);
         gameStage = new Stage();
         Gdx.input.setInputProcessor(gameStage);
         skin = new Skin();
