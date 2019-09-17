@@ -48,6 +48,9 @@ public class Tile {
         treasureId = treasureNum;
         arrayPos = new int[] {xPos,yPos};
         facingDir = dir;
+        for(int i = 0; i < facingDir; i++){
+            thisTile.rotate90(true);
+        }
 
         findPlaceLocation();
 
@@ -125,6 +128,7 @@ public class Tile {
         boolean topPrev = connectTop;
 
         if(dir == 1) {
+            thisTile.rotate90(true);
             connectTop = connectLeft;
             connectLeft = connectBottom;
             connectBottom = connectRight;
@@ -134,6 +138,7 @@ public class Tile {
                 facingDir = 0;
             }
         }else if(dir == -1) {
+            thisTile.rotate90(false);
             connectTop = connectRight;
             connectRight = connectBottom;
             connectBottom = connectLeft;
@@ -189,10 +194,6 @@ public class Tile {
     }
 
     public Sprite getTileSprite(){
-        for(int i = 0; i < facingDir; i++){
-            thisTile.rotate90(true);
-        }
-
         return thisTile;
     }
 

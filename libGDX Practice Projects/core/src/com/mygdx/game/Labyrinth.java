@@ -35,39 +35,40 @@ public class Labyrinth extends ApplicationAdapter {
 
 		gameStage = new Stage();
 		Gdx.input.setInputProcessor(gameStage);
-        skin = new Skin();
+
+        testTile = new Tile(2,7,1,1,0);
+
+		skin = new Skin();
         skin.add("Icon", new Texture(Gdx.files.internal("Icon_Gem.png")));
-        skin.add("Tile", new Texture(Gdx.files.internal("Card_Base.png")));
+        skin.add("Tile", new Texture(Gdx.files.internal("New_Assets_Base/Card Face Square PNG.png")));
         font = new BitmapFont();
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("Icon");
         textButtonStyle.down = skin.getDrawable("Icon");
         textButtonStyle.checked = skin.getDrawable("Icon");
-        buttonText = new TextButton("Test Button", textButtonStyle);
+        buttonText = new TextButton("Rotate Tile", textButtonStyle);
         buttonText.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("TEST BUTTON PRESSED. PERFORMING TEST.");
-                System.out.println("TEST SUCCESSFUL");
+				testTile.rotate(1);
             }
         });
         gameStage.addActor(buttonText);
 
-
+		Table buttonHolder = new Table();
         imageButtonStyle = new ImageButton.ImageButtonStyle();
         imageButtonStyle.up = skin.getDrawable("Tile");
         imageButtonStyle.down = skin.getDrawable("Tile");
         tileButton = new ImageButton(imageButtonStyle);
-        gameStage.addActor(tileButton);
+        gameStage.addActor(buttonHolder);
+        buttonHolder.add(tileButton).size(64,64);
         tileButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 tileButton.moveBy(5,5);
             }
         });
-
-		testTile = new Tile(0,7,1,1,0);
 
 	}
 
