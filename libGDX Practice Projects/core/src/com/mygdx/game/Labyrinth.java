@@ -29,19 +29,20 @@ public class Labyrinth extends ApplicationAdapter {
     private TextButton.TextButtonStyle textButtonStyle;
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle imageButtonStyle;
+    private Board GameBoard;
 
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("Card_Base.png");
-		cntrImg = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
-		treasureTest = new Texture(Gdx.files.internal("Icon_Skull.png"));
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 800);
-		batch = new SpriteBatch();
-
-		gameStage = new Stage();
-		Gdx.input.setInputProcessor(gameStage);
+        batch = new SpriteBatch();
+        img = new Texture("Card_Base.png");
+        cntrImg = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
+        treasureTest = new Texture(Gdx.files.internal("Icon_Skull.png"));
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 800);
+        batch = new SpriteBatch();
+        GameBoard = new Board(15, 15);
+        gameStage = new Stage();
+        Gdx.input.setInputProcessor(gameStage);
         skin = new Skin();
         skin.add("Icon", img);
         skin.add("Tile", new Texture(Gdx.files.internal("Piece_Straight_Blank.png")));
@@ -70,20 +71,21 @@ public class Labyrinth extends ApplicationAdapter {
         tileButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                tileButton.moveBy(5,5);
+                tileButton.moveBy(5, 5);
             }
         });
 
 
-		treasureRect = new Rectangle();
-		treasureRect.x = 15;
-		treasureRect.y = 25;
-		treasureRect.width = 47;
-		treasureRect.height = 47;
+        treasureRect = new Rectangle();
+        treasureRect.x = 15;
+        treasureRect.y = 25;
+        treasureRect.width = 47;
+        treasureRect.height = 47;
 
-		testTile = new Tile(0,20,1,1,0);
+        testTile = new Tile(0, 20, 1, 1, 0);
 
-		batch.begin();
+
+		/*batch.begin();
 
 		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
 
@@ -92,7 +94,7 @@ public class Labyrinth extends ApplicationAdapter {
 
 		batch.end();
 
-		gameStage.draw();
+		gameStage.draw();*/
 
 	}
 
