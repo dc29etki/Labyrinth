@@ -18,6 +18,7 @@ public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private Tile testTile;
+	private Card testCard;
     private Skin skin;
     private Stage gameStage;
     private BitmapFont font;
@@ -36,10 +37,11 @@ public class Labyrinth extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(gameStage);
 
         testTile = new Tile(2,7,1,1,0);
+        testCard = new Card(7, 450,450);
 
 		skin = new Skin();
         skin.add("Icon", new Texture(Gdx.files.internal("Icon_Gem.png")));
-        skin.add("Tile", new Texture(Gdx.files.internal("New_Assets_Base/Card Face Square PNG.png")));
+        skin.add("Tile", new Texture(Gdx.files.internal("Icon_Spider.png")));
         font = new BitmapFont();
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
@@ -104,6 +106,8 @@ public class Labyrinth extends ApplicationAdapter {
 		testTileTreasureSprite.setY(0);
 		testTileTreasureSprite.translate(testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
 		testTileTreasureSprite.draw(batch);
+
+		testCard.draw(batch);
 
 		batch.end();
 
