@@ -83,6 +83,8 @@ public class Labyrinth extends ApplicationAdapter {
 
 		testTile = new Tile(0,20,1,1,0);
 
+		batch.begin();
+
 		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
 
 		batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
