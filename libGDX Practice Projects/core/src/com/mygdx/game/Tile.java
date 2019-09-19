@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
+import javax.xml.xpath.XPath;
+
 public class Tile {
 
     private Texture tilePng;
@@ -27,6 +29,7 @@ public class Tile {
             connectBottom = true;
             connectLeft = false;
             tilePng = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
+
         }else if(tileDir == 1){
             connectTop = false;
             connectRight = true;
@@ -42,6 +45,7 @@ public class Tile {
         }
 
 
+
         treasureId = treasureNum;
         arrayPos = new int[] {xPos,yPos};
         facingDir = dir;
@@ -53,9 +57,10 @@ public class Tile {
         if(treasureNum > 0){
             String[] namesDict = makeTreasureDict();
             treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureNum]+".png"));
-        }else{
+        }else {
             treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
         }
+
 
     }
 
