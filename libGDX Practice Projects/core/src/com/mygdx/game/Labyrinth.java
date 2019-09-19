@@ -13,12 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import java.util.List;
 
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private Tile testTile;
 	private Card testCard;
+	private Deck testDeck;
     private Skin skin;
     private Stage gameStage;
     private BitmapFont font;
@@ -36,8 +38,11 @@ public class Labyrinth extends ApplicationAdapter {
 		gameStage = new Stage();
 		Gdx.input.setInputProcessor(gameStage);
 
-        testTile = new Tile(2,7,1,1,0);
-        testCard = new Card(7, 450,450);
+        testTile = new Tile(2,-6,1,1,0);
+
+        testDeck = new Deck(0);
+        testCard = testDeck.dealCard();
+        testCard.setNewPosition(450,450);
 
 		skin = new Skin();
         skin.add("Icon", new Texture(Gdx.files.internal("Icon_Gem.png")));
@@ -67,7 +72,8 @@ public class Labyrinth extends ApplicationAdapter {
         tileButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                tileButton.moveBy(5,5);
+            	testCard = testDeck.dealCard();
+                testCard.setNewPosition(450,450);
             }
         });
 

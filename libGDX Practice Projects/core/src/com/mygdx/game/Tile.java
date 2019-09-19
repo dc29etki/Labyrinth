@@ -21,16 +21,16 @@ public class Tile {
     private Sprite thisTile;
     private Sprite thisTreasure;
 
-    public Tile(int tileDir, int treasureNum, int xPos, int yPos, int dir){
-    //tileDir: 0 = Corner, 1 = Straight, 2 = Intersection; treasureNum = treasure (0 = none); xPos = column number (in board); yPos = row number (in board); dir = direction tile default top is facing (0 = up, 1 = right, 2 = down, 3 = left)
+    public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir){
+    //tileType: 0 = Corner, 1 = Straight, 2 = Intersection; treasureNum = treasure (-1 = none); xPos = column number (in board); yPos = row number (in board); dir = direction tile default top is facing (0 = up, 1 = right, 2 = down, 3 = left)
 
-        if(tileDir == 0){
+        if(tileType == 0){
             connectTop = false;
             connectRight = true;
             connectBottom = true;
             connectLeft = false;
             tilePng = new Texture(Gdx.files.internal("Tile_23.png"));
-        }else if(tileDir == 1){
+        }else if(tileType == 1){
             connectTop = false;
             connectRight = true;
             connectBottom = false;
@@ -56,9 +56,21 @@ public class Tile {
 
         findTreasureLocation();
 
-        if(treasureNum > 0){
+        if(treasureNum > -1){
             String[] namesDict = makeTreasureDict();
             treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureNum]+".png"));
+        }else if(treasureNum < -1){
+            if(treasureNum == -2){//Red Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "RedCircle" + ".png"));
+            }else if(treasureNum == -3){//Blue Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "BlueCircle" + ".png"));
+            }else if(treasureNum == -4){//Yellow Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "YellowCircle" + ".png"));
+            }else if(treasureNum == -5) {//Green Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "GreenCircle" + ".png"));
+            }else{
+                treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
+            }
         }else{
             treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
         }
@@ -73,7 +85,6 @@ public class Tile {
     private String[] makeTreasureDict(){
 
         return new String[]{
-                "",
                 "Bat",
             "Beetle",
             "Candlestick",

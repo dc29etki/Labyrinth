@@ -21,7 +21,6 @@ public class Card {
     public Card(int treasureNum){
 
         treasureId = treasureNum;
-        makeTreasureDict();
 
         cardLoc = new Rectangle();
         cardLoc.x = 0;
@@ -32,9 +31,9 @@ public class Card {
 
         cardFace = new Texture(Gdx.files.internal("Card_Face.png"));
 
-        if(treasureNum > 0){
+        if(treasureNum != -1) {
             String[] namesDict = makeTreasureDict();
-            treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureNum]+".png"));
+            treasurePng = new Texture(Gdx.files.internal("Icon_" + namesDict[treasureNum] + ".png"));
         }else{
             treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
         }
@@ -49,7 +48,6 @@ public class Card {
     public Card(int treasureNum, int x, int y){
 
         treasureId = treasureNum;
-        makeTreasureDict();
 
         cardLoc = new Rectangle();
         cardLoc.x = x;
@@ -60,7 +58,7 @@ public class Card {
 
         cardFace = new Texture(Gdx.files.internal("Card_Face.png"));
 
-        if(treasureNum > 0){
+        if(treasureNum != -1){
             String[] namesDict = makeTreasureDict();
             treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureNum]+".png"));
         }else{
@@ -84,7 +82,6 @@ public class Card {
     private String[] makeTreasureDict(){
 
         return new String[]{
-                "",
                 "Bat",
                 "Beetle",
                 "Candlestick",
@@ -130,6 +127,7 @@ public class Card {
         cardLoc.x = x;
         cardLoc.y = y;
         findTreasureLocation();
+        thisTreasure.setPosition(treasureLoc.x,treasureLoc.y);
     }
 
     public Rectangle getTreasurePosition(){
@@ -138,6 +136,12 @@ public class Card {
 
     public void flipCard(){
         //WIP
+    }
+
+    public String print(){
+
+        return makeTreasureDict()[treasureId];
+
     }
 
     public Sprite getCardSprite(){
