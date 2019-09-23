@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.net.ServerSocket;
 import com.badlogic.gdx.net.ServerSocketHints;
 import com.badlogic.gdx.net.Socket;
@@ -44,6 +46,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Texture img;
+	private Texture img1;
 	private Texture cntrImg;
 	private Texture treasureTest;
 	private OrthographicCamera camera;
@@ -58,6 +61,8 @@ public class Labyrinth extends ApplicationAdapter {
     private ImageButton tileButton;
     private ImageButton.ImageButtonStyle imageButtonStyle;
     private Board GameBoard;
+    private Tile[][] TileArray;
+    private Music music;
     private Label labelMessage;
     private String networkLabel;
     private TextButton networkButton;
@@ -69,12 +74,20 @@ public class Labyrinth extends ApplicationAdapter {
 	public void create () {
         batch = new SpriteBatch();
         img = new Texture("Card_Base.png");
+        img1 = new Texture(Gdx.files.internal("Icon_Helmet.png"));
         cntrImg = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
         treasureTest = new Texture(Gdx.files.internal("Icon_Skull.png"));
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
         batch = new SpriteBatch();
         GameBoard = new Board(15, 15);
+        TileArray = GameBoard.getBoard();
+
+
+
+
+
         gameStage = new Stage();
         Gdx.input.setInputProcessor(gameStage);
         skin = new Skin();
@@ -208,6 +221,7 @@ public class Labyrinth extends ApplicationAdapter {
 		gameStage.draw();*/
 
 	}
+
     @Override
     public void render () {
         Gdx.gl.glClearColor(0, 1, 5, 1);
@@ -215,6 +229,24 @@ public class Labyrinth extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        music.play();
+
+        /*Sound sound = Gdx.audio.newSound(Gdx.files.internal("Startup_Sound.wav"));
+        sound.play();*/
+        /*batch.draw(img1, 100, 100);*/
+        for (int i=0; i<15; i++){
+            for (int j=0; j<15; j++){
+                Tile tile = GameBoard.getBoard() [i][j];
+                Texture tex = tile.getTilePng();
+                batch.draw(tex, 100*i, 100*j);
+            }
+
+        }
+
+        /*batch.draw(img, 0, 0);
+        batch.draw(cntrImg, 400, 400);*/
+
         batch.draw(img, 0, 0);
         batch.draw(cntrImg, 400, 400);
         font.draw(batch, networkLabel, 10, 780);
@@ -237,6 +269,7 @@ public class Labyrinth extends ApplicationAdapter {
 
         batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
         batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+
         gameStage.draw();
         batch.end();
 
@@ -246,14 +279,18 @@ public class Labyrinth extends ApplicationAdapter {
     public void dispose () {
         batch.dispose();
         img.dispose();
+        music.dispose();
     }
+
+
     public Object[] getAllArrays(){
-        Object[] array = new Object[5];
+        Object[] array = new Object[6];
         array[0]=img;
         array[1]=cntrImg;
         array[2]=treasureTest;
         array[3]=treasureRect;
         array[4]=testTile;
+        array[5]=GameBoard;
         return array;
     }
 
