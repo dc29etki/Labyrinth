@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.net.ServerSocket;
+import com.badlogic.gdx.net.ServerSocketHints;
+import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.Net.Protocol;
+import com.badlogic.gdx.net.SocketHints;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -26,6 +53,7 @@ public class Labyrinth extends ApplicationAdapter {
 	private Rectangle treasureRect;
 	private Tile testTile;
     private Skin skin;
+    private Skin skin1;
     private Stage gameStage;
     private BitmapFont font;
     private TextButton buttonText;
@@ -35,6 +63,12 @@ public class Labyrinth extends ApplicationAdapter {
     private Board GameBoard;
     private Tile[][] TileArray;
     private Music music;
+    private Label labelMessage;
+    private String networkLabel;
+    private TextButton networkButton;
+    private TextButton.TextButtonStyle style;
+
+
 
 	@Override
 	public void create () {
@@ -59,6 +93,7 @@ public class Labyrinth extends ApplicationAdapter {
         skin = new Skin();
         skin.add("Icon", img);
         skin.add("Tile", new Texture(Gdx.files.internal("Piece_Straight_Blank.png")));
+        style = new TextButton.TextButtonStyle();
         font = new BitmapFont();
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
@@ -73,14 +108,90 @@ public class Labyrinth extends ApplicationAdapter {
                 System.out.println("TEST SUCCESSFUL");
             }
         });
-        gameStage.addActor(buttonText);
+        //gameStage.addActor(buttonText);
+
+        //
+        skin1 = new Skin();
+
+        // Generate a 1x1 white texture and store it in the skin named "white".
+        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin1.add("white", new Texture(pixmap));
+
+        // Store the default libgdx font under the name "default".
+        skin1.add("default", new BitmapFont());
+        style = new TextButton.TextButtonStyle();
+        style.up = skin1.newDrawable("white", Color.DARK_GRAY);
+        style.down = skin1.newDrawable("white", Color.DARK_GRAY);
+        style.checked = skin1.newDrawable("white", Color.BLUE);
+        style.over = skin1.newDrawable("white", Color.LIGHT_GRAY);
+        style.font = skin1.getFont("default");
+        networkButton = new TextButton("Send message", style);
+        List<String> addresses = new ArrayList<String>();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            for(NetworkInterface ni : Collections.list(interfaces)){
+                for(InetAddress address : Collections.list(ni.getInetAddresses()))
+                {
+                    if(address instanceof Inet4Address){
+                        addresses.add(address.getHostAddress());
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        String ipAddress = new String("");
+        for(String str:addresses)
+        {
+            ipAddress = ipAddress + str + "\n";
+        }
+        System.out.println(ipAddress);
+        networkLabel = "Connected to network... \n" + ipAddress;
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                ServerSocketHints serverSocketHint = new ServerSocketHints();
+                serverSocketHint.acceptTimeout = 0;
+                ServerSocket serverSocket = Gdx.net.newServerSocket(Protocol.TCP, 9021, serverSocketHint);
+                while(true){
+                    Socket socket = serverSocket.accept(null);
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    try {
+                        String s = buffer.readLine();
+
+                    } catch (IOException e) {
+                        System.out.println("ERROR");
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+        SocketHints socketHints = new SocketHints();
+        // Socket will time our in 4 seconds
+        final String textToSend = "HELLO WORLD";
+        socketHints.connectTimeout = 4000;
+        final Socket socket = Gdx.net.newClientSocket(Protocol.TCP, "localhost", 9021, socketHints);
+        networkButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                try {
+                    socket.getOutputStream().write(textToSend.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
 
         imageButtonStyle = new ImageButton.ImageButtonStyle();
         imageButtonStyle.up = skin.getDrawable("Tile");
         imageButtonStyle.down = skin.getDrawable("Tile");
         tileButton = new ImageButton(imageButtonStyle);
-        gameStage.addActor(tileButton);
+        gameStage.addActor(networkButton);
+        networkButton.setPosition(10, 700);
         tileButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -111,8 +222,6 @@ public class Labyrinth extends ApplicationAdapter {
 
 	}
 
-
-
     @Override
     public void render () {
         Gdx.gl.glClearColor(0, 1, 5, 1);
@@ -138,6 +247,9 @@ public class Labyrinth extends ApplicationAdapter {
         /*batch.draw(img, 0, 0);
         batch.draw(cntrImg, 400, 400);*/
 
+        batch.draw(img, 0, 0);
+        batch.draw(cntrImg, 400, 400);
+        font.draw(batch, networkLabel, 10, 780);
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -158,7 +270,7 @@ public class Labyrinth extends ApplicationAdapter {
         batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
         batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
 
-
+        gameStage.draw();
         batch.end();
 
     }
@@ -181,4 +293,5 @@ public class Labyrinth extends ApplicationAdapter {
         array[5]=GameBoard;
         return array;
     }
+
 }
