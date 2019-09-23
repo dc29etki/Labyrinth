@@ -43,12 +43,15 @@ public class Labyrinth extends ApplicationAdapter {
         img1 = new Texture(Gdx.files.internal("Icon_Helmet.png"));
         cntrImg = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
         treasureTest = new Texture(Gdx.files.internal("Icon_Skull.png"));
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        /*Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));*/
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
         batch = new SpriteBatch();
         GameBoard = new Board(15, 15);
         TileArray = GameBoard.getBoard();
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("GameBackground.wav"));
+        music.play();
+        music.setLooping(true);
 
 
 
@@ -120,8 +123,6 @@ public class Labyrinth extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
-        music.play();
 
         /*Sound sound = Gdx.audio.newSound(Gdx.files.internal("Startup_Sound.wav"));
         sound.play();*/
@@ -143,6 +144,7 @@ public class Labyrinth extends ApplicationAdapter {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             treasureRect.x = touchPos.x;
             treasureRect.y = 800- touchPos.y;
+            
         }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) {
             treasureRect.x -= 200 * Gdx.graphics.getDeltaTime();
         }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))){
