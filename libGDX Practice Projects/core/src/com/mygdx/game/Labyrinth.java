@@ -39,7 +39,7 @@ public class Labyrinth extends ApplicationAdapter {
 		gameStage = new Stage();
 		Gdx.input.setInputProcessor(gameStage);
 
-        testDeck = new Deck(0);
+        testDeck = new Deck(1);
         testCard = testDeck.dealCard();
         testCard.setNewPosition(450,450);
 
