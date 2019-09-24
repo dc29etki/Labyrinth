@@ -42,6 +42,9 @@ import java.util.Enumeration;
 import java.util.List;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -67,10 +70,12 @@ public class Labyrinth extends ApplicationAdapter {
     private String networkLabel;
     private TextButton networkButton;
     private TextButton.TextButtonStyle style;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
 
 
-	@Override
+
+    @Override
 	public void create () {
         batch = new SpriteBatch();
         img = new Texture("Card_Base.png");
@@ -169,15 +174,17 @@ public class Labyrinth extends ApplicationAdapter {
             }
         }).start();
         SocketHints socketHints = new SocketHints();
-        // Socket will time our in 4 seconds
-        final String textToSend = "HELLO WORLD";
+        final String textToSend = "HELLO WORLD --";
         socketHints.connectTimeout = 4000;
         final Socket socket = Gdx.net.newClientSocket(Protocol.TCP, "localhost", 9021, socketHints);
         networkButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 try {
-                    socket.getOutputStream().write(textToSend.getBytes());
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    String text1 = textToSend + timestamp + " \n";
+                    socket.getOutputStream().write(text1.getBytes());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
