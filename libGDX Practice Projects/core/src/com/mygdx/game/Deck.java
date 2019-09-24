@@ -39,7 +39,7 @@ public class Deck {
            for(int treasure : hardPlaced) {
                treasurePlacer.add(treasure);
            }
-
+        /*
         if(tilesType == 0){
 
                tileDeck [0] = new Tile(0, -2,0,0,0);
@@ -74,6 +74,7 @@ public class Deck {
                hardPlaced = new int[]{0,6,42,48,2,4,14,16,18,20,28,30,32,34,44,46};
 
         }
+         */
 
     }
 
