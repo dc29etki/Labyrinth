@@ -19,6 +19,7 @@ public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private Tile testTile;
+	private Tile[] tiles;
 	private Card testCard;
 	private Deck testDeck;
     private Skin skin;
@@ -38,11 +39,13 @@ public class Labyrinth extends ApplicationAdapter {
 		gameStage = new Stage();
 		Gdx.input.setInputProcessor(gameStage);
 
-        testTile = new Tile(2,-6,1,1,0);
-
         testDeck = new Deck(0);
         testCard = testDeck.dealCard();
         testCard.setNewPosition(450,450);
+
+        testTile = new Tile(0,0,0,0,0);
+        testTile.setNewPosition(800,800);
+        tiles = testDeck.getTileDeck();
 
 		skin = new Skin();
         skin.add("Icon", new Texture(Gdx.files.internal("Icon_Gem.png")));
@@ -53,11 +56,11 @@ public class Labyrinth extends ApplicationAdapter {
         textButtonStyle.up = skin.getDrawable("Icon");
         textButtonStyle.down = skin.getDrawable("Icon");
         textButtonStyle.checked = skin.getDrawable("Icon");
-        buttonText = new TextButton("Rotate Tile", textButtonStyle);
+        buttonText = new TextButton("Deal Tile", textButtonStyle);
         buttonText.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-				testTile.rotate(1);
+				testTile = testDeck.dealTile();
             }
         });
         gameStage.addActor(buttonText);
@@ -73,7 +76,7 @@ public class Labyrinth extends ApplicationAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
             	testCard = testDeck.dealCard();
-                testCard.setNewPosition(450,450);
+                testCard.setNewPosition(250,5);
             }
         });
 
@@ -101,19 +104,12 @@ public class Labyrinth extends ApplicationAdapter {
 			testTile.setNewPosition((int)testTile.getTilePosition().x, (int)(testTile.getTilePosition().y - 200 * Gdx.graphics.getDeltaTime()));
 		}
 
-		Sprite testTileSprite = testTile.getTileSprite();
-		testTileSprite.setX(0);
-		testTileSprite.setY(0);
-		testTileSprite.translate(testTile.getTilePosition().x, testTile.getTilePosition().y);
-		testTileSprite.draw(batch);
-
-		Sprite testTileTreasureSprite = testTile.getTreasureSprite();
-		testTileTreasureSprite.setX(0);
-		testTileTreasureSprite.setY(0);
-		testTileTreasureSprite.translate(testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
-		testTileTreasureSprite.draw(batch);
-
 		testCard.draw(batch);
+		testTile.draw(batch);
+
+		for(Tile tile : tiles){
+			tile.draw(batch);
+		}
 
 		batch.end();
 

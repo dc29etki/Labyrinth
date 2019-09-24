@@ -7,8 +7,10 @@ public class Deck {
     private String[] treasureDict;
     private Card[] cardDeck;
     private int cardPoint = -1;
+    private int tilePoint = -1;
     private Tile[] tileDeck;
-    private int[] hardPlaced;
+    private int[] treasureMaker;
+    private List hardPlaced;
     private Stack treasurePlacer;
 
     public Deck(int tilesType){
@@ -25,30 +27,30 @@ public class Deck {
                Collections.shuffle(Arrays.asList(cardDeck));
            }
 
-           tileDeck = new Tile[49];
+           tileDeck = new Tile[50];
 
-           hardPlaced = new int[treasureDict.length];
+           treasureMaker = new int[treasureDict.length];
            for(int i = 0; i < treasureDict.length; i++){
-               hardPlaced[i] = i;
+               treasureMaker[i] = i;
            }
            intGen = new Random();
            for(int i = 0; i < intGen.nextInt(25); i++){
-               Collections.shuffle(Arrays.asList(hardPlaced));
+               Collections.shuffle(Arrays.asList(treasureMaker));
            }
            treasurePlacer = new Stack();
-           for(int treasure : hardPlaced) {
+           for(int treasure : treasureMaker) {
                treasurePlacer.add(treasure);
            }
-        /*
+
         if(tilesType == 0){
 
                tileDeck [0] = new Tile(0, -2,0,0,0);
                tileDeck [6] = new Tile(0, -3,6,0,1);
                tileDeck [42] = new Tile(0, -4,0,6,3);
                tileDeck [48] = new Tile(0, -5,6,6,2);
-               hardPlaced = new int[]{0,6,42,48};
+               hardPlaced = Arrays.asList(0,6,42,48);
 
-           }else if(tilesType == 1){
+        }else if(tilesType == 1){
 
                tileDeck [0] = new Tile(0, -2,0,0,0);
                tileDeck [6] = new Tile(0, -3,6,0,1);
@@ -71,11 +73,70 @@ public class Deck {
                tileDeck [44] = new Tile(2, (Integer) treasurePlacer.pop(),2,6,0);
                tileDeck [46] = new Tile(2, (Integer) treasurePlacer.pop(),4,6,0);
 
-               hardPlaced = new int[]{0,6,42,48,2,4,14,16,18,20,28,30,32,34,44,46};
+               hardPlaced = Arrays.asList(0,6,42,48,2,4,14,16,18,20,28,30,32,34,44,46);
 
         }
-         */
 
+        intGen = new Random();
+        Tile[] cardArray = new Tile[50-hardPlaced.size()];
+        //L-pieces WITH treasures
+        cardArray[0] = new Tile(0,  (Integer) treasurePlacer.pop(),0,0, intGen.nextInt(4));
+        cardArray[1] = new Tile(0, (Integer) treasurePlacer.pop(),0,0, intGen.nextInt(4));
+        cardArray[2] = new Tile(0, (Integer) treasurePlacer.pop(),0,0, intGen.nextInt(4));
+        cardArray[3] = new Tile(0, (Integer) treasurePlacer.pop(),0,0, intGen.nextInt(4));
+        cardArray[4] = new Tile(0, (Integer) treasurePlacer.pop(),0,0, intGen.nextInt(4));
+        cardArray[5] = new Tile(0, (Integer) treasurePlacer.pop(),0,0, intGen.nextInt(4));
+        //L-pieces WITHOUT treasures
+        for(int i = 6; i < 16; i++) {
+            cardArray[i] = new Tile(0, -1, 0, 0, intGen.nextInt(4));
+        }
+
+        intGen = new Random();
+
+        //Straight Pieces (None have treasures)
+        for(int i = 16; i < 28; i++){
+            cardArray[i] = new Tile(1, -1,0,0, intGen.nextInt(4));
+        }
+
+        //T Pieces (ALL have treasures)
+        int lowerThan = 34;
+        if(tilesType == 0){
+            lowerThan += 12;
+        }
+        for(int i = 28; i < lowerThan; i++) {
+            cardArray[i] = new Tile(2, (Integer) treasurePlacer.pop(), 0, 0, intGen.nextInt(4));
+        }
+
+        intGen = new Random();
+        for(int i = 0; i < intGen.nextInt(25); i++){
+            Collections.shuffle(Arrays.asList(cardArray));
+        }
+
+        int j = 0;
+        for(int i = 0; i < 50; i++){
+            if(!hardPlaced.contains(i)){
+                cardArray[j].setArrayPos(i%7, i/7);
+                tileDeck[i] = cardArray[j];
+                j++;
+            }
+        }
+
+    }
+
+    public Tile[] getTileDeck(){
+        return tileDeck;
+    }
+
+    public Tile dealTile(){
+        tilePoint ++;
+        if(tilePoint >= tileDeck.length){
+            tilePoint = 0;
+        }
+        return (Tile) tileDeck[tilePoint];
+    }
+
+    public int getTilePointer(){
+        return tilePoint;
     }
 
     public Card[] getCardDeck(){

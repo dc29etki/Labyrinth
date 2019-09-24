@@ -3,9 +3,10 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Tile {
+class Tile {
 
     private Texture tilePng;
     private Texture treasurePng;
@@ -21,7 +22,7 @@ public class Tile {
     private Sprite thisTile;
     private Sprite thisTreasure;
 
-    public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir){
+    Tile(int tileType, int treasureNum, int xPos, int yPos, int dir){
     //tileType: 0 = Corner, 1 = Straight, 2 = Intersection; treasureNum = treasure (-1 = none); xPos = column number (in board); yPos = row number (in board); dir = direction tile default top is facing (0 = up, 1 = right, 2 = down, 3 = left)
 
         if(tileType == 0){
@@ -48,9 +49,6 @@ public class Tile {
         treasureId = treasureNum;
         arrayPos = new int[] {xPos,yPos};
         facingDir = dir;
-        for(int i = 0; i < facingDir; i++){
-            thisTile.rotate90(true);
-        }
 
         findPlaceLocation();
 
@@ -77,8 +75,14 @@ public class Tile {
 
         thisTile = new Sprite(tilePng);
         thisTile.setSize(128,128);
+        thisTile.setPosition(locationRect.x,locationRect.y);
         thisTreasure = new Sprite(treasurePng);
         thisTreasure.setSize(32,32);
+        thisTreasure.setPosition(treasureRect.x,treasureRect.y);
+
+        for(int i = 0; i < facingDir; i++){
+            thisTile.rotate90(true);
+        }
 
     }
 
@@ -115,15 +119,15 @@ public class Tile {
 
     private void findPlaceLocation(){
         locationRect = new Rectangle();
-        locationRect.x = 10;
-        locationRect.y = 10;
-        locationRect.width = 85;
-        locationRect.height = 85;
+        locationRect.x = 0;
+        locationRect.y = 800 - 132;
+        locationRect.width = 128;
+        locationRect.height = 128;
         for(int i = 0; i <= arrayPos[0]; i++){
-            locationRect.x += 87;
+            locationRect.x += 129;
         }
         for(int i = 0; i < arrayPos[1]; i++){
-            locationRect.y += 87;
+            locationRect.y -= 129;
         }
     }
     private void findTreasureLocation(){
@@ -134,7 +138,7 @@ public class Tile {
         treasureRect.height = 32;
     }
 
-    public void rotate(int dir){
+    void rotate(int dir){
         //Dir = 1 if clockwise, -1 if counterclockwise
         boolean topPrev = connectTop;
 
@@ -161,23 +165,23 @@ public class Tile {
         }
     }
 
-    public int[] getConnectSides(){
+    int[] getConnectSides(){
 
         int up = 0;
         int right = 0;
         int down = 0;
         int left = 0;
 
-        if(connectTop == true){
+        if(connectTop){
             up = 1;
         }
-        if(connectRight == true){
+        if(connectRight){
             right = 1;
         }
-        if(connectBottom == true){
+        if(connectBottom){
             down = 1;
         }
-        if(connectLeft == true){
+        if(connectLeft){
             left = 1;
         }
 
@@ -185,38 +189,52 @@ public class Tile {
 
     }
 
-    public Rectangle getTilePosition(){
+    Rectangle getTilePosition(){
         return locationRect;
     }
 
-    public void setNewPosition(int x, int y){
+    void setNewPosition(int x, int y){
         thisTile.setPosition(x,y);
         locationRect.x = x;
         locationRect.y = y;
         findTreasureLocation();
+        thisTreasure.setPosition(treasureRect.x,treasureRect.y);
     }
 
-    public Rectangle getTreasurePosition(){
+    void setArrayPos(int x, int y){
+        arrayPos = new int[]{x,y};
+        findPlaceLocation();
+        findTreasureLocation();
+        thisTile.setPosition(locationRect.x,locationRect.y);
+        thisTreasure.setPosition(treasureRect.x,treasureRect.y);
+    }
+
+    void draw(SpriteBatch bat){
+        thisTile.draw(bat);
+        thisTreasure.draw(bat);
+    }
+
+    Rectangle getTreasurePosition(){
         return treasureRect;
     }
 
-    public Texture getTilePng(){
+    Texture getTilePng(){
         return tilePng;
     }
 
-    public Sprite getTileSprite(){
+    Sprite getTileSprite(){
         return thisTile;
     }
 
-    public Sprite getTreasureSprite(){
+    Sprite getTreasureSprite(){
         return thisTreasure;
     }
 
-    public Texture getTreasurePng(){
+    Texture getTreasurePng(){
         return treasurePng;
     }
 
-    public int getTreasureId() {
+    int getTreasureId() {
         return treasureId;
     }
 }
