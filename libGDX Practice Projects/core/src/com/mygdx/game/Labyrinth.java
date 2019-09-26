@@ -244,12 +244,23 @@ public class Labyrinth extends ApplicationAdapter {
             }
 
         }
+       /* for (int i=0; i<15; i++){
+            for (int j=0; j<15; j++){
+                Tile tile = GameBoard.getBoard() [i][j];
+                Texture tex = tile.getTilePng();
+                Texture treasure = tile.getTreasurePng();
+
+                batch.draw(tile.getTilePng(), tile.getTilePosition().x, tile.getTilePosition().y);
+                batch.draw(tile.getTreasurePng(), tile.getTreasurePosition().x, tile.getTreasurePosition().y);
+            }
+
+        }*/
 
         /*batch.draw(img, 0, 0);
         batch.draw(cntrImg, 400, 400);*/
 
-        batch.draw(img, 0, 0);
-        batch.draw(cntrImg, 400, 400);
+        /*batch.draw(img, 0, 0);*/
+        /*batch.draw(cntrImg, 400, 400);*/
         font.draw(batch, networkLabel, 10, 780);
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
@@ -269,8 +280,8 @@ public class Labyrinth extends ApplicationAdapter {
 
         batch.draw(treasureTest, treasureRect.x, treasureRect.y);
 
-        batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
-        batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
+       /* batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
+        batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);*/
 
         gameStage.draw();
         batch.end();
