@@ -2,11 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 import javax.xml.xpath.XPath;
 
-public class Tile {
+class Tile {
 
     private Texture tilePng;
     private Texture treasurePng;
@@ -19,32 +21,32 @@ public class Tile {
     private int[] arrayPos;
     private int treasureId;
     private int facingDir;
+    private Sprite thisTile;
+    private Sprite thisTreasure;
 
-    public Tile(int tileDir, int treasureNum, int xPos, int yPos, int dir){
-    //tileDir: 0 = Corner, 1 = Straight, 2 = Intersection; treasureNum = treasure (0 = none); xPos = column number (in board); yPos = row number (in board); dir = direction tile default top is facing (0 = up, 1 = right, 2 = down, 3 = left)
+    Tile(int tileType, int treasureNum, int xPos, int yPos, int dir){
+    //tileType: 0 = Corner, 1 = Straight, 2 = Intersection; treasureNum = treasure (-1 = none); xPos = column number (in board); yPos = row number (in board); dir = direction tile default top is facing (0 = up, 1 = right, 2 = down, 3 = left)
 
-        if(tileDir == 0){
+        if(tileType == 0){
             connectTop = false;
             connectRight = true;
             connectBottom = true;
             connectLeft = false;
-            tilePng = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
 
-        }else if(tileDir == 1){
+            tilePng = new Texture(Gdx.files.internal("Tile_23.png"));
+        }else if(tileType == 1){
             connectTop = false;
             connectRight = true;
             connectBottom = false;
             connectLeft = true;
-            tilePng = new Texture(Gdx.files.internal("Piece_Straight_Blank.png"));
+            tilePng = new Texture(Gdx.files.internal("Tile_13.png"));
         }else{
             connectTop = true;
             connectRight = true;
             connectBottom = false;
             connectLeft = true;
-            tilePng = new Texture(Gdx.files.internal("Piece_Split_Blank.png"));
+            tilePng = new Texture(Gdx.files.internal("Tile_234.png"));
         }
-
-
 
         treasureId = treasureNum;
         arrayPos = new int[] {xPos,yPos};
@@ -54,14 +56,35 @@ public class Tile {
 
         findTreasureLocation();
 
-        if(treasureNum > 0){
+        if(treasureNum > -1){
             String[] namesDict = makeTreasureDict();
             treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureNum]+".png"));
-        }else {
+        }else if(treasureNum < -1){
+            if(treasureNum == -2){//Red Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "RedCircle" + ".png"));
+            }else if(treasureNum == -3){//Blue Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "BlueCircle" + ".png"));
+            }else if(treasureNum == -4){//Yellow Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "YellowCircle" + ".png"));
+            }else if(treasureNum == -5) {//Green Circle
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "GreenCircle" + ".png"));
+            }else{
+                treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
+            }
+        }else{
             treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
         }
 
+        thisTile = new Sprite(tilePng);
+        thisTile.setSize(128,128);
+        thisTile.setPosition(locationRect.x,locationRect.y);
+        thisTreasure = new Sprite(treasurePng);
+        thisTreasure.setSize(32,32);
+        thisTreasure.setPosition(treasureRect.x,treasureRect.y);
 
+        for(int i = 0; i < facingDir; i++){
+            thisTile.rotate90(true);
+        }
     }
 
     private String[] makeTreasureDict(){
@@ -97,30 +120,31 @@ public class Tile {
 
     private void findPlaceLocation(){
         locationRect = new Rectangle();
-        locationRect.x = 10;
-        locationRect.y = 10;
-        locationRect.width = 85;
-        locationRect.height = 85;
+        locationRect.x = 0;
+        locationRect.y = 800 - 132;
+        locationRect.width = 128;
+        locationRect.height = 128;
         for(int i = 0; i <= arrayPos[0]; i++){
-            locationRect.x += 87;
+            locationRect.x += 129;
         }
         for(int i = 0; i < arrayPos[1]; i++){
-            locationRect.y += 87;
+            locationRect.y -= 129;
         }
     }
     private void findTreasureLocation(){
         treasureRect = new Rectangle();
-        treasureRect.x = locationRect.x + 19;
-        treasureRect.y = locationRect.y + 19;
-        treasureRect.width = 47;
-        treasureRect.height = 47;
+        treasureRect.x = locationRect.x + 48;
+        treasureRect.y = locationRect.y + 48;
+        treasureRect.width = 32;
+        treasureRect.height = 32;
     }
 
-    public void rotate(int dir){
+    void rotate(int dir){
         //Dir = 1 if clockwise, -1 if counterclockwise
         boolean topPrev = connectTop;
 
         if(dir == 1) {
+            thisTile.rotate90(true);
             connectTop = connectLeft;
             connectLeft = connectBottom;
             connectBottom = connectRight;
@@ -130,6 +154,7 @@ public class Tile {
                 facingDir = 0;
             }
         }else if(dir == -1) {
+            thisTile.rotate90(false);
             connectTop = connectRight;
             connectRight = connectBottom;
             connectBottom = connectLeft;
@@ -141,23 +166,23 @@ public class Tile {
         }
     }
 
-    public int[] getConnectSides(){
+    int[] getConnectSides(){
 
         int up = 0;
         int right = 0;
         int down = 0;
         int left = 0;
 
-        if(connectTop == true){
+        if(connectTop){
             up = 1;
         }
-        if(connectRight == true){
+        if(connectRight){
             right = 1;
         }
-        if(connectBottom == true){
+        if(connectBottom){
             down = 1;
         }
-        if(connectLeft == true){
+        if(connectLeft){
             left = 1;
         }
 
@@ -165,23 +190,52 @@ public class Tile {
 
     }
 
-    public Rectangle getTilePosition(){
+    Rectangle getTilePosition(){
         return locationRect;
     }
 
-    public Rectangle getTreasurePosition(){
+    void setNewPosition(int x, int y){
+        thisTile.setPosition(x,y);
+        locationRect.x = x;
+        locationRect.y = y;
+        findTreasureLocation();
+        thisTreasure.setPosition(treasureRect.x,treasureRect.y);
+    }
+
+    void setArrayPos(int x, int y){
+        arrayPos = new int[]{x,y};
+        findPlaceLocation();
+        findTreasureLocation();
+        thisTile.setPosition(locationRect.x,locationRect.y);
+        thisTreasure.setPosition(treasureRect.x,treasureRect.y);
+    }
+
+    void draw(SpriteBatch bat){
+        thisTile.draw(bat);
+        thisTreasure.draw(bat);
+    }
+
+    Rectangle getTreasurePosition(){
         return treasureRect;
     }
 
-    public Texture getTilePng(){
+    Texture getTilePng(){
         return tilePng;
     }
 
-    public Texture getTreasurePng(){
+    Sprite getTileSprite(){
+        return thisTile;
+    }
+
+    Sprite getTreasureSprite(){
+        return thisTreasure;
+    }
+
+    Texture getTreasurePng(){
         return treasurePng;
     }
 
-    public int getTreasureId() {
+    int getTreasureId() {
         return treasureId;
     }
 }

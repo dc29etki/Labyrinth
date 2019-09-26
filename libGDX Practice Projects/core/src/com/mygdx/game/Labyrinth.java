@@ -48,21 +48,10 @@ import java.util.Date;
 
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private Texture img;
-	private Texture img1;
-	private Texture cntrImg;
-	private Texture treasureTest;
 	private OrthographicCamera camera;
-	private Rectangle treasureRect;
-	private Tile testTile;
-    private Skin skin;
-    private Skin skin1;
+	private Skin skin1;
     private Stage gameStage;
     private BitmapFont font;
-    private TextButton buttonText;
-    private TextButton.TextButtonStyle textButtonStyle;
-    private ImageButton tileButton;
-    private ImageButton.ImageButtonStyle imageButtonStyle;
     private Board GameBoard;
     private Tile[][] TileArray;
     private Music music;
@@ -72,51 +61,22 @@ public class Labyrinth extends ApplicationAdapter {
     private TextButton.TextButtonStyle style;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
-
-
-
     @Override
 	public void create () {
         batch = new SpriteBatch();
-        img = new Texture("Card_Base.png");
-        img1 = new Texture(Gdx.files.internal("Icon_Helmet.png"));
-        cntrImg = new Texture(Gdx.files.internal("Piece_Corner_Blank.png"));
-        treasureTest = new Texture(Gdx.files.internal("Icon_Skull.png"));
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
         batch = new SpriteBatch();
-        GameBoard = new Board(15, 15);
+        GameBoard = new Board(7, 7);
         TileArray = GameBoard.getBoard();
-
-
-
-
 
         gameStage = new Stage();
         Gdx.input.setInputProcessor(gameStage);
-        skin = new Skin();
-        skin.add("Icon", img);
-        skin.add("Tile", new Texture(Gdx.files.internal("Piece_Straight_Blank.png")));
-        style = new TextButton.TextButtonStyle();
-        font = new BitmapFont();
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;
-        textButtonStyle.up = skin.getDrawable("Icon");
-        textButtonStyle.down = skin.getDrawable("Icon");
-        textButtonStyle.checked = skin.getDrawable("Icon");
-        buttonText = new TextButton("Test Button", textButtonStyle);
-        buttonText.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("TEST BUTTON PRESSED. PERFORMING TEST.");
-                System.out.println("TEST SUCCESSFUL");
-            }
-        });
-        //gameStage.addActor(buttonText);
 
         //
         skin1 = new Skin();
+        font = new BitmapFont();
 
         // Generate a 1x1 white texture and store it in the skin named "white".
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
@@ -192,41 +152,8 @@ public class Labyrinth extends ApplicationAdapter {
         });
 
 
-
-        imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.up = skin.getDrawable("Tile");
-        imageButtonStyle.down = skin.getDrawable("Tile");
-        tileButton = new ImageButton(imageButtonStyle);
-        gameStage.addActor(networkButton);
+		gameStage.addActor(networkButton);
         networkButton.setPosition(10, 700);
-        tileButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                tileButton.moveBy(5, 5);
-            }
-        });
-
-
-        treasureRect = new Rectangle();
-        treasureRect.x = 15;
-        treasureRect.y = 25;
-        treasureRect.width = 47;
-        treasureRect.height = 47;
-
-        testTile = new Tile(0, 20, 1, 1, 0);
-
-
-		/*batch.begin();
-
-		batch.draw(treasureTest, treasureRect.x, treasureRect.y);
-
-		batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
-		batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
-
-		batch.end();
-
-		gameStage.draw();*/
-
 	}
 
     @Override
@@ -241,41 +168,15 @@ public class Labyrinth extends ApplicationAdapter {
 
         /*Sound sound = Gdx.audio.newSound(Gdx.files.internal("Startup_Sound.wav"));
         sound.play();*/
-        /*batch.draw(img1, 100, 100);*/
-        for (int i=0; i<15; i++){
-            for (int j=0; j<15; j++){
+        for (int i=0; i<7; i++){
+            for (int j=0; j<7; j++){
                 Tile tile = GameBoard.getBoard() [i][j];
-                Texture tex = tile.getTilePng();
-                batch.draw(tex, 100*i, 100*j);
+                tile.draw(batch);
             }
 
         }
 
-        /*batch.draw(img, 0, 0);
-        batch.draw(cntrImg, 400, 400);*/
-
-        batch.draw(img, 0, 0);
-        batch.draw(cntrImg, 400, 400);
         font.draw(batch, networkLabel, 10, 780);
-        if(Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3();
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            treasureRect.x = touchPos.x;
-            treasureRect.y = 800- touchPos.y;
-        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed((Input.Keys.A))) {
-            treasureRect.x -= 200 * Gdx.graphics.getDeltaTime();
-        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed((Input.Keys.D))){
-            treasureRect.x += 200 * Gdx.graphics.getDeltaTime();
-        }else if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed((Input.Keys.W))){
-            treasureRect.y += 200 * Gdx.graphics.getDeltaTime();
-        }else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed((Input.Keys.S))){
-            treasureRect.y -= 200 * Gdx.graphics.getDeltaTime();
-        }
-
-        batch.draw(treasureTest, treasureRect.x, treasureRect.y);
-
-        batch.draw(testTile.getTilePng(), testTile.getTilePosition().x, testTile.getTilePosition().y);
-        batch.draw(testTile.getTreasurePng(), testTile.getTreasurePosition().x, testTile.getTreasurePosition().y);
 
         gameStage.draw();
         batch.end();
@@ -285,20 +186,6 @@ public class Labyrinth extends ApplicationAdapter {
     @Override
     public void dispose () {
         batch.dispose();
-        img.dispose();
-        music.dispose();
-    }
-
-
-    public Object[] getAllArrays(){
-        Object[] array = new Object[6];
-        array[0]=img;
-        array[1]=cntrImg;
-        array[2]=treasureTest;
-        array[3]=treasureRect;
-        array[4]=testTile;
-        array[5]=GameBoard;
-        return array;
     }
 
 }
