@@ -5,21 +5,24 @@ import java.util.Random;
 
 public class Board {
     private Tile[][] grid;
+    private Tile extraTile;
+    private Deck boardDeck;
     public Board(){
-        grid = createGrid(12,12);
+        boardDeck = new Deck(1);
+        grid = createGrid(7,7);
+        extraTile = boardDeck.dealTile();
     }
     public Board(int x, int y){
+        boardDeck = new Deck(1);
         grid = createGrid(x,y);
+        extraTile = boardDeck.dealTile();
     }
     public Tile[][] createGrid(int x, int y){
         Tile[][] grid = new Tile[x][y];
         Random rand = new Random();
         for(int i=0; i<x; i++){
             for(int j=0; j<y; j++){
-                int tileDir = rand.nextInt(2);
-                int xPos = rand.nextInt(x);
-                int yPos = rand.nextInt(y);
-                grid[j][i] = new Tile(tileDir,0,xPos,yPos,0);
+                grid[j][i] = boardDeck.dealTile();
             }
         }
         return grid;
@@ -27,4 +30,5 @@ public class Board {
     public Tile[][] getBoard() {
         return grid;
     }
+    public Tile getExtraTile() { return extraTile; }
 }
