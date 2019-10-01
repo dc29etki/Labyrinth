@@ -5,10 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
+    private Stage gameStage;
+
 
     @Override
 	public void create () {
