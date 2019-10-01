@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 public class Treasures {
 
-    public String[] getTreasureDict(int set){
+    public static String[] getTreasureDict(int set){
 
         if(true){//(set == 0){
             return new String[]{
