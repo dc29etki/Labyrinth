@@ -29,7 +29,7 @@ public class Treasures {
                     "Spider",
                     "Sword",
                     "Tome",
-                    "TreasureChest"
+                    "Treasure"
             };
         }
 
