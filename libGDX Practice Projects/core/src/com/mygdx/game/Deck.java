@@ -143,4 +143,41 @@ public class Deck {
 
     }
 
+    Tile[] getTileDeck(){
+        return tileDeck;
+    }
+
+    Card[] getCardDeck(){
+        return cardDeck;
+    }
+
+    void shuffle(){
+        Random intGen = new Random();
+        if(dealType == 0){
+            for(int i = 0; i < intGen.nextInt(25); i++){
+                Collections.shuffle(Arrays.asList(cardDeck));
+            }
+            dealPointer = -1;
+        }else if(dealType == 1){
+            for(int i = 0; i < intGen.nextInt(25); i++){
+                Collections.shuffle(Arrays.asList(tileDeck));
+            }
+            dealPointer = -1;
+        }
+    }
+
+    int getDealType(){
+        return dealType;
+    }
+
+    Card dealCard(){
+        dealPointer ++;
+        return cardDeck[dealPointer];
+    }
+
+    Tile dealTile(){
+        dealPointer ++;
+        return tileDeck[dealPointer];
+    }
+
 }
