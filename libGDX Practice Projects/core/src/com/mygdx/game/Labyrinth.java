@@ -1,5 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,10 +16,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class Labyrinth extends ApplicationAdapter {
+public class Labyrinth extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
     private Stage gameStage;
+    private Music music;
+    /*private Tile[][] TileArray;*/
 
 
     @Override
@@ -26,6 +30,8 @@ public class Labyrinth extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 800);
         batch = new SpriteBatch();
+        setScreen(new SplashScreen());
+        /*TileArray = gameBoard.getBoard();*/
 
         //Put new items and objects here
 
@@ -38,11 +44,20 @@ public class Labyrinth extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        /*for (int i=0; i<7; i++){
+            for (int j=0; j<7; j++){
+                Tile tile = gameBoard.getBoard() [i][j];
+                tile.draw(batch);
+            }
+
+        }*/
 
         //Put sprites and effects here
 
-        gameStage.draw();
+       /* gameStage.draw();*/
         batch.end();
+        super.render();
 
     }
 

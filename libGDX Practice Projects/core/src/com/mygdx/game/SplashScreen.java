@@ -24,7 +24,7 @@ public class SplashScreen implements Screen{
     @Override
     public void show(){
         WIDTH = 1280;
-        HEIGHT = 720;
+        HEIGHT = 800;
 
         splashtexture = new Texture(Gdx.files.internal("splashScreen.png"));
         splashtexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -35,7 +35,7 @@ public class SplashScreen implements Screen{
         splashstage = new Stage(new FitViewport(WIDTH,HEIGHT, new Cam(WIDTH,HEIGHT)));
         splashstage.addActor(splashimage);
 
-        splashimage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.25F),Actions.delay(1F), Actions.fadeOut(0.75F), Actions.run(new Runnable() {
+        splashimage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.25F),Actions.delay(4F), Actions.fadeOut(0.75F), Actions.run(new Runnable() {
             @Override
             public void run() {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
