@@ -107,7 +107,7 @@ public class Tile {
 
     void setNewPosition(int x, int y){
         thisTile.setPosition(x,y);
-        tilePos = new int[]{x,y,};
+        tilePos = new int[]{x,y};
         findTreasureLocation();
         thisTreasure.setPosition(treasurePos[0],treasurePos[1]);
     }
@@ -131,6 +131,10 @@ public class Tile {
     void draw(SpriteBatch batch){
         thisTile.draw(batch);
         thisTreasure.draw(batch);
+    }
+
+    int[] getTilePosition(){
+        return tilePos;
     }
 
 }
