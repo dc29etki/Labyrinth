@@ -136,5 +136,8 @@ public class Tile {
     int[] getTilePosition(){
         return tilePos;
     }
-
+    @Override
+    public String toString(){
+        return treasureId + " " + arrayPos;
+    }
 }

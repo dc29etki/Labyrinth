@@ -20,17 +20,21 @@ public class Labyrinth extends Game {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
     private Stage gameStage;
+    private Board board;
     private Music music;
     /*private Tile[][] TileArray;*/
 
 
     @Override
 	public void create () {
+        setScreen(new SplashScreen());
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 800);
-        batch = new SpriteBatch();
-        setScreen(new SplashScreen());
+        camera.setToOrtho(false, 1100, 900);
+        board = new Board();
+        gameStage = new Stage();
+        Gdx.input.setInputProcessor(gameStage);
+        
         /*TileArray = gameBoard.getBoard();*/
 
         //Put new items and objects here
@@ -43,7 +47,12 @@ public class Labyrinth extends Game {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+
+        //Put sprites and effects here
+
         batch.begin();
+        board.draw(batch);
+        gameStage.draw();
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
             for (int j=0; j<7; j++){
