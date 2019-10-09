@@ -11,15 +11,16 @@ public class Labyrinth extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
     private Stage gameStage;
-
+    private Board board;
 
     @Override
 	public void create () {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 800);
-        batch = new SpriteBatch();
-
+        camera.setToOrtho(false, 1100, 900);
+        board = new Board();
+        gameStage = new Stage();
+        Gdx.input.setInputProcessor(gameStage);
         //Put new items and objects here
 
 	}
@@ -30,13 +31,13 @@ public class Labyrinth extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        batch.begin();
 
         //Put sprites and effects here
 
+        batch.begin();
+        board.draw(batch);
         gameStage.draw();
         batch.end();
-
     }
 
     @Override
