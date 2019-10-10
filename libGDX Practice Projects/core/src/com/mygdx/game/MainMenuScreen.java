@@ -27,8 +27,10 @@ public class MainMenuScreen implements Screen {
     private Texture mainmenuTexture;
     private Image mainmenuImage;
     private float WIDTH,HEIGHT;
+    private Game g;
 
-    public MainMenuScreen() {
+    public MainMenuScreen(Game g) {
+        this.g = g;
 
     }
 
@@ -53,9 +55,7 @@ public class MainMenuScreen implements Screen {
 
         mainmenuimagebuttonPlay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new SplashScreen());
-
+                g.setScreen(new GameScreen(g));
             }
         });
     }

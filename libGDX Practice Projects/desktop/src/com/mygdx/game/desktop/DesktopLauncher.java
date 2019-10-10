@@ -8,9 +8,9 @@ import com.badlogic.gdx.Game;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "SpriteTest";
-      	config.width = 800;
-      	config.height = 800;
+		config.title = "Labyrinth";
+      	config.width = 1200;
+      	config.height = 1000;
 		new LwjglApplication(new Labyrinth(), config);
 	}
 }
