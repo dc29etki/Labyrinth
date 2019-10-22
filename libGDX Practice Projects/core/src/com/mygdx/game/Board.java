@@ -22,6 +22,7 @@ public class Board {
                 count++;
             }
         }
+        extra = tiles[count];
     }
 
     public void draw(SpriteBatch batch){
@@ -32,24 +33,21 @@ public class Board {
         }
 
     }
-    public void insertTile(int x, int y){
+    public void insertTile(int x, int y, SpriteBatch batch){
         if(x==0){
-            Tile temp = grid[0][y];
-            grid[0][y] = extra;
-            for(int i=0; i<grid[x].length-1; i++){
-                temp = grid[i][y];
-                grid[i+1][y] = temp;
+            /*
+            Tile[][] temp = grid;
+            for(int i=5; i>0; i--){
+                grid[y][i+1] = grid[y][i];
             }
-            extra = grid[grid[x].length][y];
+            grid[x][y] = extra;
+            extra = temp[x][y];
+            */
+            grid[x][y] = grid[x+1][y];
+            draw(batch);
         }
         else if(y==0){
-            Tile temp = grid[x][0];
-            grid[x][0] = extra;
-            for(int i=0; i<grid[y].length-1; i++){
-                temp = grid[x][i];
-                grid[x][i+1] = temp;
-            }
-            extra = grid[x][grid[y].length];
+
         }
     }
 }

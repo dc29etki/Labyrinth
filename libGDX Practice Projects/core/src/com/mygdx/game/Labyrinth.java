@@ -2,12 +2,15 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -27,17 +30,14 @@ public class Labyrinth extends Game {
 
     @Override
 	public void create () {
-
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight());
         board = new Board();
         gameStage = new Stage();
-        Gdx.input.setInputProcessor(gameStage);
-        setScreen(new SplashScreen(this));
-        /*TileArray = gameBoard.getBoard();*/
 
-        //Put new items and objects here
+        setScreen(new SplashScreen(this));
 
 	}
 
@@ -52,6 +52,7 @@ public class Labyrinth extends Game {
 
         batch.begin();
         board.draw(batch);
+        super.render();
         gameStage.draw();
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
@@ -66,7 +67,7 @@ public class Labyrinth extends Game {
 
        /* gameStage.draw();*/
         batch.end();
-        super.render();
+
 
     }
 
