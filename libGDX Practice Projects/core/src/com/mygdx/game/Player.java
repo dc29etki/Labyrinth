@@ -2,6 +2,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Player {
     int[] boardPosition;
@@ -35,10 +36,24 @@ public class Player {
         }
     }
 
+    void draw(SpriteBatch batch){
+        playerSprite.draw(batch);
+    }
+
+    void setPosition(int x, int y){
+        //WIP
+    }
+
+    void setPosition(Tile tile){
+        //WIP
+    }
+
     void setBoardPosition(int x, int y){
 
         //WIP
 
     }
+
+
 
 }

@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.awt.*;
+
 public class Tile {
     private int[] connections;
     private Texture tilePng;
@@ -15,8 +17,13 @@ public class Tile {
     private Sprite thisTreasure;
     private int[] tilePos = new int[2];
     private int[] treasurePos = new int[2];
+    private int Height;
+    private int Width;
+    private int TileLen;
 
     public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir, int treasuresType){
+
+        
 
         //Connections: Top,Right,Bottom,Left
         if(tileType == 0){//Corner Piece
@@ -90,7 +97,7 @@ public class Tile {
 
     private void findPlaceLocation(){
         int x = 0;
-        int y = 800-132;
+        int y = Height-132;
         for(int i = 0; i <= arrayPos[0]; i++){
             x += 129;
         }
