@@ -2,6 +2,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -33,10 +34,10 @@ public class Labyrinth extends Game {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Width, Height * (Gdx.graphics.getHeight()/Gdx.graphics.getWidth()));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
+        //camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        //camera.update();
         board = new Board();
-        gameStage = new Stage(new FitViewport(Width,Height, camera));
+        gameStage = new Stage(new FitViewport(10,10));
         Gdx.input.setInputProcessor(gameStage);
         setScreen(new SplashScreen(this));
         /*TileArray = gameBoard.getBoard();*/
@@ -69,6 +70,12 @@ public class Labyrinth extends Game {
         //TESTING
         Tile newtile = new Tile(1,1, 0, 0, 1, 0);
         newtile.setNewPosition(0,10);
+        if(Gdx.input.isTouched()) {
+            Vector3 touchPos = new Vector3();
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            newtile.setNewPosition((int)touchPos.x, (int)touchPos.y);
+            System.out.println(touchPos.x + " " + touchPos.y);
+        }
         newtile.draw(batch);
 
        /* gameStage.draw();*/
