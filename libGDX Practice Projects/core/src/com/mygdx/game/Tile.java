@@ -23,7 +23,7 @@ public class Tile {
 
     public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir, int treasuresType){
 
-        
+
 
         //Connections: Top,Right,Bottom,Left
         if(tileType == 0){//Corner Piece

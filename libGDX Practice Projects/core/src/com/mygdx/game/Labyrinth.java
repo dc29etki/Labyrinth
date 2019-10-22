@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Labyrinth extends Game {
 	private SpriteBatch batch;
@@ -23,20 +24,22 @@ public class Labyrinth extends Game {
     private Board board;
     private Music music;
     /*private Tile[][] TileArray;*/
-
+    public int Width = 10;
+    public int Height = 10;
 
     @Override
 	public void create () {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, Width, Height * (Gdx.graphics.getHeight()/Gdx.graphics.getWidth()));
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
         board = new Board();
-        gameStage = new Stage();
+        gameStage = new Stage(new FitViewport(Width,Height, camera));
         Gdx.input.setInputProcessor(gameStage);
         setScreen(new SplashScreen(this));
         /*TileArray = gameBoard.getBoard();*/
-
         //Put new items and objects here
 
 	}
@@ -63,6 +66,10 @@ public class Labyrinth extends Game {
         }*/
 
         //Put sprites and effects here
+        //TESTING
+        Tile newtile = new Tile(1,1, 0, 0, 1, 0);
+        newtile.setNewPosition(0,10);
+        newtile.draw(batch);
 
        /* gameStage.draw();*/
         batch.end();
@@ -73,5 +80,12 @@ public class Labyrinth extends Game {
     @Override
     public void dispose () {
         batch.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height){
+        camera.viewportWidth = 10f;
+        camera.viewportHeight = 10f * height/width;
+        camera.update();
     }
 }
