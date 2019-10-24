@@ -6,6 +6,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -35,15 +37,15 @@ public class GameScreen implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        //Put sprites and effects here
-
         batch.begin();
+        //Put sprites and effects here
 
         board.draw(batch);
 
-        //Testing
-        Tile green = new Tile(0,-5,6,6, 2, 0);
-        green.setNewPosition(0,0);
+        //Draw empty sprite to update all other drawings
+        Sprite green = new Sprite();
+        green.setTexture(new Texture(Gdx.files.internal("Blank_Icon.png")));
+        green.setPosition(-10, -10);
         green.draw(batch);
 
         gameStage.draw();
