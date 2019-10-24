@@ -22,6 +22,8 @@ public class Board {
                 count++;
             }
         }
+        extra = tiles[count];
+        extra.setBoardPosition(-1,-1);
     }
 
     public void draw(SpriteBatch batch){
@@ -30,7 +32,7 @@ public class Board {
                 grid[i][j].draw(batch);
             }
         }
-
+        extra.draw(batch);
     }
     public void insertTile(int x, int y){
         if(x==0){
