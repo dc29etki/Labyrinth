@@ -21,7 +21,7 @@ public class Board {
         int count = 0;
         for(int i=0; i<7; i++){
             for(int j=0; j<7; j++){
-                grid[i][j] = tiles[count+1];
+                grid[i][j] = tiles[count];
                 count++;
             }
         }
