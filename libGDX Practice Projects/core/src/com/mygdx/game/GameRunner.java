@@ -59,19 +59,24 @@ public class GameRunner {
     }
 
     public Tile[] tilePaths(Tile start){
-
         List connected = null;
         connected.add(start);
-        Stack returns;
+        Stack returns = null;
         Tile nextTile;
         int[] sides = start.getConnectSides();
         for(int s : sides){
             nextTile = findNextTile(start, s);
             if(nextTile != null) {
-                returns = getConnectedTiles(nextTile, s);
+                returns.add(nextTile);
+                returns.addAll( getConnectedTiles(nextTile, s, returns) );
             }
         }
-
+        int tiles = returns.size();
+        Tile[] paths = new Tile[tiles];
+        for(int i = 0; i < tiles; i++){
+            paths[i] = (Tile)returns.pop();
+        }
+        return paths;
     }
 
     private Tile findNextTile (Tile start, int side){
@@ -117,18 +122,29 @@ public class GameRunner {
                     break;
                 case 0:
                 default:
-                    if(opens[2] == 1){
+                    if(opens[2] == 1) {
                         return nextTo;
                     }
-                    return null;
             }
         }
-
-
+        return null;
     }
 
-    private Stack getConnectedTiles(Tile start, int fromDir){
+    private Stack getConnectedTiles(Tile start, int fromDir, Stack soFar){
         //Recursively find the connected tiles
+        Stack returns = soFar;
+        Tile nextTile;
+        int[] sides = start.getConnectSides();
+        for(int s : sides){
+            if(s != fromDir) {
+                nextTile = findNextTile(start, s);
+                if (nextTile != null && !(soFar.contains(nextTile))) {
+                    returns.add(nextTile);
+                    returns.addAll(getConnectedTiles(nextTile, s, returns));
+                }
+            }
+        }
+        return returns;
     }
 
 }
