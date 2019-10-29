@@ -12,6 +12,8 @@ import static com.mygdx.game.Labyrinth.Width;
 public class Tile {
     private int[] connections;
     private Texture tilePng;
+    private Texture tileMovePng;
+    private boolean isShowingMove = false;
     private int treasureId;
     private int[] arrayPos;
     private Texture treasurePng;
@@ -25,12 +27,15 @@ public class Tile {
         if(tileType == 0){//Corner Piece
             connections = new int[]{0,1,1,0};
             tilePng = new Texture(Gdx.files.internal("Tile_23.png"));
+            tileMovePng = new Texture(Gdx.files.internal("Tile_230.png"));
         }else if(tileType == 1){//Straight Piece
             connections = new int[]{0,1,0,1};
             tilePng = new Texture(Gdx.files.internal("Tile_13.png"));
+            tileMovePng = new Texture(Gdx.files.internal("Tile_130.png"));
         }else {//T-Piece
             connections = new int[]{1,1,0,1};
             tilePng = new Texture(Gdx.files.internal("Tile_234.png"));
+            tileMovePng = new Texture(Gdx.files.internal("Tile_2340.png"));
         }
 
         arrayPos = new int[]{xPos,yPos};
@@ -139,6 +144,15 @@ public class Tile {
     int[] getTilePosition(){
         return tilePos;
     }
+
+    void showLine() {
+        if(isShowingMove){
+            thisTile.setTexture(tilePng);
+        }else{
+            thisTile.setTexture(tileMovePng);
+        }
+    }
+
     @Override
     public String toString(){
         return treasureId + " " + arrayPos;
