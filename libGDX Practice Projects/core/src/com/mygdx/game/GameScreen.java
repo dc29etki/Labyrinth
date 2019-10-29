@@ -54,7 +54,7 @@ public class GameScreen implements Screen {
                 board.insertTile(0, 3);
             }
         });
-        button1 = new TextButton("Insert Tile 2 \/", textButtonStyle);
+        button1 = new TextButton("Insert Tile 2 \\/", textButtonStyle);
         button1.setPosition(630,  940);
         gameStage.addActor(button1);
         Gdx.input.setInputProcessor(gameStage);
