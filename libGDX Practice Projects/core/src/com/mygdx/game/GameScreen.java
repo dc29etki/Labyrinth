@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
     private Stage gameStage;
     private Board board;
     private Music music;
-    private TextButton button;
+    private TextButton button, button1;
     private TextButton.TextButtonStyle textButtonStyle;
     private BitmapFont font;
     private Skin skin;
@@ -41,19 +41,28 @@ public class GameScreen implements Screen {
         font = new BitmapFont();
         skin = new Skin();
         textButtonStyle.font = font;
-        button = new TextButton("Button1", textButtonStyle);
-        button.setPosition(100,  500);
+        button = new TextButton("Insert Tile 1   ->", textButtonStyle);
+        button.setPosition(15,  550);
         gameStage.addActor(button);
         Gdx.input.setInputProcessor(gameStage);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("CLICKED");
-                board.insertTile(0,3);
-                //board = new Board();
+                System.out.println("insertTile(0,3)");
+                board.insertTile(0, 3);
             }
         });
-
+        button1 = new TextButton("Insert Tile 2 \/", textButtonStyle);
+        button1.setPosition(630,  940);
+        gameStage.addActor(button1);
+        Gdx.input.setInputProcessor(gameStage);
+        button1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("insertTile(5,0)");
+                board.insertTile(5, 0);
+            }
+        });
     }
 
     @Override
