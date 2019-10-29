@@ -45,7 +45,7 @@ public class Board {
                 grid[i][j].draw(batch);
             }
         }
-
+        extra.draw(batch);
     }
     public void insertTile(int x, int y){
         if(x==0){
