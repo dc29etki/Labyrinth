@@ -26,6 +26,7 @@ public class Board {
             }
         }
         extra = tiles[49];
+        extra.setBoardPosition(-1, -1);
         temp1 = new Tile[7][7];
         temp1 = grid;
     }
@@ -41,7 +42,6 @@ public class Board {
     public void draw(SpriteBatch batch){
         for (int i=0; i<7; i++){
             for (int j=0; j<7; j++){
-                grid[i][j].setBoardPosition(i, j);
                 grid[i][j].draw(batch);
             }
         }
@@ -54,10 +54,13 @@ public class Board {
                 temp[i] = grid[i][y];
             }
             grid[x][y] = extra;
+            grid[x][y].setBoardPosition(y,x);
             for(int j=1; j<7; j++){
+                temp[j-1].setBoardPosition(y, j);
                 grid[j][y] = temp[j-1];
             }
             extra = temp[temp.length-1];
+            extra.setBoardPosition(-1, -1);
         }
         else if(y==0){
             Tile[] temp = new Tile[7];
@@ -65,10 +68,13 @@ public class Board {
                 temp[i] = grid[x][i];
             }
             grid[x][y] = extra;
+            grid[x][y].setBoardPosition(y, x);
             for(int j=1; j<7; j++){
+                temp[j-1].setBoardPosition(j,x);
                 grid[x][j] = temp[j-1];
             }
             extra = temp[temp.length-1];
+            extra.setBoardPosition(-1, -1);
         }
     }
 }
