@@ -53,14 +53,10 @@ public class Labyrinth extends Game {
 
         //Put sprites and effects here
 
-        /*batch.begin();
-        board.draw(batch);
-        super.render();
-        gameStage.draw();
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        music.play();
         //Put sprites and effects here
 
-        batch.end();*/
         super.render();
 
     }
