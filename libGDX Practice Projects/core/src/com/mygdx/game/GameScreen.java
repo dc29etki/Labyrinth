@@ -50,8 +50,8 @@ public class GameScreen implements Screen {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("insertTile(0,3)");
-                board.insertTile(0, 3);
+                System.out.println("insertTile(3,0)");
+                board.insertTile(3, 0);
             }
         });
         button1 = new TextButton("Insert Tile 2 \\/", textButtonStyle);
@@ -61,8 +61,8 @@ public class GameScreen implements Screen {
         button1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("insertTile(5,0)");
-                board.insertTile(5, 0);
+                System.out.println("insertTile(0,5)");
+                board.insertTile(0, 5);
             }
         });
     }
