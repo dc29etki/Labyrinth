@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Treasures {
 
-    public static Texture getTreasureDict(int id, int set){
+    public static Texture getTreasure(int id, int set){
 
         if(true){//(set == 0){
             String[] treasureDict = new String[]{
@@ -35,6 +35,40 @@ public class Treasures {
                     "TreasureChest"
             };
             return new Texture(Gdx.files.internal("Icon_" + treasureDict[id]+".png"));
+        }
+        return null;
+    }
+
+    public static String[] getTreasureDict(int set){
+
+        if(true){//(set == 0){
+            String[] treasureDict = new String[]{
+                    "Bat",
+                    "Beetle",
+                    "Candlestick",
+                    "Coins",
+                    "Crown",
+                    "Dinosaur",
+                    "Gem",
+                    "Genie",
+                    "Ghost",
+                    "Helmet",
+                    "Hobgoblin",
+                    "Key",
+                    "Lizard",
+                    "Map",
+                    "Moth",
+                    "Owl",
+                    "Princess",
+                    "Rat",
+                    "Ring",
+                    "Skull",
+                    "Spider",
+                    "Sword",
+                    "Tome",
+                    "TreasureChest"
+            };
+            return treasureDict;
         }
         return null;
     }

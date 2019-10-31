@@ -1,10 +1,9 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import java.awt.*;
+
 import static com.mygdx.game.Labyrinth.Height;
 import static com.mygdx.game.Labyrinth.Width;
 
@@ -47,7 +46,7 @@ public class Tile {
         findTreasureLocation();
 
         if(treasureId > -1){
-            treasurePng = Treasures.getTreasureDict(treasureId,treasuresType);
+            treasurePng = Treasures.getTreasure(treasureId,treasuresType);
         }else if(treasureId < -1){
             if(treasureNum == -2){//Red Circle
                 treasurePng = Treasures.getPlayerTextures(treasuresType)[0];
