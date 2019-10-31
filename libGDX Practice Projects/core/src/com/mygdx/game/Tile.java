@@ -104,6 +104,10 @@ public class Tile {
         for(int i = 0; i < arrayPos[1]; i++){
             y -= Height/10 + 1;
         }
+        if(arrayPos[0] == -1){
+            x = 9*(Width/10 + 1);
+            y = Height - 11*(Height/10 + 1);
+        }
         tilePos = new int[]{x,y};
     }
 
@@ -154,6 +158,6 @@ public class Tile {
 
     @Override
     public String toString(){
-        return treasureId + " " + arrayPos;
+        return treasureId + " " + arrayPos[0] + " " + arrayPos[1];
     }
 }
