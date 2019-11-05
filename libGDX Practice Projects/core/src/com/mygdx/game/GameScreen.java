@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
 
         //System.out.println(board.getBoard()[3][3].toString());
 
+        System.out.println(board.getBoard()[3][3].toString());
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
         green.setTexture(new Texture(Gdx.files.internal("Blank_Icon.png")));
