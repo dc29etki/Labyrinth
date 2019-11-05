@@ -39,6 +39,15 @@ public class GameScreen implements Screen {
 
         batch.begin();
         board.draw(batch);
+
+        System.out.println(board.getBoard()[3][3].toString());
+
+        //Draw empty sprite to update all other drawings
+        Sprite green = new Sprite();
+        green.setTexture(new Texture(Gdx.files.internal("Blank_Icon.png")));
+        green.setPosition(-10, -10);
+        green.draw(batch);
+
         gameStage.draw();
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
