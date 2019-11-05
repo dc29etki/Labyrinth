@@ -44,13 +44,16 @@ public class MainMenuScreen implements Screen {
         mainmenuImage.setSize(1280,720);
         mainmenuStage = new Stage(new FitViewport(WIDTH,HEIGHT, new Cam(WIDTH,HEIGHT)));
         mainmenuTablePlay = new Table();
-        mainmenuSkinPlay = new Skin(Gdx.files.internal("skins/play.json"), new TextureAtlas(Gdx.files.internal("skins/mainMenuPack.atlas")));
+        mainmenuSkinPlay = new Skin(Gdx.files.internal("skins/play.json"),
+                new TextureAtlas(Gdx.files.internal("skins/mainMenuPack.atlas")));
         mainmenuimagebuttonPlay = new ImageButton(mainmenuSkinPlay);
         mainmenuTablePlay.bottom().add(mainmenuimagebuttonPlay).size( 152F, 164F).padBottom(20F);
         mainmenuStage.addActor(mainmenuImage);
         mainmenuStage.addActor(mainmenuTablePlay);
         Gdx.input.setInputProcessor(mainmenuStage);
-        mainmenuTablePlay.addAction(Actions.sequence(Actions.moveBy(0.0F, -250F), Actions.delay(1.0F), Actions.moveBy(0.0F, 250F, 1.0F, Interpolation.swing)));
+        mainmenuTablePlay.addAction(Actions.sequence(Actions.moveBy(0.0F, -250F),
+                Actions.delay(1.0F), Actions.moveBy(0.0F, 250F, 1.0F,
+                        Interpolation.swing)));
         mainmenuImage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.0F)));
 
         mainmenuimagebuttonPlay.addListener(new ClickListener() {

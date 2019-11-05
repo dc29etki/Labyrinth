@@ -1,9 +1,10 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+import java.awt.*;
 import static com.mygdx.game.Labyrinth.Height;
 import static com.mygdx.game.Labyrinth.Width;
 
@@ -11,8 +12,6 @@ import static com.mygdx.game.Labyrinth.Width;
 public class Tile {
     private int[] connections;
     private Texture tilePng;
-    private Texture tileMovePng;
-    private boolean isShowingMove = false;
     private int treasureId;
     private int[] arrayPos;
     private Texture treasurePng;
@@ -23,44 +22,41 @@ public class Tile {
 
     public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir, int treasuresType){
         //Connections: Top,Right,Bottom,Left
-        Texture[] tilePngs = Treasures.getTileSprites(treasuresType);
         if(tileType == 0){//Corner Piece
             connections = new int[]{0,1,1,0};
-            tilePng = tilePngs[0];
-            tileMovePng = tilePngs[3];
+            tilePng = new Texture(Gdx.files.internal("Tile_23.png"));
         }else if(tileType == 1){//Straight Piece
             connections = new int[]{0,1,0,1};
-            tilePng = tilePngs[1];
-            tileMovePng = tilePngs[4];
+            tilePng = new Texture(Gdx.files.internal("Tile_13.png"));
         }else {//T-Piece
             connections = new int[]{1,1,0,1};
-            tilePng = tilePngs[2];
-            tileMovePng = tilePngs[5];
+            tilePng = new Texture(Gdx.files.internal("Tile_234.png"));
         }
 
         arrayPos = new int[]{xPos,yPos};
 
         treasureId = treasureNum;
+        String[] treasureDict = Treasures.getTreasureDict(treasuresType);
 
         findPlaceLocation();
         findTreasureLocation();
 
         if(treasureId > -1){
-            treasurePng = Treasures.getTreasure(treasureId,treasuresType);
+            treasurePng = new Texture(Gdx.files.internal("Icon_" + treasureDict[treasureId]+".png"));
         }else if(treasureId < -1){
             if(treasureNum == -2){//Red Circle
-                treasurePng = Treasures.getPlayerTextures(treasuresType)[0];
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "RedCircle" + ".png"));
             }else if(treasureNum == -3){//Blue Circle
-                treasurePng = Treasures.getPlayerTextures(treasuresType)[1];
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "BlueCircle" + ".png"));
             }else if(treasureNum == -4){//Yellow Circle
-                treasurePng = Treasures.getPlayerTextures(treasuresType)[2];
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "YellowCircle" + ".png"));
             }else if(treasureNum == -5) {//Green Circle
-                treasurePng = Treasures.getPlayerTextures(treasuresType)[3];
+                treasurePng = new Texture(Gdx.files.internal("Icon_" + "GreenCircle" + ".png"));
             }else{
-                treasurePng = Treasures.getBlankTexture();
+                treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
             }
         }else{
-            treasurePng = Treasures.getBlankTexture();
+            treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
         }
 
         thisTile = new Sprite(tilePng);
@@ -104,7 +100,6 @@ public class Tile {
         for(int i = 0; i < arrayPos[1]; i++){
             y -= Height/10 + 1;
         }
-
         if(arrayPos[0] == -1){
             x = 9*(Width/10 + 1);
             y = Height - 9*(Height/10 + 1);
@@ -148,15 +143,6 @@ public class Tile {
     int[] getTilePosition(){
         return tilePos;
     }
-
-    void showLine() {
-        if(isShowingMove){
-            thisTile.setTexture(tilePng);
-        }else{
-            thisTile.setTexture(tileMovePng);
-        }
-    }
-
     @Override
     public String toString(){
         return "Treasure: " + treasureId + ", Board Position: (" + arrayPos[0] + "," + arrayPos[1] + "), Tile Connected Sides: " + connections[0] + connections[1] + connections[2] + connections[3];
