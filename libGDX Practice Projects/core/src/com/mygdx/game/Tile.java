@@ -145,6 +145,6 @@ public class Tile {
     }
     @Override
     public String toString(){
-        return treasureId + " " + arrayPos[0] + " " + arrayPos[1];
+        return "Treasure: " + treasureId + ", Board Position: (" + arrayPos[0] + "," + arrayPos[1] + "), Tile Connected Sides: " + connections[0] + connections[1] + connections[2] + connections[3];
     }
 }
