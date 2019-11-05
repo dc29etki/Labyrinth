@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
         batch.begin();
         board.draw(batch);
 
-        System.out.println(board.getBoard()[3][3].toString());
+        //System.out.println(board.getBoard()[3][3].toString());
 
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
