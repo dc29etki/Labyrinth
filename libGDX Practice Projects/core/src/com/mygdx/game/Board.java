@@ -9,11 +9,14 @@ import java.util.Random;
 public class Board {
     private Deck deck;
     private Tile[] tiles;
+    private Tile[] tiles2;
     private Tile[][] grid;
     private Tile extra;
+    private Tile[][] temp1;
     public Board(){
         deck = new Deck(1,0);
         tiles = deck.getTileDeck();
+        tiles2 = new Deck(1, 0).getTileDeck();
         grid = new Tile[7][7];
         int count = 0;
         for(int i=0; i<7; i++){
@@ -22,6 +25,18 @@ public class Board {
                 count++;
             }
         }
+        extra = tiles[49];
+        extra.setBoardPosition(-1, -1);
+        temp1 = new Tile[7][7];
+        temp1 = grid;
+    }
+
+    public Tile[][] getBoard(){
+        return grid;
+    }
+
+    public Tile getExtraTile(){
+        return extra;
     }
 
     public void draw(SpriteBatch batch){
@@ -30,26 +45,36 @@ public class Board {
                 grid[i][j].draw(batch);
             }
         }
-
+        extra.draw(batch);
     }
     public void insertTile(int x, int y){
         if(x==0){
-            Tile temp = grid[0][y];
-            grid[0][y] = extra;
-            for(int i=0; i<grid[x].length-1; i++){
-                temp = grid[i][y];
-                grid[i+1][y] = temp;
+            Tile[] temp = new Tile[7];
+            for(int i=0; i<7; i++){
+                temp[i] = grid[i][y];
             }
-            extra = grid[grid[x].length][y];
+            grid[x][y] = extra;
+            grid[x][y].setBoardPosition(y,x);
+            for(int j=1; j<7; j++){
+                temp[j-1].setBoardPosition(y, j);
+                grid[j][y] = temp[j-1];
+            }
+            extra = temp[temp.length-1];
+            extra.setBoardPosition(-1, -1);
         }
         else if(y==0){
-            Tile temp = grid[x][0];
-            grid[x][0] = extra;
-            for(int i=0; i<grid[y].length-1; i++){
-                temp = grid[x][i];
-                grid[x][i+1] = temp;
+            Tile[] temp = new Tile[7];
+            for(int i=0; i<7; i++){
+                temp[i] = grid[x][i];
             }
-            extra = grid[x][grid[y].length];
+            grid[x][y] = extra;
+            grid[x][y].setBoardPosition(y, x);
+            for(int j=1; j<7; j++){
+                temp[j-1].setBoardPosition(j,x);
+                grid[x][j] = temp[j-1];
+            }
+            extra = temp[temp.length-1];
+            extra.setBoardPosition(-1, -1);
         }
     }
 }
