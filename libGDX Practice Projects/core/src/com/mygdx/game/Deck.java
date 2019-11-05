@@ -11,8 +11,7 @@ public class Deck {
     private int dealType;
 
     public Deck(int deckType, int treasuresType){
-        //DeckType: 0 = cards, 1 = corner set tiles,
-        // 2 = odds set tiles; TreasuresType: determines treasure type.
+        //DeckType: 0 = cards, 1 = corner set tiles, 2 = odds set tiles; TreasuresType: determines treasure type.
 
         treasureListLength = Treasures.getTreasureDict(treasuresType).length;
 
