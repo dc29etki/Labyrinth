@@ -79,6 +79,7 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(gameStage);
         board.draw(batch);
+        System.out.println(board.getBoard()[3][3].toString());
 
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
