@@ -2,15 +2,12 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -32,6 +29,7 @@ public class Labyrinth extends Game {
 
     @Override
 	public void create () {
+
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Width, Height * (Gdx.graphics.getHeight()/Gdx.graphics.getWidth()));
@@ -53,10 +51,22 @@ public class Labyrinth extends Game {
 
         //Put sprites and effects here
 
+        batch.begin();
+        board.draw(batch);
+        gameStage.draw();
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
-        music.play();
+        /*for (int i=0; i<7; i++){
+            for (int j=0; j<7; j++){
+                Tile tile = gameBoard.getBoard() [i][j];
+                tile.draw(batch);
+            }
+
+        }*/
+
         //Put sprites and effects here
 
+       /* gameStage.draw();*/
+        batch.end();
         super.render();
 
     }
