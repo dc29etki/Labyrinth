@@ -102,7 +102,7 @@ public class Tile {
         }
         if(arrayPos[0] == -1){
             x = 9*(Width/10 + 1);
-            y = Height - 11*(Height/10 + 1);
+            y = Height - 9*(Height/10 + 1);
         }
         tilePos = new int[]{x,y};
     }
