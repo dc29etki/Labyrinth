@@ -11,20 +11,22 @@ public class GameRunner {
     Player[] players;
     Board board;
     int whichTurn;
+    SpriteBatch batch;
 
-    public GameRunner(Board thisGame, SpriteBatch batch){
+    public GameRunner(Board thisGame, SpriteBatch pass){
         board = thisGame;
+        batch = pass;
         players = new Player[4];
         players[0] = new Player(-2);
         players[1] = new Player(-3);
         players[2] = new Player(-4);
         players[3] = new Player(-5);
-        for(Player player : players){
-            player.draw(batch);
-        }
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
         players[whichTurn].swapSprite();
+        for(Player player : players){
+            player.draw(batch);
+        }
     }
 
     public Player[] getPlayers(){
@@ -56,6 +58,12 @@ public class GameRunner {
 
     public void network(){
         //WIP
+    }
+
+    public void print(){
+        for(Player player : players){
+            player.draw(batch);
+        }
     }
 
     public Tile[] tilePaths(Tile start){
