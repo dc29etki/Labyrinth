@@ -20,24 +20,24 @@ public class Player {
     public Player(int playerNum){
         switch(playerNum){
             case -3:
-                smallTexture = new Texture(Gdx.files.internal("Icon_BlueCircle.png"));
-                bigTexture = new Texture(Gdx.files.internal("Icon_BluePlayer.png"));
+                smallTexture = Treasures.getPlayerTextures(0)[5];
+                bigTexture = Treasures.getPlayerTextures(0)[9];
                 setBoardPosition(0,6);
                 break;
             case -4:
-                smallTexture = new Texture(Gdx.files.internal("Icon_YellowCircle.png"));
-                bigTexture = new Texture(Gdx.files.internal("Icon_YellowPlayer.png"));
+                smallTexture = Treasures.getPlayerTextures(0)[6];
+                bigTexture = Treasures.getPlayerTextures(0)[10];
                 setBoardPosition(6,0);
                 break;
             case -5:
-                smallTexture = new Texture(Gdx.files.internal("Icon_GreenCircle.png"));
-                bigTexture = new Texture(Gdx.files.internal("Icon_GreenPlayer.png"));
+                smallTexture = Treasures.getPlayerTextures(0)[7];
+                bigTexture = Treasures.getPlayerTextures(0)[11];
                 setBoardPosition(6,6);
                 break;
             case -2:
             default:
-                smallTexture = new Texture(Gdx.files.internal("Icon_RedCircle.png"));
-                bigTexture = new Texture(Gdx.files.internal("Icon_RedPlayer.png"));
+                smallTexture = Treasures.getPlayerTextures(0)[4];
+                bigTexture = Treasures.getPlayerTextures(0)[8];
                 setBoardPosition(0,0);
                 break;
         }
