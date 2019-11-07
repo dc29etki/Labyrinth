@@ -29,11 +29,6 @@ public class GameScreen implements Screen {
     private Stage gameStage;
     private Board board;
     private Music music;
-    private TextButton button, button1;
-    private TextButton.TextButtonStyle textButtonStyle;
-    private BitmapFont font;
-    private Skin skin;
-    private TextureAtlas buttonAtlas;
 
     public GameScreen(Game game) {
         batch = new SpriteBatch();
@@ -138,11 +133,14 @@ public class GameScreen implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        batch.begin();
         //Put sprites and effects here
 
-        Gdx.input.setInputProcessor(gameStage);
+        batch.begin();
         board.draw(batch);
+
+        //System.out.println(board.getBoard()[3][3].toString());
+
+        System.out.println(board.getBoard()[3][3].toString());
         //System.out.println(board.getBoard()[3][3].toString());
         //
         //Draw empty sprite to update all other drawings
@@ -153,6 +151,17 @@ public class GameScreen implements Screen {
 
         gameStage.draw();
         Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        /*for (int i=0; i<7; i++){
+            for (int j=0; j<7; j++){
+                Tile tile = gameBoard.getBoard() [i][j];
+                tile.draw(batch);
+            }
+
+        }*/
+
+        //Put sprites and effects here
+
+        /* gameStage.draw();*/
         batch.end();
 
         // Do game logic and rendering

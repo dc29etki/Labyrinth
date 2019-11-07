@@ -1,14 +1,13 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Card {
     private int treasureId;
-    private Texture cardFace = new Texture(Gdx.files.internal("Card_Face.png"));
-    private Texture cardBack = new Texture(Gdx.files.internal("Card_Back.png"));
+    private Texture cardFace = Treasures.getCardTextures(0)[0];
+    private Texture cardBack = Treasures.getCardTextures(0)[1];
     private Texture treasurePng;
     private Sprite thisCard;
     private Sprite thisTreasure;
@@ -19,10 +18,9 @@ public class Card {
 
         treasureId = treasure;
         if(treasureId != -1) {
-            String[] namesDict = Treasures.getTreasureDict(treasuresType);
-            treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureId]+".png"));
+            treasurePng = Treasures.getTreasure(treasureId, treasuresType);
         }else{
-            treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
+            treasurePng = Treasures.getBlankTexture();
         }
 
         thisCard = new Sprite(cardFace);
@@ -39,10 +37,9 @@ public class Card {
 
         treasureId = treasure;
         if(treasureId != -1) {
-            String[] namesDict = Treasures.getTreasureDict(treasuresType);
-            treasurePng = new Texture(Gdx.files.internal("Icon_"+namesDict[treasureId]+".png"));
+            treasurePng = Treasures.getTreasure(treasureId, treasuresType);
         }else{
-            treasurePng = new Texture(Gdx.files.internal("Blank_Icon.png"));
+            treasurePng = Treasures.getBlankTexture();
         }
 
         thisCard = new Sprite(cardFace);
