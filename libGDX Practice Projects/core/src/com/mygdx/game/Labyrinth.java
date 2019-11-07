@@ -54,7 +54,6 @@ public class Labyrinth extends Game {
         batch.begin();
         board.draw(batch);
         gameStage.draw();
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
             for (int j=0; j<7; j++){
                 Tile tile = gameBoard.getBoard() [i][j];
@@ -63,6 +62,8 @@ public class Labyrinth extends Game {
 
         }*/
 
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("Music/Main Menu/Main Menu.wav"));
+        music.play();
         //Put sprites and effects here
 
        /* gameStage.draw();*/
