@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -41,6 +42,7 @@ public class GameScreen implements Screen {
         board = new Board();
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
+        /*
         textButtonStyle = new TextButton.TextButtonStyle();
         font = new BitmapFont();
         skin = new Skin();
@@ -67,6 +69,44 @@ public class GameScreen implements Screen {
                 board.insertTile(0, 5);
             }
         });
+        */
+        ImageButton ins01 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowD.png")))));
+        ImageButton ins03 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowD.png")))));
+        ImageButton ins05 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowD.png")))));
+        ImageButton ins10 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowR.png")))));
+        ImageButton ins30 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowR.png")))));
+        ImageButton ins50 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowR.png")))));
+        ImageButton ins61 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowU.png")))));
+        ImageButton ins63 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowU.png")))));
+        ImageButton ins65 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowU.png")))));
+        ImageButton ins16 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowL.png")))));
+        ImageButton ins36 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowL.png")))));
+        ImageButton ins56 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowL.png")))));
+        ImageButton[] insButtons = new ImageButton[]{ins01,ins03,ins05,ins10,ins30,ins50,ins61,ins63,ins65,ins16,ins36,ins56};
+        final int[][] insLoc = new int[][]{{0,1},{0,3},{0,5},{1,0},{3,0},{5,0},{6,1},{6,3},{6,5},{1,6},{3,6},{5,6}};
+        for(int i = 0; i < insButtons.length; i++){
+            insButtons[i].setSize(64,64);
+            if(insLoc[i][0] == 0){
+                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - Height/5 + 64);
+            }else if(insLoc[i][1] == 0){
+                insButtons[i].setPosition(32, Height - (insLoc[i][0]+1) * (Height / 10 + 1) + 16);
+            }else if(insLoc[i][0] == 6){
+                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - 9 * (Height / 10 + 1));
+            }else if(insLoc[i][1] == 6) {
+                insButtons[i].setPosition(7 * (Width / 10 + 1), Height - (insLoc[i][0]+1) * (Height / 10 + 1) - 16);
+            }
+            gameStage.addActor(insButtons[i]);
+            Gdx.input.setInputProcessor(gameStage);
+            final int thisPos = i;
+            insButtons[i].addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    board.insertTile(insLoc[thisPos][0], insLoc[thisPos][1]);
+                }
+            });
+        }
+
+
         ImageButton rotateClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrow.png")))));
         rotateClk.setPosition(9*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
         rotateClk.setSize(64,64);
