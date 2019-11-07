@@ -24,9 +24,6 @@ public class GameRunner {
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
         players[whichTurn].swapSprite();
-        for(Player player : players){
-            player.draw(batch);
-        }
     }
 
     public Player[] getPlayers(){
@@ -153,6 +150,12 @@ public class GameRunner {
             }
         }
         return returns;
+    }
+
+    void draw(SpriteBatch batch){
+        for(Player player : players){
+            player.draw(batch);
+        }
     }
 
 }

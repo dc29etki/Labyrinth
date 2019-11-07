@@ -29,6 +29,8 @@ public class GameScreen implements Screen {
     private Stage gameStage;
     private Board board;
     private Music music;
+    private Tile[] tilePaths;
+    private GameRunner runEnv;
 
     public GameScreen(Game game) {
         batch = new SpriteBatch();
@@ -37,6 +39,13 @@ public class GameScreen implements Screen {
         board = new Board();
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
+
+        //Test Content
+        runEnv = new GameRunner(board,batch);
+        tilePaths = runEnv.tilePaths(board.getBoard()[3][3]);
+        for(Tile tile: tilePaths){
+            tile.showLine();
+        }
         /*
         textButtonStyle = new TextButton.TextButtonStyle();
         font = new BitmapFont();
@@ -134,13 +143,19 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         //Put sprites and effects here
+        for(Tile tile: tilePaths){
+            tile.showLine();
+        }
+
+        tilePaths = runEnv.tilePaths(board.getBoard()[3][3]);
+
+        for(Tile tile: tilePaths){
+            tile.showLine();
+        }
 
         batch.begin();
         board.draw(batch);
 
-        //System.out.println(board.getBoard()[3][3].toString());
-
-        System.out.println(board.getBoard()[3][3].toString());
         //System.out.println(board.getBoard()[3][3].toString());
         //
         //Draw empty sprite to update all other drawings
