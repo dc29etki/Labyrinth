@@ -87,13 +87,13 @@ public class GameScreen implements Screen {
         for(int i = 0; i < insButtons.length; i++){
             insButtons[i].setSize(64,64);
             if(insLoc[i][0] == 0){
-                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - Height/5 + 64);
+                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - Height/5 + 112);
             }else if(insLoc[i][1] == 0){
-                insButtons[i].setPosition(32, Height - (insLoc[i][0]+1) * (Height / 10 + 1) + 16);
+                insButtons[i].setPosition(32, Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
             }else if(insLoc[i][0] == 6){
-                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - 9 * (Height / 10 + 1));
+                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1), Height - 9 * (Height / 10 + 1) + 32);
             }else if(insLoc[i][1] == 6) {
-                insButtons[i].setPosition(7 * (Width / 10 + 1), Height - (insLoc[i][0]+1) * (Height / 10 + 1) - 16);
+                insButtons[i].setPosition(8 * (Width / 10 + 1), Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
             }
             gameStage.addActor(insButtons[i]);
             Gdx.input.setInputProcessor(gameStage);
