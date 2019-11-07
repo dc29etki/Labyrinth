@@ -53,7 +53,7 @@ public class Labyrinth extends Game {
 
         //Put sprites and effects here
 
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("Music/Main Menu/Main Menu.wav"));
         music.play();
         //Put sprites and effects here
 
