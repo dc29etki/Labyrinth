@@ -145,15 +145,24 @@ public class Tile {
         thisTreasure.draw(batch);
     }
 
-    int[] getTilePosition(){
+    int[] getSpritePosition(){
         return tilePos;
+    }
+    int[] getTilePosition(){
+        return arrayPos;
     }
 
     void showLine() {
+        if(!isShowingMove){
+            thisTile.setTexture(tileMovePng);
+            isShowingMove = true;
+        }
+    }
+
+    void hideLine(){
         if(isShowingMove){
             thisTile.setTexture(tilePng);
-        }else{
-            thisTile.setTexture(tileMovePng);
+            isShowingMove = false;
         }
     }
 

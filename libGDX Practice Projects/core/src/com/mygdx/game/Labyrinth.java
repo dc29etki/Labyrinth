@@ -61,9 +61,9 @@ public class Labyrinth extends Game {
             }
 
         }*/
-
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("Music/Main Menu/Main Menu.wav"));
-        music.play();
+        //Music Disabled For Testing Ease
+        //Music music = Gdx.audio.newMusic(Gdx.files.internal("Music/Main Menu/Main Menu.wav"));
+        //music.play();
         //Put sprites and effects here
 
        /* gameStage.draw();*/

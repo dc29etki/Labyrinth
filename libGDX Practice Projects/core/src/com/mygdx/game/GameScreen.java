@@ -97,6 +97,7 @@ public class GameScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     board.insertTile(insLoc[thisPos][0], insLoc[thisPos][1]);
+                    runTilePathing(board);
                 }
             });
         }
@@ -124,6 +125,7 @@ public class GameScreen implements Screen {
                 board.getExtraTile().rotate(-1);
             }
         });
+
     }
 
     @Override
@@ -139,9 +141,6 @@ public class GameScreen implements Screen {
         board.draw(batch);
 
         //System.out.println(board.getBoard()[3][3].toString());
-
-        System.out.println(board.getBoard()[3][3].toString());
-        //System.out.println(board.getBoard()[3][3].toString());
         //
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
@@ -150,7 +149,8 @@ public class GameScreen implements Screen {
         green.draw(batch);
 
         gameStage.draw();
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
+        //Music Disabled For Testing Ease
+        //Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
             for (int j=0; j<7; j++){
                 Tile tile = gameBoard.getBoard() [i][j];
@@ -184,4 +184,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() { }
+
+    public void runTilePathing(Board board){
+        Tile[][] boardTileArrays = board.getBoard();
+        for(int i = 0; i < boardTileArrays.length; i++){
+            GameRunner.clearTilePaths(boardTileArrays[i]);
+        }
+        GameRunner.showTilePaths(board.getBoard()[3][3],board);
+    }
 }

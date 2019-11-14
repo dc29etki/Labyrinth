@@ -66,17 +66,39 @@ public class GameRunner {
         }
     }
 
-    public Tile[] tilePaths(Tile start){
-        List connected = null;
-        connected.add(start);
-        Stack returns = null;
+    public static Tile[] showTilePaths(Tile start, Board board){
+        Tile[] connected = tilePaths(start, board);
+        for (int i = 0; i < connected.length; i++) {
+            connected[i].showLine();
+        }
+        return connected;
+    }
+
+    public static void clearTilePaths(Tile[] tiles){
+        for(int i = 0; i < tiles.length; i++){
+            tiles[i].hideLine();
+        }
+    }
+
+    public static void toggleTilePaths(Tile[] tiles){
+        for(int i = 0; i < tiles.length; i++){
+            tiles[i].showLine();
+        }
+    }
+
+    public static Tile[] tilePaths(Tile start, Board board){
+        Stack<Tile> returns = new Stack<Tile>();
+        returns.add(start);
         Tile nextTile;
         int[] sides = start.getConnectSides();
-        for(int s : sides){
-            nextTile = findNextTile(start, s);
-            if(nextTile != null) {
-                returns.add(nextTile);
-                returns.addAll( getConnectedTiles(nextTile, s, returns) );
+        for(int i = 0; i < 4; i++){
+            if(sides[i] == 1) {
+                nextTile = findNextTile(start, i, board);
+                if (nextTile != null) {
+                    returns.add(nextTile);
+                    int oppositeSide = (i+2)%4;
+                    returns = getConnectedTiles(nextTile, oppositeSide, returns, board);
+                }
             }
         }
         int tiles = returns.size();
@@ -87,7 +109,7 @@ public class GameRunner {
         return paths;
     }
 
-    private Tile findNextTile (Tile start, int side){
+    private static Tile findNextTile (Tile start, int side, Board board){
         //Return the tile NEXT TO the side of start's listed side, IF that tile's same side is open.
         int x = start.getTilePosition()[0];
         int y = start.getTilePosition()[1];
@@ -110,7 +132,7 @@ public class GameRunner {
         if(x < 0 || x > 6 || y < 0 || y > 6) {
             return null;
         }else{
-            Tile nextTo = board.getBoard()[x][y];
+            Tile nextTo = board.getBoard()[y][x];
             int[] opens = nextTo.getConnectSides();
             switch(side) {
                 case 1:
@@ -138,17 +160,18 @@ public class GameRunner {
         return null;
     }
 
-    private Stack getConnectedTiles(Tile start, int fromDir, Stack soFar){
+    private static Stack getConnectedTiles(Tile start, int fromDir, Stack soFar, Board board){
         //Recursively find the connected tiles
         Stack returns = soFar;
         Tile nextTile;
         int[] sides = start.getConnectSides();
-        for(int s : sides){
-            if(s != fromDir) {
-                nextTile = findNextTile(start, s);
-                if (nextTile != null && !(soFar.contains(nextTile))) {
+        for(int i = 0; i < 4; i++){
+            if(sides[i] == 1 && i != fromDir) {
+                nextTile = findNextTile(start, i, board);
+                if (nextTile != null && !(returns.contains(nextTile))) {
                     returns.add(nextTile);
-                    returns.addAll(getConnectedTiles(nextTile, s, returns));
+                    int oppositeSide = (i+2)%4;
+                    returns = getConnectedTiles(nextTile, oppositeSide, returns, board);
                 }
             }
         }
