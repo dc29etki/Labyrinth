@@ -193,6 +193,7 @@ public class GameScreen implements Screen {
         for(int i = 0; i < boardTileArrays.length; i++){
             GameRunner.clearTilePaths(boardTileArrays[i]);
         }
+        board.getExtraTile().hideLine();
         GameRunner.showTilePaths(board.getBoard()[3][3],board);
     }
 }
