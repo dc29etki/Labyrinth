@@ -17,13 +17,13 @@ public class GameRunner {
         board = thisGame;
         batch = pass;
         players = new Player[4];
-        players[0] = new Player(-2);
-        players[1] = new Player(-3);
-        players[2] = new Player(-4);
-        players[3] = new Player(-5);
+        players[0] = new Player(-2,board);//Red
+        players[1] = new Player(-3,board);//Blue
+        players[2] = new Player(-4,board);//Yellow
+        players[3] = new Player(-5,board);//Green
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
-        players[whichTurn].swapSprite();
+        //players[whichTurn].swapSprite();
     }
 
     public Player[] getPlayers(){
@@ -50,7 +50,7 @@ public class GameRunner {
     }
 
     public void movePlayerTo(int play, int x, int y){
-        players[play].setBoardPosition(x,y);
+        players[play].setPosition(board.getBoard()[y][x]);
     }
 
     public void network(){

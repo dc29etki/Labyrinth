@@ -11,39 +11,44 @@ public class Player {
     Texture smallTexture;
     Texture bigTexture;
     Sprite playerSprite;
-    boolean isBigSprite;
+    boolean isBigSprite = false;
     int color;
     Stack hand;
     int[] drawPos;
     boolean myTurn;
 
-    public Player(int playerNum){
+    public Player(int playerNum, Board board){
+        Tile[][] boardCont = board.getBoard();
+        color = playerNum;
         switch(playerNum){
-            case -3:
+            case -3://Blue
                 smallTexture = Treasures.getPlayerTextures(0)[5];
                 bigTexture = Treasures.getPlayerTextures(0)[9];
-                setBoardPosition(0,6);
+                playerSprite = new Sprite(smallTexture);
+                setBoardPosition(6,0, board);
                 break;
-            case -4:
+            case -4://Yellow
                 smallTexture = Treasures.getPlayerTextures(0)[6];
                 bigTexture = Treasures.getPlayerTextures(0)[10];
-                setBoardPosition(6,0);
+                playerSprite = new Sprite(smallTexture);
+                setBoardPosition(0,6, board);
                 break;
-            case -5:
+            case -5://Green
                 smallTexture = Treasures.getPlayerTextures(0)[7];
                 bigTexture = Treasures.getPlayerTextures(0)[11];
-                setBoardPosition(6,6);
+                playerSprite = new Sprite(smallTexture);
+                setBoardPosition(6,6, board);
                 break;
-            case -2:
+            case -2://Red
             default:
                 smallTexture = Treasures.getPlayerTextures(0)[4];
                 bigTexture = Treasures.getPlayerTextures(0)[8];
-                setBoardPosition(0,0);
+                playerSprite = new Sprite(smallTexture);
+                setBoardPosition(0,0, board);
                 break;
         }
         isBigSprite = false;
-        playerSprite = new Sprite(smallTexture);
-        playerSprite.setSize(128,128);
+        playerSprite.setSize(Width/30,Height/30);
     }
 
     void draw(SpriteBatch batch){
@@ -59,23 +64,27 @@ public class Player {
     }
 
     void setPosition(Tile tile){
-        int[] tilePos = tile.getTilePosition();
+        int[] tilePos = tile.getSpritePosition();
         playerSprite.setPosition(tilePos[0] + Width/30, tilePos[1] + Height/30);
+        boardPosition = tile.getTilePosition();
     }
 
-    void setBoardPosition(int x, int y){
+    void setBoardPosition(int x, int y, Board board){
         boardPosition = new int[2];
         boardPosition[0] = x;
         boardPosition[1] = y;
+        setPosition(board.getBoard()[y][x]);
     }
 
     void swapSprite(){
         if(isBigSprite){
             playerSprite.setTexture(smallTexture);
             isBigSprite = false;
+            playerSprite.setSize(Width/30,Height/30);
         }else{
             playerSprite.setTexture(bigTexture);
             isBigSprite = true;
+            playerSprite.setSize(Width/30,Height/15);
         }
     }
 
@@ -105,5 +114,10 @@ public class Player {
 
     void setMyTurn(boolean turn){
         myTurn = turn;
+    }
+
+    @Override
+    public String toString(){
+        return ("Playernum: " + color);
     }
 }

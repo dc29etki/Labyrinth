@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import java.util.Random;
+
 import static com.mygdx.game.Labyrinth.Height;
 import static com.mygdx.game.Labyrinth.Width;
 
@@ -39,6 +41,22 @@ public class GameScreen implements Screen {
         board = new Board();
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
+        runEnv = new GameRunner(board, batch);
+        runEnv.getPlayers()[3].swapSprite();
+
+        //Test Player Movement Compatability
+        ImageButton movePlayer = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Card_Face.png")))));
+        movePlayer.setPosition(9*(Width/10 + 1), Height - 6*(Height/10 + 1));
+        movePlayer.setSize(Width/10,Height/10);
+        gameStage.addActor(movePlayer);
+        Gdx.input.setInputProcessor(gameStage);
+        movePlayer.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                runEnv.getPlayers()[3].setBoardPosition(new Random().nextInt(7),new Random().nextInt(7),board);
+                runTilePathing(board);
+            }
+        });
 
         /*
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -143,6 +161,8 @@ public class GameScreen implements Screen {
         batch.begin();
         board.draw(batch);
 
+        runEnv.print();
+
         //System.out.println(board.getBoard()[3][3].toString());
         //
         //Draw empty sprite to update all other drawings
@@ -194,6 +214,7 @@ public class GameScreen implements Screen {
             GameRunner.clearTilePaths(boardTileArrays[i]);
         }
         board.getExtraTile().hideLine();
-        GameRunner.showTilePaths(board.getBoard()[3][3],board);
+        int[] start = runEnv.getPlayers()[3].getBoardPosition();
+        GameRunner.showTilePaths(board.getBoard()[start[1]][start[0]],board);
     }
 }

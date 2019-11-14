@@ -18,7 +18,7 @@ public class Tile {
     private Texture treasurePng;
     private Sprite thisTile;
     private Sprite thisTreasure;
-    private int[] tilePos = new int[2];
+    private int[] tilePos = new int[]{0,0};
     private int[] treasurePos = new int[2];
 
     public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir, int treasuresType){
