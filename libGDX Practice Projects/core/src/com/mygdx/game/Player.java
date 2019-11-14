@@ -64,6 +64,7 @@ public class Player {
     }
 
     void setBoardPosition(int x, int y){
+        boardPosition = new int[2];
         boardPosition[0] = x;
         boardPosition[1] = y;
     }
