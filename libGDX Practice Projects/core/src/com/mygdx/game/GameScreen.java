@@ -40,12 +40,6 @@ public class GameScreen implements Screen {
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
 
-        //Test Content
-        runEnv = new GameRunner(board,batch);
-        tilePaths = runEnv.tilePaths(board.getBoard()[3][3]);
-        for(Tile tile: tilePaths){
-            tile.showLine();
-        }
         /*
         textButtonStyle = new TextButton.TextButtonStyle();
         font = new BitmapFont();
@@ -145,15 +139,6 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         //Put sprites and effects here
-        for(Tile tile: tilePaths){
-            tile.showLine();
-        }
-
-        tilePaths = runEnv.tilePaths(board.getBoard()[3][3]);
-
-        for(Tile tile: tilePaths){
-            tile.showLine();
-        }
 
         batch.begin();
         board.draw(batch);
