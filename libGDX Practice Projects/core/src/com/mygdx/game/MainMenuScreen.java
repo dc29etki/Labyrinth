@@ -38,20 +38,7 @@ public class MainMenuScreen extends Thread implements Screen{
 
 
 
-        /*robot.mouseMove(1000, 800);
-        //Thread.sleep(5000);
-        robot.delay(5000);
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.delay(1000);
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.delay(1000);
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.delay(1000);
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);*/
+
     }
 
 
@@ -83,24 +70,7 @@ public class MainMenuScreen extends Thread implements Screen{
             }
         });
         click(1000, 800);
-        /*Robot robot = null;
-        try {
-            robot = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
 
-        robot.mouseMove(1000,800);
-        robot.delay(1000);
-
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.delay(1000);
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.delay(1000);
-        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);*/
 
 
     }
@@ -112,7 +82,7 @@ public class MainMenuScreen extends Thread implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mainmenuStage.act();
         mainmenuStage.draw();
-       // click(1000, 800);
+
 
 
     }
