@@ -31,7 +31,7 @@ public class MainMenuScreen extends Thread implements Screen{
     private float WIDTH,HEIGHT;
     private Game g;
     Robot robot = new Robot();
-    private boolean isTestCalled = false;
+    private int isTestCalled = 0;
 
     public MainMenuScreen(Game g) throws AWTException {
         this.g = g;
@@ -78,10 +78,10 @@ public class MainMenuScreen extends Thread implements Screen{
         mainmenuStage.act();
         mainmenuStage.draw();
         click(1000, 1000);
-        if( !isTestCalled )
+        if( isTestCalled < 5 )
         {
             System.out.println(System.currentTimeMillis() + " TEST");
-            isTestCalled = true;
+            isTestCalled++;
             click(1000, 1000);
         }
 
