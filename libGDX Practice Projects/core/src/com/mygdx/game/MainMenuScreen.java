@@ -17,8 +17,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.awt.*;
 
-public class MainMenuScreen implements Screen {
+
+public class MainMenuScreen extends Thread implements Screen{
 
     private Stage mainmenuStage;
     private Skin mainmenuSkinPlay;
@@ -28,11 +30,31 @@ public class MainMenuScreen implements Screen {
     private Image mainmenuImage;
     private float WIDTH,HEIGHT;
     private Game g;
+    Robot robot = new Robot();
 
-    public MainMenuScreen(Game g) {
+    public MainMenuScreen(Game g) throws AWTException {
         this.g = g;
 
+
+
+
+        /*robot.mouseMove(1000, 800);
+        //Thread.sleep(5000);
+        robot.delay(5000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.delay(1000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.delay(1000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.delay(1000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);*/
     }
+
+
 
     @Override
     public void show() {
@@ -53,11 +75,34 @@ public class MainMenuScreen implements Screen {
         mainmenuTablePlay.addAction(Actions.sequence(Actions.moveBy(0.0F, -250F), Actions.delay(1.0F), Actions.moveBy(0.0F, 250F, 1.0F, Interpolation.swing)));
         mainmenuImage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.0F)));
 
+
+
         mainmenuimagebuttonPlay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 g.setScreen(new GameScreen(g));
             }
         });
+        click(1000, 800);
+        /*Robot robot = null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
+        robot.mouseMove(1000,800);
+        robot.delay(1000);
+
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.delay(1000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.delay(1000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);*/
+
+
     }
 
 
@@ -67,9 +112,25 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mainmenuStage.act();
         mainmenuStage.draw();
+       // click(1000, 800);
+
+
     }
 
+    public void click(int x, int y){
+        //if(click == true){
+        //t1.start();
+        Thread t1 = new Thread();
 
+        robot.mouseMove(1000, 800);
+        //Thread.sleep(5000);
+        robot.delay(5000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        t1.start();
+
+
+    }
     @Override
     public void resize(int width, int height) {
         mainmenuStage.getViewport().update(width,height,true);
@@ -82,9 +143,7 @@ public class MainMenuScreen implements Screen {
     public void pause() {
     }
 
-    @Override
-    public void resume() {
-    }
+
 
     @Override
     public void hide() {

@@ -1,15 +1,15 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.awt.*;
 
 
 public class SplashScreen implements Screen{
@@ -39,7 +39,12 @@ public class SplashScreen implements Screen{
         splashimage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.25F),Actions.delay(4F), Actions.fadeOut(0.75F), Actions.run(new Runnable() {
             @Override
             public void run() {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(g));
+                try {
+                    ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(g));
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
+
             }
         })));
 
