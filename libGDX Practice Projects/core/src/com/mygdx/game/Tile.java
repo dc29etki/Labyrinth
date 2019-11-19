@@ -29,11 +29,11 @@ public class Tile {
             tilePng = tilePngs[0];
             tileMovePng = tilePngs[3];
         }else if(tileType == 1){//Straight Piece
-            connections = new int[]{0,1,0,1};
+            connections = new int[]{1,0,1,0};
             tilePng = tilePngs[1];
             tileMovePng = tilePngs[4];
         }else {//T-Piece
-            connections = new int[]{1,1,0,1};
+            connections = new int[]{0,1,1,1};
             tilePng = tilePngs[2];
             tileMovePng = tilePngs[5];
         }

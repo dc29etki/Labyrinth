@@ -29,8 +29,13 @@ public class GameScreen implements Screen {
     private Stage gameStage;
     private Board board;
     private Music music;
+
     private int isTestCalled = 0;
     Robot robot = new Robot();
+
+    private Tile[] tilePaths;
+    private GameRunner runEnv;
+
 
     public GameScreen(Game game) throws AWTException{
         batch = new SpriteBatch();
@@ -39,6 +44,7 @@ public class GameScreen implements Screen {
         board = new Board();
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
+
         /*
         textButtonStyle = new TextButton.TextButtonStyle();
         font = new BitmapFont();
@@ -218,6 +224,7 @@ public class GameScreen implements Screen {
         for(int i = 0; i < boardTileArrays.length; i++){
             GameRunner.clearTilePaths(boardTileArrays[i]);
         }
+        board.getExtraTile().hideLine();
         GameRunner.showTilePaths(board.getBoard()[3][3],board);
     }
 }

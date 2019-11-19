@@ -76,5 +76,33 @@ public class Board {
             extra = temp[temp.length-1];
             extra.setBoardPosition(-1, -1);
         }
+        else if(x==6){
+            Tile[] temp = new Tile[7];
+            for(int i=6; i>=0; i--){
+                temp[i] = grid[i][y];
+            }
+            grid[x][y] = extra;
+            grid[x][y].setBoardPosition(y,x);
+            for(int j=5; j>=0; j--){
+                temp[j+1].setBoardPosition(y, j);
+                grid[j][y] = temp[j+1];
+            }
+            extra = temp[0];
+            extra.setBoardPosition(-1, -1);
+        }
+        else if(y==6){
+            Tile[] temp = new Tile[7];
+            for(int i=6; i>=0; i--){
+                temp[i] = grid[x][i];
+            }
+            grid[x][y] = extra;
+            grid[x][y].setBoardPosition(y,x);
+            for(int j=5; j>=0; j--){
+                temp[j+1].setBoardPosition(j, x);
+                grid[x][j] = temp[j+1];
+            }
+            extra = temp[0];
+            extra.setBoardPosition(-1, -1);
+        }
     }
 }
