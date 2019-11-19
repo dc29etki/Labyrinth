@@ -12,6 +12,7 @@ public class GameRunner {
     Board board;
     int whichTurn;
     SpriteBatch batch;
+    Tile[] movables;
 
     public GameRunner(Board thisGame, SpriteBatch pass){
         board = thisGame;
@@ -49,8 +50,89 @@ public class GameRunner {
         return positions;
     }
 
+    public void setMovables(Tile[] move){
+        movables = move;
+    }
+
+    public void tryMove(int playerNumber, int x, int y, MoveButtons moveButtons){
+        for(int i = 0; i < movables.length; i++){
+            if(movables[i].getTilePosition()[0] == x && movables[i].getTilePosition()[1] == y){
+                movePlayerTo((-2)-playerNumber,x,y);
+                moveButtons.disableMove();
+                moveButtons.enableIns();
+            }
+        }
+    }
+
+    public void updateFromInsert(int x, int y){
+        int horizVert = 0;//0 = Vertical, 1 = Horizontal
+        int shift = 0;//Row/Column to check
+        int shiftDir = 0;
+        if(x == 0){
+            shift = y;
+            shiftDir = 1;
+        }else if(x == 6){
+            shift = y;
+            shiftDir = -1;
+        }else if(y == 0){
+            horizVert = 1;
+            shift = x;
+            shiftDir = 1;
+        }else if(y == 6){
+            horizVert = 1;
+            shift = x;
+            shiftDir = -1;
+        }
+
+        Tile[][] brd = board.getBoard();
+        if(horizVert == 0) {
+                for (Player play : players) {
+                    if (shift == play.getBoardPosition()[0]) {
+                        int[] pos = play.boardPosition;
+                        pos[1] += shiftDir;
+                        if (pos[1] < 0) {
+                            pos[1] = 6;
+                        } else if (pos[1] > 6) {
+                            pos[1] = 0;
+                        }
+                        System.out.println("Move To: " + pos[1] + ", " + pos[0]);
+                        play.setPosition(brd[pos[1]][pos[0]]);
+                    }
+                }
+        }else if(horizVert == 1) {
+                for (Player play : players) {
+                    if (shift == play.getBoardPosition()[1]) {
+                        int[] pos = play.boardPosition;
+                        pos[0] += shiftDir;
+                        if (pos[0] < 0) {
+                            pos[0] = 6;
+                        } else if (pos[0] > 6) {
+                            pos[0] = 0;
+                        }
+                        play.setPosition(brd[pos[1]][pos[0]]);
+                    }
+                }
+        }
+
+    }
+
+    public Tile[] runTilePathing(Board board, int playerNumAs01){
+        Tile[][] boardTileArrays = board.getBoard();
+        for(int i = 0; i < boardTileArrays.length; i++){
+            clearTilePaths(boardTileArrays[i]);
+        }
+        board.getExtraTile().hideLine();
+        int[] start = getPlayers()[playerNumAs01].getBoardPosition();
+        return showTilePaths(board.getBoard()[start[1]][start[0]],board);
+    }
+
     public void movePlayerTo(int play, int x, int y){
         players[play].setPosition(board.getBoard()[y][x]);
+        checkForTreasureMatch(play);
+    }
+
+    public void checkForTreasureMatch(int player){
+        //WIP
     }
 
     public void network(){

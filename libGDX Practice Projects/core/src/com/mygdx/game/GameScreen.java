@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -33,6 +31,7 @@ public class GameScreen implements Screen {
     private Music music;
     private Tile[] tilePaths;
     private GameRunner runEnv;
+    private MoveButtons buttons;
 
     public GameScreen(Game game) {
         batch = new SpriteBatch();
@@ -42,85 +41,19 @@ public class GameScreen implements Screen {
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
         runEnv = new GameRunner(board, batch);
-        runEnv.getPlayers()[3].swapSprite();
+        runEnv.getPlayers()[0].swapSprite();
 
-        //Test Player Movement Compatability
-        ImageButton movePlayer = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Card_Face.png")))));
-        movePlayer.setPosition(9*(Width/10 + 1), Height - 6*(Height/10 + 1));
-        movePlayer.setSize(Width/10,Height/10);
-        gameStage.addActor(movePlayer);
         Gdx.input.setInputProcessor(gameStage);
-        movePlayer.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                runEnv.getPlayers()[3].setBoardPosition(new Random().nextInt(7),new Random().nextInt(7),board);
-                runTilePathing(board);
-            }
-        });
 
-        /*
-        textButtonStyle = new TextButton.TextButtonStyle();
-        font = new BitmapFont();
-        skin = new Skin();
-        textButtonStyle.font = font;
-        button = new TextButton("Insert Tile 1   ->", textButtonStyle);
-        button.setPosition(15,  550);
-        gameStage.addActor(button);
-        Gdx.input.setInputProcessor(gameStage);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("insertTile(3,0)");
-                board.insertTile(3, 0);
+        buttons = new MoveButtons(-2, board, runEnv);
+        buttons.disableMove();
+        for(Button button : buttons.getInsButtons()) {
+            gameStage.addActor(button);
+        }
+        for(Button[] row : buttons.getButtons()) {
+            for (Button button : row) {
+                gameStage.addActor(button);
             }
-        });
-        button1 = new TextButton("Insert Tile 2 \\/", textButtonStyle);
-        button1.setPosition(630,  940);
-        gameStage.addActor(button1);
-        Gdx.input.setInputProcessor(gameStage);
-        button1.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("insertTile(0,5)");
-                board.insertTile(0, 5);
-            }
-        });
-        */
-        ImageButton ins01 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowD.png")))));
-        ImageButton ins03 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowD.png")))));
-        ImageButton ins05 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowD.png")))));
-        ImageButton ins10 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowR.png")))));
-        ImageButton ins30 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowR.png")))));
-        ImageButton ins50 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowR.png")))));
-        ImageButton ins61 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowU.png")))));
-        ImageButton ins63 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowU.png")))));
-        ImageButton ins65 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowU.png")))));
-        ImageButton ins16 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowL.png")))));
-        ImageButton ins36 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowL.png")))));
-        ImageButton ins56 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/ArrowL.png")))));
-        ImageButton[] insButtons = new ImageButton[]{ins01,ins03,ins05,ins10,ins30,ins50,ins61,ins63,ins65,ins16,ins36,ins56};
-        final int[][] insLoc = new int[][]{{0,1},{0,3},{0,5},{1,0},{3,0},{5,0},{6,1},{6,3},{6,5},{1,6},{3,6},{5,6}};
-        for(int i = 0; i < insButtons.length; i++){
-            insButtons[i].setSize(64,64);
-            if(insLoc[i][0] == 0){
-                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - Height/5 + 112);
-            }else if(insLoc[i][1] == 0){
-                insButtons[i].setPosition(32, Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
-            }else if(insLoc[i][0] == 6){
-                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1), Height - 9 * (Height / 10 + 1) + 32);
-            }else if(insLoc[i][1] == 6) {
-                insButtons[i].setPosition(8 * (Width / 10 + 1), Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
-            }
-            gameStage.addActor(insButtons[i]);
-            Gdx.input.setInputProcessor(gameStage);
-            final int thisPos = i;
-            insButtons[i].addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    board.insertTile(insLoc[thisPos][0], insLoc[thisPos][1]);
-                    runTilePathing(board);
-                }
-            });
         }
 
 
@@ -207,14 +140,4 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() { }
-
-    public void runTilePathing(Board board){
-        Tile[][] boardTileArrays = board.getBoard();
-        for(int i = 0; i < boardTileArrays.length; i++){
-            GameRunner.clearTilePaths(boardTileArrays[i]);
-        }
-        board.getExtraTile().hideLine();
-        int[] start = runEnv.getPlayers()[3].getBoardPosition();
-        GameRunner.showTilePaths(board.getBoard()[start[1]][start[0]],board);
-    }
 }
