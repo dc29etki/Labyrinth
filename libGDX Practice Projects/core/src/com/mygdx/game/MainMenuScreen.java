@@ -61,7 +61,12 @@ public class MainMenuScreen extends Thread implements Screen{
 
         mainmenuimagebuttonPlay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(new GameScreen(g));
+                try {
+                    g.setScreen(new GameScreen(g));
+                    System.out.println("Button Clicked");
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
             }
         });
         System.out.println(System.currentTimeMillis() + " Before click()");
@@ -77,12 +82,12 @@ public class MainMenuScreen extends Thread implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mainmenuStage.act();
         mainmenuStage.draw();
-        click(1000, 1000);
-        if( isTestCalled < 5 )
+
+        if( isTestCalled < 99 )
         {
             System.out.println(System.currentTimeMillis() + " TEST");
             isTestCalled++;
-            click(1000, 1000);
+            click(600, 800);
         }
 
     }
@@ -93,7 +98,7 @@ public class MainMenuScreen extends Thread implements Screen{
         System.out.println(System.currentTimeMillis() + " CLICK");
         Thread t1 = new Thread();
 
-        robot.mouseMove(1000, 800);
+        robot.mouseMove(x, y);
         //Thread.sleep(5000);
         //robot.delay(5000);
         robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);

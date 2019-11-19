@@ -6,17 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.TimeUtils;
+
+import java.awt.*;
 
 import static com.mygdx.game.Labyrinth.Height;
 import static com.mygdx.game.Labyrinth.Width;
@@ -29,8 +29,10 @@ public class GameScreen implements Screen {
     private Stage gameStage;
     private Board board;
     private Music music;
+    private int isTestCalled = 0;
+    Robot robot = new Robot();
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game) throws AWTException{
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -149,22 +151,48 @@ public class GameScreen implements Screen {
         green.draw(batch);
 
         gameStage.draw();
-        //Music Disabled For Testing Ease
-        //Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
-        /*for (int i=0; i<7; i++){
-            for (int j=0; j<7; j++){
-                Tile tile = gameBoard.getBoard() [i][j];
-                tile.draw(batch);
-            }
+        if( isTestCalled < 99 )
+        {
+            System.out.println(System.currentTimeMillis() + " TEST");
+            isTestCalled++;
+            click(250, 75);
+        }
+        else if(isTestCalled < 199)
+        {
+            isTestCalled++;
+                    click(465,75);
 
-        }*/
+        }
+        else if(isTestCalled < 299)
+        {
+            isTestCalled++;
+            click(660,75);
 
-        //Put sprites and effects here
+        }
+        else if(isTestCalled < 399)
+        {
+            isTestCalled++;
+            click(890,270);
 
-        /* gameStage.draw();*/
+        }
         batch.end();
 
         // Do game logic and rendering
+    }
+    public void click(int x, int y){
+        //if(click == true){
+        //t1.start();
+
+        Thread t1 = new Thread();
+
+        robot.mouseMove(x, y);
+        //Thread.sleep(5000);
+        //robot.delay(5000);
+        robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+        t1.start();
+
+
     }
 
     @Override

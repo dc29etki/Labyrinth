@@ -3,7 +3,6 @@ package com.mygdx.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.Labyrinth;
-import com.badlogic.gdx.Game;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -11,6 +10,12 @@ public class DesktopLauncher {
 		config.title = "Labyrinth";
       	config.width = 1200;
       	config.height = 1000;
-		new LwjglApplication(new Labyrinth(), config);
+        config.x=0;
+        config.y=0;
+
+        /*config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+        config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+        config.fullscreen = true;*/
+                new LwjglApplication(new Labyrinth(), config);
 	}
 }
