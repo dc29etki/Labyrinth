@@ -31,20 +31,15 @@ public class MainMenuScreen extends Thread implements Screen{
     private float WIDTH,HEIGHT;
     private Game g;
     Robot robot = new Robot();
+    private boolean isTestCalled = false;
 
     public MainMenuScreen(Game g) throws AWTException {
         this.g = g;
-
-
-
-
-
     }
-
-
 
     @Override
     public void show() {
+        System.out.println(System.currentTimeMillis() + " Start");
         WIDTH = 1280;
         HEIGHT = 720;
         mainmenuTexture = new Texture("mainMenu/mainMenu.png");
@@ -69,7 +64,7 @@ public class MainMenuScreen extends Thread implements Screen{
                 g.setScreen(new GameScreen(g));
             }
         });
-        click(1000, 800);
+        System.out.println(System.currentTimeMillis() + " Before click()");
 
 
 
@@ -82,25 +77,32 @@ public class MainMenuScreen extends Thread implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mainmenuStage.act();
         mainmenuStage.draw();
-
-
+        click(1000, 1000);
+        if( !isTestCalled )
+        {
+            System.out.println(System.currentTimeMillis() + " TEST");
+            isTestCalled = true;
+            click(1000, 1000);
+        }
 
     }
 
     public void click(int x, int y){
         //if(click == true){
         //t1.start();
+        System.out.println(System.currentTimeMillis() + " CLICK");
         Thread t1 = new Thread();
 
         robot.mouseMove(1000, 800);
         //Thread.sleep(5000);
-        robot.delay(5000);
+        //robot.delay(5000);
         robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
         robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
         t1.start();
 
 
     }
+
     @Override
     public void resize(int width, int height) {
         mainmenuStage.getViewport().update(width,height,true);
