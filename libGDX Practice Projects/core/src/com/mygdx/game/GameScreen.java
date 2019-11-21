@@ -42,6 +42,7 @@ public class GameScreen implements Screen {
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
         runEnv = new GameRunner(board, batch);
         runEnv.getPlayers()[0].swapSprite();
+        runEnv.dealCards(0);
 
         Gdx.input.setInputProcessor(gameStage);
 
@@ -94,7 +95,7 @@ public class GameScreen implements Screen {
         batch.begin();
         board.draw(batch);
 
-        runEnv.print();
+        runEnv.draw(batch);
 
         //System.out.println(board.getBoard()[3][3].toString());
         //

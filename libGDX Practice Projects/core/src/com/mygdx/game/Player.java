@@ -13,13 +13,14 @@ public class Player {
     Sprite playerSprite;
     boolean isBigSprite = false;
     int color;
-    Stack hand;
+    Stack<Card> hand;
     int[] drawPos;
     boolean myTurn;
 
     public Player(int playerNum, Board board){
         Tile[][] boardCont = board.getBoard();
         color = playerNum;
+        hand = new Stack<Card>();
         switch(playerNum){
             case -3://Blue
                 smallTexture = Treasures.getPlayerTextures(0)[5];
@@ -59,6 +60,10 @@ public class Player {
         hand.add(card);
     }
 
+    Stack<Card> getHand(){
+        return hand;
+    }
+
     void setPosition(int x, int y){
         playerSprite.setPosition(x,y);
     }
@@ -92,12 +97,25 @@ public class Player {
         return color;
     }
 
-    void foundCard(){
-        hand.pop();
+    void foundCard() {
+        if (!hand.empty()) {
+            hand.pop();
+        }
+        if (!hand.empty()) {
+            hand.peek().flipCard();
+        }
     }
 
-    void showCard(SpriteBatch batch){
-        ((Card)hand.peek()).draw(batch);
+    public int lookingFor(){
+        if (!hand.empty()) {
+            Card card = showCard();
+            return card.getTreasureId();
+        }
+        return color;
+    }
+
+    Card showCard(){
+        return hand.peek();
     }
 
     int[] getBoardPosition(){

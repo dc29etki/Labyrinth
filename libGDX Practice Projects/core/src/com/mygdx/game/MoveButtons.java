@@ -63,7 +63,9 @@ public class MoveButtons {
                 moveButtons[t][j].addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        runEnv.tryMove(playerNumber, finalT, finalJ, finalThis);
+                        if(runEnv.tryMove(playerNumber, finalT, finalJ, finalThis)){
+                            runEnv.clearTilePaths(runEnv.getMovables());
+                        }
                     }
                 });
             }

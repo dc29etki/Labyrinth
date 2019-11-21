@@ -112,6 +112,14 @@ public class Tile {
         tilePos = new int[]{x,y};
     }
 
+    public void treasureFound(){
+
+        treasureId = -1;
+        treasurePng = Treasures.getBlankTexture();
+        thisTreasure.setTexture(treasurePng);
+
+    }
+
     private void findTreasureLocation(){
         treasurePos[0] = tilePos[0] + Width/30;
         treasurePos[1] = tilePos[1] + Width/30;

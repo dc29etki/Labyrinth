@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.List;
 import java.util.Stack;
 
+import static com.mygdx.game.Labyrinth.Height;
+import static com.mygdx.game.Labyrinth.Width;
+
 public class GameRunner {
 
     Player[] players;
@@ -24,11 +27,31 @@ public class GameRunner {
         players[3] = new Player(-5,board);//Green
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
-        //players[whichTurn].swapSprite();
     }
 
     public Player[] getPlayers(){
         return players;
+    }
+
+    public void dealCards(int treasureType){
+        Deck cardDeck = new Deck(0, treasureType);
+        players[0].deal(cardDeck.dealCard());
+        players[0].getHand().peek().flipCard();
+        players[0].getHand().peek().setPosition(9*(Width/10 + 1), Height - 6*(Height/10 + 1));
+        players[0].deal(cardDeck.dealCard());
+        players[0].getHand().peek().flipCard();
+        players[0].getHand().peek().setPosition(9*(Width/10 + 1), Height - 4*(Height/10 + 1));
+        players[0].deal(cardDeck.dealCard());
+        players[0].getHand().peek().setPosition(9*(Width/10 + 1), Height - 2*(Height/10 + 1));
+        for(int i = 1; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                players[i].deal(cardDeck.dealCard());
+            }
+        }
+    }
+
+    public Stack<Card> getPlayerHand(int playerNum){
+        return players[2+playerNum].getHand();
     }
 
     public void nextTurn(){
@@ -54,14 +77,20 @@ public class GameRunner {
         movables = move;
     }
 
-    public void tryMove(int playerNumber, int x, int y, MoveButtons moveButtons){
+    public Tile[] getMovables(){
+        return movables;
+    }
+
+    public boolean tryMove(int playerNumber, int x, int y, MoveButtons moveButtons){
         for(int i = 0; i < movables.length; i++){
             if(movables[i].getTilePosition()[0] == x && movables[i].getTilePosition()[1] == y){
                 movePlayerTo((-2)-playerNumber,x,y);
                 moveButtons.disableMove();
                 moveButtons.enableIns();
+                return true;
             }
         }
+        return false;
     }
 
     public void updateFromInsert(int x, int y){
@@ -95,7 +124,6 @@ public class GameRunner {
                         } else if (pos[1] > 6) {
                             pos[1] = 0;
                         }
-                        System.out.println("Move To: " + pos[1] + ", " + pos[0]);
                         play.setPosition(brd[pos[1]][pos[0]]);
                     }
                 }
@@ -128,21 +156,19 @@ public class GameRunner {
 
     public void movePlayerTo(int play, int x, int y){
         players[play].setPosition(board.getBoard()[y][x]);
-        checkForTreasureMatch(play);
+        checkForTreasureMatch(play,x,y);
     }
 
-    public void checkForTreasureMatch(int player){
-        //WIP
+    public void checkForTreasureMatch(int player,int x,int y){
+        Tile movedToTile = board.getBoard()[y][x];
+        if(movedToTile.getTreasureId() == players[player].lookingFor()){
+            players[player].foundCard();
+            movedToTile.treasureFound();
+        }
     }
 
     public void network(){
         //WIP
-    }
-
-    public void print(){
-        for(Player player : players){
-            player.draw(batch);
-        }
     }
 
     public static Tile[] showTilePaths(Tile start, Board board){
@@ -260,6 +286,10 @@ public class GameRunner {
     void draw(SpriteBatch batch){
         for(Player player : players){
             player.draw(batch);
+        }
+        Card[] shownHand = getPlayerHand(-2).toArray(new Card[0]);
+        for(Card card : shownHand){
+            card.draw(batch);
         }
     }
 
