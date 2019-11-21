@@ -178,7 +178,55 @@ public class GameScreen implements Screen {
         else if(isTestCalled < 399)
         {
             isTestCalled++;
-            click(890,270);
+            click(880,270);
+
+        }
+        else if(isTestCalled < 499)
+        {
+            isTestCalled++;
+            click(880,470);
+
+        }
+        else if(isTestCalled < 599)
+        {
+            isTestCalled++;
+            click(880,670);
+
+        }
+        else if(isTestCalled < 699)
+        {
+            isTestCalled++;
+            click(660,870);
+
+        }
+        else if(isTestCalled < 799)
+        {
+            isTestCalled++;
+            click(465,870);
+
+        }
+        else if(isTestCalled < 899)
+        {
+            isTestCalled++;
+            click(250,870);
+
+        }
+        else if(isTestCalled < 999)
+        {
+            isTestCalled++;
+            click(85,670);
+
+        }
+        else if(isTestCalled < 1099)
+        {
+            isTestCalled++;
+            click(85,470);
+
+        }
+        else if(isTestCalled < 1199)
+        {
+            isTestCalled++;
+            click(85,270);
 
         }
         batch.end();
