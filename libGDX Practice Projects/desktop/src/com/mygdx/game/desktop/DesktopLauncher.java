@@ -1,5 +1,6 @@
 package com.mygdx.game.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.Labyrinth;
@@ -11,6 +12,7 @@ public class DesktopLauncher {
 		config.title = "Labyrinth";
       	config.width = 1200;
       	config.height = 1000;
+      	config.addIcon("favicon.png", Files.FileType.Internal);
 		new LwjglApplication(new Labyrinth(), config);
 	}
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Stack;
 
 import static com.mygdx.game.Labyrinth.Height;
@@ -86,11 +87,60 @@ public class GameRunner {
             if(movables[i].getTilePosition()[0] == x && movables[i].getTilePosition()[1] == y){
                 movePlayerTo((-2)-playerNumber,x,y);
                 moveButtons.disableMove();
+                runAi(moveButtons);
                 moveButtons.enableIns();
                 return true;
             }
         }
         return false;
+    }
+
+    private void runAi(MoveButtons moveButtons){
+        nextTurn();
+        Random random = new Random();
+        while(whichTurn != 0){
+            random = new Random();
+            Board board = moveButtons.board;
+            Tile extra = board.getExtraTile();
+            GameRunner runEnvironment = moveButtons.runEnvironment;
+            //Rotate Extra Tile
+            for(int i = 0; i < random.nextInt(4); i++){
+                extra.rotate(1);
+            }
+
+            //Insert Extra Tile
+            int x = 0;
+            int y = 0;
+            int z = 0;
+            while(x==0){x = random.nextInt(13)%2;}
+            y = random.nextInt(2);
+            if(y == 1){y=6;}
+            z = random.nextInt(2);
+            if(z == 1){
+                z = y;
+                y = x;
+                x = z;
+            }
+            board.insertTile(x,y);
+            runEnvironment.updateFromInsert(x, y);
+            runEnvironment.setMovables(runEnvironment.runTilePathing(board, whichTurn));
+
+            //Move To Connected Space
+            Tile[] connectedTiles = runEnvironment.getMovables();
+            Tile moveTo = connectedTiles[random.nextInt(connectedTiles.length)];
+            int treasureNum = players[whichTurn].lookingFor();
+            for(Tile tile : connectedTiles){
+                if(tile.getTreasureId() == treasureNum){
+                    moveTo = tile;
+                    break;
+                }
+            }
+            x = moveTo.getTilePosition()[0];
+            y = moveTo.getTilePosition()[1];
+            movePlayerTo(whichTurn,x,y);
+
+            nextTurn();
+        }
     }
 
     public void updateFromInsert(int x, int y){
