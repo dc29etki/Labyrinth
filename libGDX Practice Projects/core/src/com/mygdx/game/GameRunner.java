@@ -1,14 +1,16 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.List;
+import java.awt.*;
 import java.util.Random;
 import java.util.Stack;
 
 import static com.mygdx.game.Labyrinth.Height;
 import static com.mygdx.game.Labyrinth.Width;
+import static java.lang.Thread.sleep;
 
 public class GameRunner {
 
@@ -44,7 +46,7 @@ public class GameRunner {
         players[0].getHand().peek().setPosition(9*(Width/10 + 1), Height - 4*(Height/10 + 1));
         players[0].deal(cardDeck.dealCard());
         players[0].getHand().peek().setPosition(9*(Width/10 + 1), Height - 2*(Height/10 + 1));
-        for(int i = 1; i < 3; i++){
+        for(int i = 1; i < 4; i++){
             for(int j = 0; j < 3; j++){
                 players[i].deal(cardDeck.dealCard());
             }
@@ -52,7 +54,7 @@ public class GameRunner {
     }
 
     public Stack<Card> getPlayerHand(int playerNum){
-        return players[2+playerNum].getHand();
+        return players[-2-playerNum].getHand();
     }
 
     public void nextTurn(){
@@ -88,59 +90,81 @@ public class GameRunner {
                 movePlayerTo((-2)-playerNumber,x,y);
                 moveButtons.disableMove();
                 runAi(moveButtons);
-                moveButtons.enableIns();
                 return true;
             }
         }
         return false;
     }
 
-    private void runAi(MoveButtons moveButtons){
+    private void runAi(final MoveButtons moveButtons){
+        //NOTE: CREATES NEW THREAD
         nextTurn();
-        Random random = new Random();
-        while(whichTurn != 0){
-            random = new Random();
-            Board board = moveButtons.board;
-            Tile extra = board.getExtraTile();
-            GameRunner runEnvironment = moveButtons.runEnvironment;
-            //Rotate Extra Tile
-            for(int i = 0; i < random.nextInt(4); i++){
-                extra.rotate(1);
-            }
+        final Random[] random = {new Random()};
 
-            //Insert Extra Tile
-            int x = 0;
-            int y = 0;
-            int z = 0;
-            while(x==0){x = random.nextInt(13)%2;}
-            y = random.nextInt(2);
-            if(y == 1){y=6;}
-            z = random.nextInt(2);
-            if(z == 1){
-                z = y;
-                y = x;
-                x = z;
-            }
-            board.insertTile(x,y);
-            runEnvironment.updateFromInsert(x, y);
-            runEnvironment.setMovables(runEnvironment.runTilePathing(board, whichTurn));
-
-            //Move To Connected Space
-            Tile[] connectedTiles = runEnvironment.getMovables();
-            Tile moveTo = connectedTiles[random.nextInt(connectedTiles.length)];
-            int treasureNum = players[whichTurn].lookingFor();
-            for(Tile tile : connectedTiles){
-                if(tile.getTreasureId() == treasureNum){
-                    moveTo = tile;
-                    break;
+        Thread renderLoop = new Thread(new Runnable() {
+            private void runWait(int time) {
+                try {
+                    sleep(time * 1000);
+                }catch(Exception e){
                 }
             }
-            x = moveTo.getTilePosition()[0];
-            y = moveTo.getTilePosition()[1];
-            movePlayerTo(whichTurn,x,y);
+            @Override
+            public void run() {
+                while (whichTurn != 0) {
+                    random[0] = new Random();
+                    Board board = moveButtons.board;
+                    Tile extra = board.getExtraTile();
+                    GameRunner runEnvironment = moveButtons.runEnvironment;
+                    //Rotate Extra Tile
+                    for (int i = 0; i < random[0].nextInt(4); i++) {
+                        extra.rotate(1);
+                        runWait(1);
+                    }
+                    runWait(1);
 
-            nextTurn();
-        }
+                    //Insert Extra Tile
+                    int x = 0;
+                    int y = 0;
+                    int z = 0;
+                    while (x == 0) {
+                        x = random[0].nextInt(13) % 2;
+                    }
+                    y = random[0].nextInt(2);
+                    if (y == 1) {
+                        y = 6;
+                    }
+                    z = random[0].nextInt(2);
+                    if (z == 1) {
+                        z = y;
+                        y = x;
+                        x = z;
+                    }
+                    board.insertTile(x, y);
+                    runEnvironment.updateFromInsert(x, y);
+                    runEnvironment.setMovables(runEnvironment.runTilePathing(board, whichTurn));
+
+                    runWait(2);
+                    //Move To Connected Space
+                    Tile[] connectedTiles = runEnvironment.getMovables();
+                    Tile moveTo = connectedTiles[random[0].nextInt(connectedTiles.length)];
+                    int treasureNum = players[whichTurn].lookingFor();
+                    for (Tile tile : connectedTiles) {
+                        if (tile.getTreasureId() == treasureNum) {
+                            moveTo = tile;
+                            break;
+                        }
+                    }
+                    x = moveTo.getTilePosition()[0];
+                    y = moveTo.getTilePosition()[1];
+                    movePlayerTo(whichTurn, x, y);
+                    runWait(2);
+                    clearTilePaths(getMovables());
+                    nextTurn();
+                }
+                moveButtons.enableIns();
+            }
+            });
+        renderLoop.start();
     }
 
     public void updateFromInsert(int x, int y){

@@ -106,6 +106,7 @@ public class GameScreen implements Screen {
         green.draw(batch);
 
         gameStage.draw();
+
         //Music Disabled For Testing Ease
         //Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
@@ -116,12 +117,7 @@ public class GameScreen implements Screen {
 
         }*/
 
-        //Put sprites and effects here
-
-        /* gameStage.draw();*/
         batch.end();
-
-        // Do game logic and rendering
     }
 
     @Override

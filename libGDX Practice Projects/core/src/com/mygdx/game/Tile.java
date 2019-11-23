@@ -12,6 +12,7 @@ public class Tile {
     private int[] connections;
     private Texture tilePng;
     private Texture tileMovePng;
+    private Texture blankTexture = Treasures.getBlankTexture();
     private boolean isShowingMove = false;
     private int treasureId;
     private int[] arrayPos;
@@ -115,7 +116,7 @@ public class Tile {
     public void treasureFound(){
 
         treasureId = -1;
-        treasurePng = Treasures.getBlankTexture();
+        treasurePng = blankTexture;
         thisTreasure.setTexture(treasurePng);
 
     }
