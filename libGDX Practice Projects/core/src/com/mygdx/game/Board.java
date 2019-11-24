@@ -14,7 +14,7 @@ public class Board {
     private Tile extra;
     private Tile[][] temp1;
     public Board(){
-        deck = new Deck(1,0);
+        deck = new Deck(2,0);
         tiles = deck.getTileDeck();
         tiles2 = new Deck(1, 0).getTileDeck();
         grid = new Tile[7][7];

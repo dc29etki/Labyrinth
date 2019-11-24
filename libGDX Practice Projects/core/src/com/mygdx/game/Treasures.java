@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Treasures {
@@ -86,6 +87,14 @@ public class Treasures {
             };
         }
         return null;
+    }
+
+    public static Sound[] getSoundEffects(){
+        Sound[] sounds = new Sound[3];
+        sounds[0] = Gdx.audio.newSound(Gdx.files.internal("Music/Collect Treasure/Collect treasure.wav"));
+        sounds[1] = Gdx.audio.newSound(Gdx.files.internal("Music/Move Tile/stone_rock_or_wood_moved.mp3"));
+        sounds[2] = Gdx.audio.newSound(Gdx.files.internal("Music/Rotate Tile/sfx_push_boulder.mp3"));
+        return sounds;
     }
 
     public static Texture getBlankTexture(){

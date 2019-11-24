@@ -5,16 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import javax.swing.event.ChangeEvent;
 
 import static com.mygdx.game.Labyrinth.Height;
 import static com.mygdx.game.Labyrinth.Width;
@@ -23,6 +20,7 @@ public class MoveButtons {
 
     Button[][] buttons;
     Button[] insButtons;
+    Button[] rotateButtons;
     GameRunner runEnvironment;
     Board board;
     int playerNum;
@@ -33,6 +31,7 @@ public class MoveButtons {
         playerNum = playerNumber;
         buttons = makeMoveButtons(playerNumber, runEnv);
         insButtons = makeInsButtons(board);
+        rotateButtons = makeRotateButtons();
     }
 
    public Button[][] makeMoveButtons(final int playerNumber, final GameRunner runEnv){
@@ -140,12 +139,44 @@ public class MoveButtons {
                     board.insertTile(insLoc[thisPos][0], insLoc[thisPos][1]);
                     runEnvironment.updateFromInsert(insLoc[thisPos][0], insLoc[thisPos][1]);
                     runEnvironment.setMovables(runEnvironment.runTilePathing(board, (-2)-playerNum));
+                    runEnvironment.playInsertSound();
                     disableIns();
                     enableMove();
                 }
             });
         }
         return insButtons;
+    }
+
+    public Button[] makeRotateButtons() {
+        Button[] buttons = new Button[2];
+        ImageButton rotateClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrow.png")))));
+        rotateClk.setPosition(9*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
+        rotateClk.setSize(64,64);
+        rotateClk.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                board.getExtraTile().rotate(1);
+                runEnvironment.playRotateSound();
+            }
+        });
+        buttons[0] = rotateClk;
+        ImageButton rotateCClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrowF.png")))));
+        rotateCClk.setPosition(10*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
+        rotateCClk.setSize(64,64);
+        rotateCClk.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                board.getExtraTile().rotate(-1);
+                runEnvironment.playRotateSound();
+            }
+        });
+        buttons[1] = rotateCClk;
+        return buttons;
+    }
+
+    public Button[] getRotateButtons() {
+        return rotateButtons;
     }
 
     public Button[] getInsButtons() {

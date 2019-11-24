@@ -43,6 +43,7 @@ public class GameScreen implements Screen {
         runEnv = new GameRunner(board, batch);
         runEnv.getPlayers()[0].swapSprite();
         runEnv.dealCards(0);
+        runEnv.changeVolume(0.5f);
 
         Gdx.input.setInputProcessor(gameStage);
 
@@ -56,31 +57,9 @@ public class GameScreen implements Screen {
                 gameStage.addActor(button);
             }
         }
-
-
-        ImageButton rotateClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrow.png")))));
-        rotateClk.setPosition(9*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
-        rotateClk.setSize(64,64);
-        gameStage.addActor(rotateClk);
-        Gdx.input.setInputProcessor(gameStage);
-        rotateClk.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                board.getExtraTile().rotate(1);
-            }
-        });
-        ImageButton rotateCClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrowF.png")))));
-        rotateCClk.setPosition(10*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
-        rotateCClk.setSize(64,64);
-        gameStage.addActor(rotateCClk);
-        Gdx.input.setInputProcessor(gameStage);
-        rotateCClk.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                board.getExtraTile().rotate(-1);
-            }
-        });
-
+        for(Button button : buttons.getRotateButtons()) {
+            gameStage.addActor(button);
+        }
     }
 
     @Override
@@ -97,8 +76,6 @@ public class GameScreen implements Screen {
 
         runEnv.draw(batch);
 
-        //System.out.println(board.getBoard()[3][3].toString());
-        //
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
         green.setTexture(new Texture(Gdx.files.internal("Blank_Icon.png")));

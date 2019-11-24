@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,10 @@ public class GameRunner {
     int whichTurn;
     SpriteBatch batch;
     Tile[] movables;
+    Sound collect;
+    Sound rotate;
+    Sound insert;
+    float volume;
 
     public GameRunner(Board thisGame, SpriteBatch pass){
         board = thisGame;
@@ -30,6 +35,15 @@ public class GameRunner {
         players[3] = new Player(-5,board);//Green
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
+        setSounds();
+    }
+
+    public void setSounds(){
+        Sound[] sounds = Treasures.getSoundEffects();
+        collect = sounds[0];
+        rotate = sounds[2];
+        insert = sounds[1];
+        volume = 0.5f;
     }
 
     public Player[] getPlayers(){
@@ -115,9 +129,11 @@ public class GameRunner {
                     Board board = moveButtons.board;
                     Tile extra = board.getExtraTile();
                     GameRunner runEnvironment = moveButtons.runEnvironment;
+                    runWait(2);
                     //Rotate Extra Tile
                     for (int i = 0; i < random[0].nextInt(4); i++) {
                         extra.rotate(1);
+                        playRotateSound();
                         runWait(1);
                     }
                     runWait(1);
@@ -140,6 +156,7 @@ public class GameRunner {
                         x = z;
                     }
                     board.insertTile(x, y);
+                    playInsertSound();
                     runEnvironment.updateFromInsert(x, y);
                     runEnvironment.setMovables(runEnvironment.runTilePathing(board, whichTurn));
 
@@ -187,6 +204,7 @@ public class GameRunner {
             shiftDir = -1;
         }
 
+        int[] beenShifted = new int[]{0,0,0,0};
         Tile[][] brd = board.getBoard();
         if(horizVert == 0) {
                 for (Player play : players) {
@@ -198,7 +216,10 @@ public class GameRunner {
                         } else if (pos[1] > 6) {
                             pos[1] = 0;
                         }
-                        play.setPosition(brd[pos[1]][pos[0]]);
+                        if(beenShifted[-2-play.getPlayer()] == 0) {
+                            play.setPosition(brd[pos[1]][pos[0]]);
+                            beenShifted[-2-play.getPlayer()] = 1;
+                        }
                     }
                 }
         }else if(horizVert == 1) {
@@ -211,7 +232,10 @@ public class GameRunner {
                         } else if (pos[0] > 6) {
                             pos[0] = 0;
                         }
-                        play.setPosition(brd[pos[1]][pos[0]]);
+                        if(beenShifted[-2-play.getPlayer()] == 0) {
+                            play.setPosition(brd[pos[1]][pos[0]]);
+                            beenShifted[-2-play.getPlayer()] = 1;
+                        }
                     }
                 }
         }
@@ -238,7 +262,21 @@ public class GameRunner {
         if(movedToTile.getTreasureId() == players[player].lookingFor()){
             players[player].foundCard();
             movedToTile.treasureFound();
+            collect.play(volume);
         }
+    }
+
+    public void changeVolume(float v){
+        volume = v;
+    }
+
+    public void playRotateSound(){
+        rotate.play(volume);
+    }
+
+    public void playInsertSound(){
+        long sound = insert.play(volume);
+        //insert.setPitch(sound, 0.5f);
     }
 
     public void network(){
