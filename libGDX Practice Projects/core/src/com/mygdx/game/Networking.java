@@ -54,7 +54,7 @@ public class Networking implements ApplicationListener {
 
         // Load our UI skin from file.  Once again, I used the files included in the tests.
         // Make sure default.fnt, default.png, uiskin.[atlas/json/png] are all added to your assets
-        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage();
         // Wire the stage to receive input, as we are using Scene2d in this example
         Gdx.input.setInputProcessor(stage);
@@ -112,7 +112,8 @@ public class Networking implements ApplicationListener {
 
         // Setup a viewport to map screen to a 480x640 virtual resolution
         // As otherwise this is way too tiny on my 1080p android phone.
-        stage.setViewport(VIRTUAL_SCREEN_WIDTH, VIRTUAL_SCREEN_HEIGHT,false);
+        stage.getCamera().viewportWidth = VIRTUAL_SCREEN_WIDTH;
+        stage.getCamera().viewportHeight = VIRTUAL_SCREEN_HEIGHT;
         stage.getCamera().position.set(VIRTUAL_SCREEN_WIDTH/2,VIRTUAL_SCREEN_HEIGHT/2,0);
 
         // Now we create a thread that will listen for incoming socket connections
