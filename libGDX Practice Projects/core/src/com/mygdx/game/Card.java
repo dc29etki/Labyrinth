@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Card {
     private int treasureId;
     private Texture cardFace = Treasures.getCardTextures(0)[0];
+    private Texture cardTreasure = Treasures.getCardTextures(0)[0];
     private Texture cardBack = Treasures.getCardTextures(0)[1];
+    private boolean flipped = false;
     private Texture treasurePng;
+    private Texture blank = Treasures.getBlankTexture();
     private Sprite thisCard;
     private Sprite thisTreasure;
     private int[] cardPos;
@@ -70,8 +73,23 @@ public class Card {
         thisTreasure.setPosition(treasurePos[0],treasurePos[1]);
     }
 
+    int getTreasureId(){
+        return treasureId;
+    }
+
     void flipCard(){
-        //Function WIP for Gen X Deliverable
+        if(flipped){
+            cardFace = cardTreasure;
+            thisCard.setTexture(cardFace);
+            thisTreasure.setTexture(treasurePng);
+            flipped = false;
+        }else{
+            cardFace = cardBack;
+            thisCard.setTexture(cardFace);
+            thisTreasure.setTexture(blank);
+            flipped = true;
+
+        }
     }
 
 }

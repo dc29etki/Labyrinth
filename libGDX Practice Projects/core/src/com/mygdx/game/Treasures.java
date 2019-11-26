@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Treasures {
@@ -88,6 +89,14 @@ public class Treasures {
         return null;
     }
 
+    public static Sound[] getSoundEffects(){
+        Sound[] sounds = new Sound[3];
+        sounds[0] = Gdx.audio.newSound(Gdx.files.internal("Music/Collect Treasure/Collect treasure.wav"));
+        sounds[1] = Gdx.audio.newSound(Gdx.files.internal("Music/Move Tile/stone_rock_or_wood_moved.mp3"));
+        sounds[2] = Gdx.audio.newSound(Gdx.files.internal("Music/Rotate Tile/sfx_push_boulder.mp3"));
+        return sounds;
+    }
+
     public static Texture getBlankTexture(){
         return new Texture(Gdx.files.internal("Blank_Icon.png"));
     }
@@ -111,10 +120,10 @@ public class Treasures {
                     new Texture(Gdx.files.internal("Icon_" + "BlueCircle" + ".png")),
                     new Texture(Gdx.files.internal("Icon_" + "YellowCircle" + ".png")),
                     new Texture(Gdx.files.internal("Icon_" + "GreenCircle" + ".png")),
-                    new Texture(Gdx.files.internal("Icon_" + "RedCircle" + ".png")),
-                    new Texture(Gdx.files.internal("Icon_" + "BlueCircle" + ".png")),
-                    new Texture(Gdx.files.internal("Icon_" + "YellowCircle" + ".png")),
-                    new Texture(Gdx.files.internal("Icon_" + "GreenCircle" + ".png")),
+                    new Texture(Gdx.files.internal("Icon_" + "RedMark" + ".png")),
+                    new Texture(Gdx.files.internal("Icon_" + "BlueMark" + ".png")),
+                    new Texture(Gdx.files.internal("Icon_" + "YellowMark" + ".png")),
+                    new Texture(Gdx.files.internal("Icon_" + "GreenMark" + ".png")),
                     new Texture(Gdx.files.internal("Icon_" + "RedPlayer" + ".png")),
                     new Texture(Gdx.files.internal("Icon_" + "BluePlayer" + ".png")),
                     new Texture(Gdx.files.internal("Icon_" + "YellowPlayer" + ".png")),

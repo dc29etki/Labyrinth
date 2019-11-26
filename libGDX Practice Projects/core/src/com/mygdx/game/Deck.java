@@ -77,21 +77,21 @@ public class Deck {
             tileDeck [42] = new Tile(0, -4,0,6,3, treasuresType);
             tileDeck [48] = new Tile(0, -5,6,6,2, treasuresType);
 
-            tileDeck [2] = new Tile(2, (Integer) treasurePlacer.pop(),2,0,2, treasuresType);
-            tileDeck [4] = new Tile(2, (Integer) treasurePlacer.pop(),4,0,2, treasuresType);
+            tileDeck [2] = new Tile(2, (Integer) treasurePlacer.pop(),2,0,0, treasuresType);
+            tileDeck [4] = new Tile(2, (Integer) treasurePlacer.pop(),4,0,0, treasuresType);
 
-            tileDeck [14] = new Tile(2, (Integer) treasurePlacer.pop(),0,2,1, treasuresType);
-            tileDeck [16] = new Tile(2, (Integer) treasurePlacer.pop(),2,2,1, treasuresType);
-            tileDeck [18] = new Tile(2, (Integer) treasurePlacer.pop(),4,2,2, treasuresType);
-            tileDeck [20] = new Tile(2, (Integer) treasurePlacer.pop(),6,2,3, treasuresType);
+            tileDeck [14] = new Tile(2, (Integer) treasurePlacer.pop(),0,2,3, treasuresType);
+            tileDeck [16] = new Tile(2, (Integer) treasurePlacer.pop(),2,2,3, treasuresType);
+            tileDeck [18] = new Tile(2, (Integer) treasurePlacer.pop(),4,2,0, treasuresType);
+            tileDeck [20] = new Tile(2, (Integer) treasurePlacer.pop(),6,2,1, treasuresType);
 
-            tileDeck [28] = new Tile(2, (Integer) treasurePlacer.pop(),0,4,1, treasuresType);
-            tileDeck [30] = new Tile(2, (Integer) treasurePlacer.pop(),2,4,0, treasuresType);
-            tileDeck [32] = new Tile(2, (Integer) treasurePlacer.pop(),4,4,3, treasuresType);
-            tileDeck [34] = new Tile(2, (Integer) treasurePlacer.pop(),6,4,3, treasuresType);
+            tileDeck [28] = new Tile(2, (Integer) treasurePlacer.pop(),0,4,3, treasuresType);
+            tileDeck [30] = new Tile(2, (Integer) treasurePlacer.pop(),2,4,2, treasuresType);
+            tileDeck [32] = new Tile(2, (Integer) treasurePlacer.pop(),4,4,1, treasuresType);
+            tileDeck [34] = new Tile(2, (Integer) treasurePlacer.pop(),6,4,1, treasuresType);
 
-            tileDeck [44] = new Tile(2, (Integer) treasurePlacer.pop(),2,6,0, treasuresType);
-            tileDeck [46] = new Tile(2, (Integer) treasurePlacer.pop(),4,6,0, treasuresType);
+            tileDeck [44] = new Tile(2, (Integer) treasurePlacer.pop(),2,6,2, treasuresType);
+            tileDeck [46] = new Tile(2, (Integer) treasurePlacer.pop(),4,6,2, treasuresType);
 
             hardPlaced = Arrays.asList(0,6,42,48,2,4,14,16,18,20,28,30,32,34,44,46);
 

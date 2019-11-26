@@ -12,13 +12,14 @@ public class Tile {
     private int[] connections;
     private Texture tilePng;
     private Texture tileMovePng;
+    private Texture blankTexture = Treasures.getBlankTexture();
     private boolean isShowingMove = false;
     private int treasureId;
     private int[] arrayPos;
     private Texture treasurePng;
     private Sprite thisTile;
     private Sprite thisTreasure;
-    private int[] tilePos = new int[2];
+    private int[] tilePos = new int[]{0,0};
     private int[] treasurePos = new int[2];
 
     public Tile(int tileType, int treasureNum, int xPos, int yPos, int dir, int treasuresType){
@@ -110,6 +111,14 @@ public class Tile {
             y = Height - 9*(Height/10 + 1);
         }
         tilePos = new int[]{x,y};
+    }
+
+    public void treasureFound(){
+
+        treasureId = -1;
+        treasurePng = blankTexture;
+        thisTreasure.setTexture(treasurePng);
+
     }
 
     private void findTreasureLocation(){
