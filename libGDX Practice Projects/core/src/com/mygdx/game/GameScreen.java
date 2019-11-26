@@ -162,71 +162,97 @@ public class GameScreen implements Screen {
             System.out.println(System.currentTimeMillis() + " TEST");
             isTestCalled++;
             click(250, 75);
+            System.out.println("First Arrow Top Passes Test");
         }
         else if(isTestCalled < 199)
         {
             isTestCalled++;
                     click(465,75);
+            System.out.println("Second Arrow Top Passes Test");
 
         }
         else if(isTestCalled < 299)
         {
             isTestCalled++;
             click(660,75);
+            System.out.println("Third Arrow Top Passes Test");
 
         }
         else if(isTestCalled < 399)
         {
             isTestCalled++;
             click(880,270);
+            System.out.println("First Arrow Right Passes Test");
 
         }
         else if(isTestCalled < 499)
         {
             isTestCalled++;
             click(880,470);
+            System.out.println("Second Arrow Right Passes Test");
 
         }
         else if(isTestCalled < 599)
         {
             isTestCalled++;
             click(880,670);
+            System.out.println("Third Arrow Right Passes Test");
 
         }
         else if(isTestCalled < 699)
         {
             isTestCalled++;
             click(660,870);
+            System.out.println("First Arrow Bottom Passes Test");
 
         }
         else if(isTestCalled < 799)
         {
             isTestCalled++;
             click(465,870);
+            System.out.println("Second Arrow Bottom Passes Test");
 
         }
         else if(isTestCalled < 899)
         {
             isTestCalled++;
             click(250,870);
+            System.out.println("Third Arrow Bottom Passes Test");
 
         }
         else if(isTestCalled < 999)
         {
             isTestCalled++;
             click(85,670);
+            System.out.println("Third Arrow Left Passes Test");
 
         }
         else if(isTestCalled < 1099)
         {
             isTestCalled++;
             click(85,470);
+            System.out.println("Second Arrow Left Passes Test");
 
         }
         else if(isTestCalled < 1199)
         {
             isTestCalled++;
             click(85,270);
+            System.out.println("Left rotation");
+
+        }
+        else if(isTestCalled < 1299)
+        {
+            isTestCalled++;
+            click(905,850);
+            System.out.println("Left Rotation Arrow Passes Test");
+
+        }
+        else if(isTestCalled < 1399)
+        {
+            isTestCalled++;
+            click(1035,850);
+            System.out.println("Left Rotation Arrow Passes Test");
 
         }
         batch.end();
@@ -253,7 +279,10 @@ public class GameScreen implements Screen {
     public void show() { }
 
     @Override
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+
+
+    }
 
     @Override
     public void pause() { }
