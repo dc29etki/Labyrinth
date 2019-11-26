@@ -44,7 +44,7 @@ public class Networking implements ApplicationListener {
 
     // Pick a resolution that is 16:9 but not unreadibly small
     public final static float VIRTUAL_SCREEN_HEIGHT = 960;
-    public final static float VIRTUAL_SCREEN_WIDTH = 540;
+    public final static float VIRTUAL_SCREEN_WIDTH = 1200;
 
 
     @Override
