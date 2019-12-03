@@ -91,10 +91,16 @@ public class MoveButtons {
                 button.setDisabled(false);
             }
         }
+        for(Button button : rotateButtons){
+            button.setDisabled(false);
+        }
     }
 
     public void disableIns(){
         for(Button button : insButtons) {
+            button.setDisabled(true);
+        }
+        for(Button button : rotateButtons){
             button.setDisabled(true);
         }
     }
