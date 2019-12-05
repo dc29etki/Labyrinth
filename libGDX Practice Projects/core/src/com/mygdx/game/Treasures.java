@@ -135,9 +135,10 @@ public class Treasures {
     }
 
     public static Music[] getMusic(){
-        Music[] musics = new Music[2];
+        Music[] musics = new Music[3];
         musics [0] = Gdx.audio.newMusic(Gdx.files.internal("Music\\Main Menu\\Main Menu.wav"));
         musics [1] = Gdx.audio.newMusic(Gdx.files.internal("Music\\In game\\Ingame 3.OGG"));
+        musics [2] = Gdx.audio.newMusic(Gdx.files.internal("Music\\Victory\\Victory.mp3"));
 
         return musics;
     }

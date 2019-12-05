@@ -64,8 +64,7 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 music.pause();
                 music.dispose();
-                g.setScreen(new SplashScreen(g));
-                g.setScreen(new GameScreen(g));
+                g.setScreen(new LoadScreen(g));
             }
         });
     }

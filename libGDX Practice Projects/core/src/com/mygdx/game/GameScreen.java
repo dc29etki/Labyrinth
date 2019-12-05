@@ -81,7 +81,13 @@ public class GameScreen implements Screen {
         batch.begin();
         board.draw(batch);
 
-        runEnv.draw(batch);
+        int gameOver = runEnv.draw(batch);
+        if(gameOver > -1){
+            music.pause();
+            music.dispose();
+            game.setScreen(new VictoryScreen(game,gameOver));
+            dispose();
+        }
 
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
@@ -118,5 +124,9 @@ public class GameScreen implements Screen {
     public void hide() { }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        runEnv.dispose();
+        runEnv = null;
+        board = null;
+    }
 }

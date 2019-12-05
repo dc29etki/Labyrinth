@@ -24,6 +24,9 @@ public class GameRunner {
     Sound rotate;
     Sound insert;
     float volume;
+    private Thread renderLoop;
+    int gameOver = -1;
+    boolean done = false;
 
     public GameRunner(Board thisGame, SpriteBatch pass){
         board = thisGame;
@@ -115,7 +118,7 @@ public class GameRunner {
         nextTurn();
         final Random[] random = {new Random()};
 
-        Thread renderLoop = new Thread(new Runnable() {
+        renderLoop = new Thread(new Runnable() {
             private void runWait(int time) {
                 try {
                     sleep(time * 1000);
@@ -124,7 +127,7 @@ public class GameRunner {
             }
             @Override
             public void run() {
-                while (whichTurn != 0) {
+                while (whichTurn != 0 && done == false) {
                     random[0] = new Random();
                     Board board = moveButtons.board;
                     Tile extra = board.getExtraTile();
@@ -160,7 +163,7 @@ public class GameRunner {
                     runEnvironment.updateFromInsert(x, y);
                     runEnvironment.setMovables(runEnvironment.runTilePathing(board, whichTurn));
 
-                    runWait(2);
+                    runWait(1);
                     //Move To Connected Space
                     Tile[] connectedTiles = runEnvironment.getMovables();
                     Tile moveTo = connectedTiles[random[0].nextInt(connectedTiles.length)];
@@ -260,9 +263,14 @@ public class GameRunner {
     public void checkForTreasureMatch(int player,int x,int y){
         Tile movedToTile = board.getBoard()[y][x];
         if(movedToTile.getTreasureId() == players[player].lookingFor()){
-            players[player].foundCard();
-            movedToTile.treasureFound();
-            collect.play(volume);
+            if(players[player].lookingFor() < 0){//Working Here
+                whichTurn = 0;
+                gameOver = player;
+            }else {
+                players[player].foundCard();
+                movedToTile.treasureFound();
+                collect.play(volume);
+            }
         }
     }
 
@@ -395,7 +403,7 @@ public class GameRunner {
         return returns;
     }
 
-    void draw(SpriteBatch batch){
+    int draw(SpriteBatch batch){
         for(Player player : players){
             player.draw(batch);
         }
@@ -403,6 +411,19 @@ public class GameRunner {
         for(Card card : shownHand){
             card.draw(batch);
         }
+        return gameOver;
+    }
+
+    public void dispose(){
+        done = true;
+        renderLoop.interrupt();
+        players = null;
+        board = null;
+        batch = null;
+        collect = null;
+        rotate = null;
+        insert = null;
+        renderLoop = null;
     }
 
 }
