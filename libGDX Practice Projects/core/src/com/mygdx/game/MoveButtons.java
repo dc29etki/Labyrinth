@@ -147,6 +147,7 @@ public class MoveButtons {
                     runEnvironment.setMovables(runEnvironment.runTilePathing(board, (-2)-playerNum));
                     runEnvironment.playInsertSound();
                     disableIns();
+                    runEnvironment.updateText(1);
                     enableMove();
                 }
             });

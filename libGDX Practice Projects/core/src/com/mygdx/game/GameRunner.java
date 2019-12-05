@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.awt.*;
 import java.util.Random;
@@ -27,6 +28,7 @@ public class GameRunner {
     private Thread renderLoop;
     int gameOver = -1;
     boolean done = false;
+    Label status;
 
     public GameRunner(Board thisGame, SpriteBatch pass){
         board = thisGame;
@@ -39,6 +41,34 @@ public class GameRunner {
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
         setSounds();
+        BitmapFont font = new BitmapFont();
+        font.getData().setScale(3);
+        status = new com.badlogic.gdx.scenes.scene2d.ui.Label("Your Turn: Insert A Tile", new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(font,new Color(1,1,1,1)));
+        status.setBounds(64,Height - 10 * (Height / 10 + 1), Width/2, 128);
+    }
+
+    public void updateText(int which){
+        String message = "";
+        switch(which){
+            case 0:
+                message = "Your Turn: Insert A Tile";
+                break;
+            case 1:
+                message = "Your Turn: Make A Move";
+                break;
+            case 2:
+                message = "Blue's Turn";
+                break;
+            case 3:
+                message = "Yellow's Turn";
+                break;
+            case 4:
+                message = "Green's Turn";
+                break;
+            default:
+                message = "Invalid State Reached";
+        }
+        status.setText(message);
     }
 
     public void setSounds(){
@@ -132,6 +162,7 @@ public class GameRunner {
                     Board board = moveButtons.board;
                     Tile extra = board.getExtraTile();
                     GameRunner runEnvironment = moveButtons.runEnvironment;
+                    updateText(1+whichTurn);
                     runWait(2);
                     //Rotate Extra Tile
                     for (int i = 0; i < random[0].nextInt(4); i++) {
@@ -181,6 +212,7 @@ public class GameRunner {
                     clearTilePaths(getMovables());
                     nextTurn();
                 }
+                updateText(0);
                 moveButtons.enableIns();
             }
             });
@@ -411,6 +443,7 @@ public class GameRunner {
         for(Card card : shownHand){
             card.draw(batch);
         }
+        status.draw(batch,1f);
         return gameOver;
     }
 
