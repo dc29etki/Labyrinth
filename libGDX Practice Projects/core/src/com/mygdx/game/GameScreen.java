@@ -36,8 +36,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(Game game) {
         batch = new SpriteBatch();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera = new OrthographicCamera(Width, Height);
         board = new Board();
         gameStage = new Stage();
         this.game = game; // Store this to call game.setScreen(new MenuScreen(game)) to return to the menu
@@ -73,7 +72,6 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 5, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         //Put sprites and effects here
@@ -97,14 +95,6 @@ public class GameScreen implements Screen {
 
         gameStage.draw();
 
-        /*for (int i=0; i<7; i++){
-            for (int j=0; j<7; j++){
-                Tile tile = gameBoard.getBoard() [i][j];
-                tile.draw(batch);
-            }
-
-        }*/
-
         batch.end();
     }
 
@@ -112,7 +102,12 @@ public class GameScreen implements Screen {
     public void show() { }
 
     @Override
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+        Width = width;
+        Height = height;
+        camera.setToOrtho(false, Width, Height);
+        camera.update();
+    }
 
     @Override
     public void pause() { }

@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import static com.mygdx.game.Labyrinth.Height;
+import static com.mygdx.game.Labyrinth.Width;
+
 
 public class MainMenuScreen implements Screen {
 
@@ -38,17 +41,17 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        WIDTH = 1280;
-        HEIGHT = 720;
+        WIDTH = Width;
+        HEIGHT = (Height/4)*3;
         mainmenuTexture = new Texture("mainMenu/mainMenu.png");
         mainmenuTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         mainmenuImage = new Image(mainmenuTexture);
-        mainmenuImage.setSize(1280,720);
+        mainmenuImage.setSize(WIDTH,HEIGHT);
         mainmenuStage = new Stage(new FitViewport(WIDTH,HEIGHT, new Cam(WIDTH,HEIGHT)));
         mainmenuTablePlay = new Table();
         mainmenuSkinPlay = new Skin(Gdx.files.internal("skins/play.json"), new TextureAtlas(Gdx.files.internal("skins/mainMenuPack.atlas")));
         mainmenuimagebuttonPlay = new ImageButton(mainmenuSkinPlay);
-        mainmenuTablePlay.bottom().add(mainmenuimagebuttonPlay).size( 152F, 164F).padBottom(20F);
+        mainmenuTablePlay.bottom().add(mainmenuimagebuttonPlay).size( Width/7.5F, Height/8F).padBottom(Height/50F);
         mainmenuStage.addActor(mainmenuImage);
         mainmenuStage.addActor(mainmenuTablePlay);
         Gdx.input.setInputProcessor(mainmenuStage);
@@ -84,7 +87,9 @@ public class MainMenuScreen implements Screen {
         mainmenuStage.getViewport().update(width,height,true);
 
         mainmenuTablePlay.invalidateHierarchy();
-        mainmenuTablePlay.setSize(WIDTH, HEIGHT);
+        mainmenuTablePlay.setSize(Width, Height);
+        Width = width;
+        Height = height;
     }
 
     @Override

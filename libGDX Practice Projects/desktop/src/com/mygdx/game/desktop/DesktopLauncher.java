@@ -10,8 +10,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Labyrinth";
-      	config.width = 1200;
-      	config.height = 1000;
+      	config.width = 900;
+      	config.height = 900;
+      	config.resizable = false;
       	config.addIcon("favicon.png", Files.FileType.Internal);
 		new LwjglApplication(new Labyrinth(), config);
 	}

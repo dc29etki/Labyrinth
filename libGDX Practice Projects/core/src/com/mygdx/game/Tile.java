@@ -107,8 +107,8 @@ public class Tile {
         }
 
         if(arrayPos[0] == -1){
-            x = 9*(Width/10 + 1);
-            y = Height - 9*(Height/10 + 1);
+            x = 16*(Width/20)+8;
+            y = Height - 20*(Height/20)+10;
         }
         tilePos = new int[]{x,y};
     }
@@ -123,7 +123,7 @@ public class Tile {
 
     private void findTreasureLocation(){
         treasurePos[0] = tilePos[0] + Width/30;
-        treasurePos[1] = tilePos[1] + Width/30;
+        treasurePos[1] = tilePos[1] + Height/30;
     }
 
     void setNewPosition(int x, int y){

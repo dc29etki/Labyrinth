@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import static com.mygdx.game.Labyrinth.Height;
+import static com.mygdx.game.Labyrinth.Width;
+
 public class Card {
     private int treasureId;
     private Texture cardFace = Treasures.getCardTextures(0)[0];
@@ -27,11 +30,11 @@ public class Card {
         }
 
         thisCard = new Sprite(cardFace);
-        thisCard.setSize(64,64);
+        thisCard.setSize(Width/16,Height/16);
         cardPos = new int[]{0,0};
         thisCard.setPosition(cardPos[0], cardPos[1]);
         thisTreasure = new Sprite(treasurePng);
-        thisTreasure.setSize(32,32);
+        thisTreasure.setSize(Width/32,Height/32);
         findTreasurelocation();
         thisTreasure.setPosition(treasurePos[0],treasurePos[1]);
     }
@@ -46,19 +49,19 @@ public class Card {
         }
 
         thisCard = new Sprite(cardFace);
-        thisCard.setSize(64,64);
+        thisCard.setSize(Width/16,Height/16);
         cardPos = new int[]{x,y};
         thisCard.setPosition(cardPos[0], cardPos[1]);
         thisTreasure = new Sprite(treasurePng);
-        thisTreasure.setSize(32,32);
+        thisTreasure.setSize(Width/32,Height/32);
         findTreasurelocation();
         thisTreasure.setPosition(treasurePos[0],treasurePos[1]);
     }
 
     private void findTreasurelocation(){
         treasurePos = new int[2];
-        treasurePos[0] = cardPos[0] + 64/2 - 16;
-        treasurePos[1] = cardPos[1] + 64/2 - 16;
+        treasurePos[0] = cardPos[0] + Width/16/2 - Width/64;
+        treasurePos[1] = cardPos[1] + Height/16/2 - Height/64;
     }
 
     void draw(SpriteBatch batch){

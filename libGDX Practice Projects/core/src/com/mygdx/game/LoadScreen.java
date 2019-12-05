@@ -39,7 +39,7 @@ public class LoadScreen implements Screen{
         splashText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         splashLoading = new Image(splashText);
-        splashLoading.setSize(256,64);
+        splashLoading.setSize(Width/4,Height/8);
 
         splashstage = new Stage(new FitViewport(Width,Height, new Cam(Width,Height)));
         splashstage.addActor(splashimage);
@@ -62,8 +62,10 @@ public class LoadScreen implements Screen{
 
     }
     @Override
-    public void resize (int Width, int Height){
-        splashstage.getViewport().update(Width,Height,true);
+    public void resize (int width, int height){
+        splashstage.getViewport().update(width,height,true);
+        Width = width;
+        Height = height;
     }
     @Override
     public void pause(){

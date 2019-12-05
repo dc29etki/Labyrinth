@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import static com.mygdx.game.Labyrinth.Height;
+import static com.mygdx.game.Labyrinth.Width;
+
 
 public class VictoryScreen implements Screen {
 
@@ -40,13 +43,13 @@ public class VictoryScreen implements Screen {
 
     @Override
     public void show() {
-        WIDTH = 1280;
-        HEIGHT = 720;
+        WIDTH = Width;
+        HEIGHT = (Height/4)*3;
         victorymenuTexture = Treasures.getPlayerTextures(0)[victor+8];
         victorymenuTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         victorymenuImage = new Image(victorymenuTexture);
-        victorymenuImage.setSize(128,256);
-        victorymenuImage.setPosition(WIDTH/2-64,HEIGHT-256);
+        victorymenuImage.setSize(Height/8,Height/4);
+        victorymenuImage.setPosition(WIDTH/2-Height/16,HEIGHT-Height/4);
         BitmapFont font = new BitmapFont();
         font.getData().setScale(3);
         victorText = new Label(".", new Label.LabelStyle(font,new Color(1,1,1,1)));
@@ -70,12 +73,12 @@ public class VictoryScreen implements Screen {
                 break;
         }
         victorText.setAlignment(Align.center);
-        victorText.setBounds(0,HEIGHT-630,WIDTH, 512);
+        victorText.setBounds(0,HEIGHT-630,WIDTH, Height/2);
         victorymenuStage = new Stage(new FitViewport(WIDTH,HEIGHT, new Cam(WIDTH,HEIGHT)));
         victorymenuTablePlay = new Table();
         victorymenuSkinPlay = new Skin(Gdx.files.internal("skins/play.json"), new TextureAtlas(Gdx.files.internal("skins/mainMenuPack.atlas")));
         victorymenuimagebuttonPlay = new ImageButton(victorymenuSkinPlay);
-        victorymenuTablePlay.bottom().add(victorymenuimagebuttonPlay).size( 152F, 164F).padBottom(20F);
+        victorymenuTablePlay.bottom().add(victorymenuimagebuttonPlay).size( Width/8F, Height/8F).padBottom(Height/50F);
         victorymenuStage.addActor(victorymenuImage);
         victorymenuStage.addActor(victorymenuTablePlay);
         victorymenuStage.addActor(victorText);
@@ -114,6 +117,8 @@ public class VictoryScreen implements Screen {
 
         victorymenuTablePlay.invalidateHierarchy();
         victorymenuTablePlay.setSize(WIDTH, HEIGHT);
+        Width = width;
+        Height = height;
     }
 
     @Override

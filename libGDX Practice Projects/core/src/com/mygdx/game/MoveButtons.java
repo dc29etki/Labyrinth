@@ -128,13 +128,13 @@ public class MoveButtons {
         ImageButton[] insButtons = new ImageButton[]{ins01,ins03,ins05,ins10,ins30,ins50,ins61,ins63,ins65,ins16,ins36,ins56};
         final int[][] insLoc = new int[][]{{0,1},{0,3},{0,5},{1,0},{3,0},{5,0},{6,1},{6,3},{6,5},{1,6},{3,6},{5,6}};
         for(int i = 0; i < insButtons.length; i++){
-            insButtons[i].setSize(64,64);
+            insButtons[i].setSize(Width/16,Height/16);
             if(insLoc[i][0] == 0){
-                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - Height/5 + 112);
+                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - Height/5 + Height/8);
             }else if(insLoc[i][1] == 0){
-                insButtons[i].setPosition(32, Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
+                insButtons[i].setPosition(Width/32, Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
             }else if(insLoc[i][0] == 6){
-                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - 9 * (Height / 10 + 1) + 32);
+                insButtons[i].setPosition((insLoc[i][1]+1) * (Width / 10 + 1) + 16, Height - 9 * (Height / 10 + 1) + Width/32);
             }else if(insLoc[i][1] == 6) {
                 insButtons[i].setPosition(8 * (Width / 10 + 1), Height - (insLoc[i][0]+2) * (Height / 10 + 1) + 16);
             }
@@ -158,8 +158,8 @@ public class MoveButtons {
     public Button[] makeRotateButtons() {
         Button[] buttons = new Button[2];
         ImageButton rotateClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrow.png")))));
-        rotateClk.setPosition(9*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
-        rotateClk.setSize(64,64);
+        rotateClk.setPosition(8*(Width/10 + 1) - Width/32, Height - 18*(Height/20)-Height/64);
+        rotateClk.setSize(Width/16,Height/16);
         rotateClk.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -169,8 +169,8 @@ public class MoveButtons {
         });
         buttons[0] = rotateClk;
         ImageButton rotateCClk = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Game rule images/BackArrowF.png")))));
-        rotateCClk.setPosition(10*(Width/10 + 1) - 32, Height - 8*(Height/10 + 1)-32);
-        rotateCClk.setSize(64,64);
+        rotateCClk.setPosition(9*(Width/10 + 1) - Width/32, Height - 18*(Height/20)-Height/64);
+        rotateCClk.setSize(Width/16,Height/16);
         rotateCClk.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {

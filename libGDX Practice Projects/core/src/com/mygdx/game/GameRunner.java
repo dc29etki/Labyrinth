@@ -44,7 +44,7 @@ public class GameRunner {
         BitmapFont font = new BitmapFont();
         font.getData().setScale(3);
         status = new com.badlogic.gdx.scenes.scene2d.ui.Label("Your Turn: Insert A Tile", new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(font,new Color(1,1,1,1)));
-        status.setBounds(64,Height - 10 * (Height / 10 + 1), Width/2, 128);
+        status.setBounds(Width/64,Height - 10 * (Height / 10), Width/2, Height/10);
     }
 
     public void updateText(int which){
