@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -132,4 +133,13 @@ public class Treasures {
         }
         return null;
     }
+
+    public static Music[] getMusic(){
+        Music[] musics = new Music[2];
+        musics [0] = Gdx.audio.newMusic(Gdx.files.internal("Music\\Main Menu\\Main Menu.wav"));
+        musics [1] = Gdx.audio.newMusic(Gdx.files.internal("Music\\In game\\Ingame 3.OGG"));
+
+        return musics;
+    }
+
 }
