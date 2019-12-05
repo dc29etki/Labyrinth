@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.awt.*;
 import java.util.Random;
@@ -24,6 +25,10 @@ public class GameRunner {
     Sound rotate;
     Sound insert;
     float volume;
+    private Thread renderLoop;
+    int gameOver = -1;
+    boolean done = false;
+    Label status;
 
     public GameRunner(Board thisGame, SpriteBatch pass){
         board = thisGame;
@@ -36,6 +41,34 @@ public class GameRunner {
         whichTurn = 0;
         players[whichTurn].setMyTurn(true);
         setSounds();
+        BitmapFont font = new BitmapFont();
+        font.getData().setScale(3);
+        status = new com.badlogic.gdx.scenes.scene2d.ui.Label("Your Turn: Insert A Tile", new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle(font,new Color(1,1,1,1)));
+        status.setBounds(64,Height - 10 * (Height / 10 + 1), Width/2, 128);
+    }
+
+    public void updateText(int which){
+        String message = "";
+        switch(which){
+            case 0:
+                message = "Your Turn: Insert A Tile";
+                break;
+            case 1:
+                message = "Your Turn: Make A Move";
+                break;
+            case 2:
+                message = "Blue's Turn";
+                break;
+            case 3:
+                message = "Yellow's Turn";
+                break;
+            case 4:
+                message = "Green's Turn";
+                break;
+            default:
+                message = "Invalid State Reached";
+        }
+        status.setText(message);
     }
 
     public void setSounds(){
@@ -115,7 +148,7 @@ public class GameRunner {
         nextTurn();
         final Random[] random = {new Random()};
 
-        Thread renderLoop = new Thread(new Runnable() {
+        renderLoop = new Thread(new Runnable() {
             private void runWait(int time) {
                 try {
                     sleep(time * 1000);
@@ -124,11 +157,12 @@ public class GameRunner {
             }
             @Override
             public void run() {
-                while (whichTurn != 0) {
+                while (whichTurn != 0 && done == false) {
                     random[0] = new Random();
                     Board board = moveButtons.board;
                     Tile extra = board.getExtraTile();
                     GameRunner runEnvironment = moveButtons.runEnvironment;
+                    updateText(1+whichTurn);
                     runWait(2);
                     //Rotate Extra Tile
                     for (int i = 0; i < random[0].nextInt(4); i++) {
@@ -160,7 +194,7 @@ public class GameRunner {
                     runEnvironment.updateFromInsert(x, y);
                     runEnvironment.setMovables(runEnvironment.runTilePathing(board, whichTurn));
 
-                    runWait(2);
+                    runWait(1);
                     //Move To Connected Space
                     Tile[] connectedTiles = runEnvironment.getMovables();
                     Tile moveTo = connectedTiles[random[0].nextInt(connectedTiles.length)];
@@ -178,6 +212,7 @@ public class GameRunner {
                     clearTilePaths(getMovables());
                     nextTurn();
                 }
+                updateText(0);
                 moveButtons.enableIns();
             }
             });
@@ -260,9 +295,14 @@ public class GameRunner {
     public void checkForTreasureMatch(int player,int x,int y){
         Tile movedToTile = board.getBoard()[y][x];
         if(movedToTile.getTreasureId() == players[player].lookingFor()){
-            players[player].foundCard();
-            movedToTile.treasureFound();
-            collect.play(volume);
+            if(players[player].lookingFor() < 0){//Working Here
+                whichTurn = 0;
+                gameOver = player;
+            }else {
+                players[player].foundCard();
+                movedToTile.treasureFound();
+                collect.play(volume);
+            }
         }
     }
 
@@ -395,7 +435,7 @@ public class GameRunner {
         return returns;
     }
 
-    void draw(SpriteBatch batch){
+    int draw(SpriteBatch batch){
         for(Player player : players){
             player.draw(batch);
         }
@@ -403,6 +443,20 @@ public class GameRunner {
         for(Card card : shownHand){
             card.draw(batch);
         }
+        status.draw(batch,1f);
+        return gameOver;
+    }
+
+    public void dispose(){
+        done = true;
+        renderLoop.interrupt();
+        players = null;
+        board = null;
+        batch = null;
+        collect = null;
+        rotate = null;
+        insert = null;
+        renderLoop = null;
     }
 
 }

@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,6 +29,7 @@ public class MainMenuScreen implements Screen {
     private Image mainmenuImage;
     private float WIDTH,HEIGHT;
     private Game g;
+    private Music music;
 
     public MainMenuScreen(Game g) {
         this.g = g;
@@ -53,9 +55,16 @@ public class MainMenuScreen implements Screen {
         mainmenuTablePlay.addAction(Actions.sequence(Actions.moveBy(0.0F, -250F), Actions.delay(1.0F), Actions.moveBy(0.0F, 250F, 1.0F, Interpolation.swing)));
         mainmenuImage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.0F)));
 
+        music = Treasures.getMusic()[0];
+        music.play();
+        music.setVolume(0.5f);
+        music.setLooping(true);
+
         mainmenuimagebuttonPlay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(new GameScreen(g));
+                music.pause();
+                music.dispose();
+                g.setScreen(new LoadScreen(g));
             }
         });
     }

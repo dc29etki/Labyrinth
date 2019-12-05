@@ -32,6 +32,7 @@ public class GameScreen implements Screen {
     private Tile[] tilePaths;
     private GameRunner runEnv;
     private MoveButtons buttons;
+    private float Volume = 0.5f;
 
     public GameScreen(Game game) {
         batch = new SpriteBatch();
@@ -43,7 +44,7 @@ public class GameScreen implements Screen {
         runEnv = new GameRunner(board, batch);
         runEnv.getPlayers()[0].swapSprite();
         runEnv.dealCards(0);
-        runEnv.changeVolume(0.5f);
+        runEnv.changeVolume(Volume);
 
         Gdx.input.setInputProcessor(gameStage);
 
@@ -60,6 +61,12 @@ public class GameScreen implements Screen {
         for(Button button : buttons.getRotateButtons()) {
             gameStage.addActor(button);
         }
+
+        music = Treasures.getMusic()[1];
+        music.play();
+        music.setVolume(Volume);
+        music.setLooping(true);
+
     }
 
     @Override
@@ -74,7 +81,13 @@ public class GameScreen implements Screen {
         batch.begin();
         board.draw(batch);
 
-        runEnv.draw(batch);
+        int gameOver = runEnv.draw(batch);
+        if(gameOver > -1){
+            music.pause();
+            music.dispose();
+            game.setScreen(new VictoryScreen(game,gameOver));
+            dispose();
+        }
 
         //Draw empty sprite to update all other drawings
         Sprite green = new Sprite();
@@ -84,8 +97,6 @@ public class GameScreen implements Screen {
 
         gameStage.draw();
 
-        //Music Disabled For Testing Ease
-        //Music music = Gdx.audio.newMusic(Gdx.files.internal("Startup_Sound.wav"));
         /*for (int i=0; i<7; i++){
             for (int j=0; j<7; j++){
                 Tile tile = gameBoard.getBoard() [i][j];
@@ -113,5 +124,9 @@ public class GameScreen implements Screen {
     public void hide() { }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        runEnv.dispose();
+        runEnv = null;
+        board = null;
+    }
 }
