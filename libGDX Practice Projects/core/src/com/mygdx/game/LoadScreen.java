@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import static com.mygdx.game.Labyrinth.Height;
+import static com.mygdx.game.Labyrinth.Width;
 
 public class LoadScreen implements Screen{
     private Texture splashtexture;
@@ -19,7 +21,6 @@ public class LoadScreen implements Screen{
     private Texture splashText;
     private Image splashLoading;
     private Stage splashstage;
-    private float WIDTH,HEIGHT;
     private Cam cam;
     private Game g;
     public LoadScreen(Game g){
@@ -27,14 +28,12 @@ public class LoadScreen implements Screen{
     }
     @Override
     public void show(){
-        WIDTH = 1280;
-        HEIGHT = 800;
 
         splashtexture = new Texture(Gdx.files.internal("SplashScreen.png"));
         splashtexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         splashimage = new Image(splashtexture);
-        splashimage.setSize(1280,720);
+        splashimage.setSize(Width,Height);
 
         splashText = new Texture(Gdx.files.internal("Loading.png"));
         splashText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -42,7 +41,7 @@ public class LoadScreen implements Screen{
         splashLoading = new Image(splashText);
         splashLoading.setSize(256,64);
 
-        splashstage = new Stage(new FitViewport(WIDTH,HEIGHT, new Cam(WIDTH,HEIGHT)));
+        splashstage = new Stage(new FitViewport(Width,Height, new Cam(Width,Height)));
         splashstage.addActor(splashimage);
         splashstage.addActor(splashLoading);
 
@@ -63,8 +62,8 @@ public class LoadScreen implements Screen{
 
     }
     @Override
-    public void resize (int width, int height){
-        splashstage.getViewport().update(width,height,true);
+    public void resize (int Width, int Height){
+        splashstage.getViewport().update(Width,Height,true);
     }
     @Override
     public void pause(){
