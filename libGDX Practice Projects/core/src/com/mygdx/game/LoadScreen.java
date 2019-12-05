@@ -30,7 +30,7 @@ public class LoadScreen implements Screen{
         WIDTH = 1280;
         HEIGHT = 800;
 
-        splashtexture = new Texture(Gdx.files.internal("SplashScreen.png"));
+        splashtexture = new Texture(Gdx.files.internal("splashScreen.png"));
         splashtexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         splashimage = new Image(splashtexture);
